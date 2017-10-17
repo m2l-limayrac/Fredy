@@ -21,6 +21,12 @@
   ?>
   <body>
     <?php include './inc/header-template.php'; ?>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid demo-content">
+          <!-- mettre le code de la page ici -->
+        </div>
+      </main>
+    </div>
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="position: fixed; left: -1000px; height: -1000px;">
         <defs>
           <mask id="piemask" maskContentUnits="objectBoundingBox">
