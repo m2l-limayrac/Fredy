@@ -10,7 +10,7 @@ class Demandeur {
   private $Id_Demandeur;     // id du demandeur
   private $AdresseMail;           // addresse mail 
   private $MotDePasse;     // mot de passe 
-
+  private $les_notes = array();
   /**
    * Constructeur
    * @param type $nom
@@ -36,6 +36,10 @@ class Demandeur {
     return $this->MotDePasse;
   }
 
+  function get_les_notes() {
+    return $this->les_notes;
+  }
+
   // Setter
 
   function set_Id_Demandeur($Id_Demandeur) {
@@ -48,6 +52,10 @@ class Demandeur {
 
   function set_MotDePasse($MotDePasse) {
     $this->MotDePasse = $MotDePasse;
+  }
+
+  function set_les_notes($les_notes) {
+    $this->les_notes = $les_notes;
   }
 
 
