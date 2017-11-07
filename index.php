@@ -25,7 +25,9 @@
     ?>
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-          <!-- mettre le code de la page ici -->
+
+
+
         </div>
       </main>
     </div>
