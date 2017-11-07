@@ -10,7 +10,7 @@
         <div class="mdl-grid demo-content">
         <h2> Veuillez renseigner vos informations </h2>
         
-        <h4>Nom</h4>
+        <h4></h4>
         </div>
 
       </main>
