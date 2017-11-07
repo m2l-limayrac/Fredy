@@ -52,8 +52,6 @@
         </header> -->
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
           <a class="mdl-navigation__link" href="acceuil.php"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Acceuil</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Inbox</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>Trash</a>
         </nav>
       </div>
       

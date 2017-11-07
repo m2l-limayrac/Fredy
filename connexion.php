@@ -11,8 +11,8 @@
           <h2>Veuillez fournir vos informations de connexion</h2>
           <form action="#">
             <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" id="sample1">
-              <label class="mdl-textfield__label" for="sample1">Text...</label>
+              <input class="mdl-textfield__input" type="mail" id="sample1">
+              <label class="mdl-textfield__label" for="sample1">votre adrsse mail</label>
             </div>
           </form>
         </div>    
