@@ -27,20 +27,7 @@
         <div class="mdl-grid demo-content">
 
         <?php
-          include 'inc/Class/Demandeur.php';
-          include 'inc/Class/DemandeurDAO.php';
-
-          $DemandeurDAO = new DemandeurDAO();
-
-          $tab = array('Id_Demandeur' => '7',
-                   'AdresseMail' => 'hefjbnjihireio@mail.com',
-                   'MotDePasse' => 'fefzfz');
-
-          $Demandeur = new Demandeur($tab);
-          $DemandeurDAO->findAll();
-          echo "<pre>";
-    print_r($Demandeur);
-    echo "</pre>";
+          
 
 
         ?>
