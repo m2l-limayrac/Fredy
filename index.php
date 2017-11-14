@@ -26,7 +26,16 @@
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
 
+          <?php
+            include 'inc/Class/Motif.php' ;
+            include 'inc/Class/MotifDAO.php';
 
+          $motifDAO = new MotifDAO ();
+          $tab = array('Id_Motif'=>'3',
+                       'Libelle'=> 'wxczert');
+          $motif = new motif ($tab) ;
+          $motifDAO->update($motif);
+          ?>
 
         </div>
       </main>
