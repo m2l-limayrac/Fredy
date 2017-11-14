@@ -20,6 +20,10 @@ class Club {
         return $this->Id_Club;
     }
 
+    function get_AdresseClub() {
+        return $this->AdresseClub;
+    }
+
     function get_Nom() {
         return $this->Nom;
     }
@@ -42,6 +46,10 @@ class Club {
 
     function get_id_Ligue() {
         return $this->id_Ligue;
+    }
+
+    function set_AdresseClub($AdresseClub) {
+        $this->AdresseClub = $AdresseClub;
     }
 
     function set_Id_Club($Id_Club) {

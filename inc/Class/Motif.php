@@ -3,7 +3,7 @@
 class Motif{
 
   private $Id_Motif;
-  private $Libelle;  // A,B,C,....
+  private $Libelle;  
 
  
 

@@ -5,7 +5,7 @@
  *
  * @author jef
  */
-class Demandeur {
+class ligneFrais {
 
   private $Id_Ligne;        // id de la ligne de frais  
   private $Date;           // date
@@ -90,5 +90,13 @@ class Demandeur {
     $this->Id_Motif = $Id_Motif;
   }
 
+  function hydrater(array $tableau) {
+    foreach ($tableau as $cle => $valeur) {
+      $methode = 'set_' . $cle;
+      if (method_exists($this, $methode)) {
+        $this->$methode($valeur);
+      }
+    }
+  }
   
 }
