@@ -1,5 +1,8 @@
 <?php
 
+<<<<<<< HEAD
+class ligneFrais {
+=======
 /**
  * 
  *
@@ -7,6 +10,11 @@
  */
 
 class ligneFrais {
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff7ea745018599619c5c1bab8587284495706843
+>>>>>>> 4775daa237abafd6e4758efc6af4641a8746f6b7
 
   private $Id_Ligne;        // id de la ligne de frais  
   private $Date;           // date

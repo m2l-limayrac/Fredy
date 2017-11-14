@@ -47,7 +47,7 @@ private static function connexion(){
 
   function findAll() {
 
-    $sql = "SELECT * FROM club;";
+    $sql = "SELECT * FROM ligue;";
       try {
           $sth = SELF::$con->prepare($sql);
           $sth->execute();
@@ -57,7 +57,7 @@ private static function connexion(){
       } 
       $object = array();
       foreach ($rows as $row) {
-        $object = New Club($row);
+        $object = New Ligue($row);
         //echo "<pre>"; print_r($object); echo "</pre>";
         $objects[] = $object;
       }

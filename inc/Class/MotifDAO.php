@@ -1,15 +1,11 @@
 <?php
 
 require_once 'inc/Class/Motif.php';
-/**
- * Description of EtablissementDAO
- *
- * @author jef
- */
+
 
 class MotifDAO {
 
-  private static $connexion;    // Objet de connexion
+  private static $con;    // Objet de connexion
 
   /**
    * Méthode statique de connexion
@@ -17,64 +13,102 @@ class MotifDAO {
    * @throws Exception
    */
 
-  private static function get_connexion() {
-    if (self::$connexion === null) {
-// Récupération des paramètres de configuration BD
-      $user = 'root';
-      $pass = '';
-      $host = 'localhost';
-      $base = 'fredi_plot3';
-      $dsn = 'mysql:host=' . $host . ';dbname=' . $base;
-// Création de la connexion
-      try {
-        self::$connexion = new PDO($dsn, $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-        self::$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      } catch (PDOException $e) {
-        throw new Exception("Erreur lors de la connexion : " . $e->getMessage());
-      }
-    }
-    return self::$connexion;
+  function __construct() {
+    SELF::$con = $this->connexion();
   }
 
-  /**
-   * Lecture d'un établissement par son ID
-   *
-   * @param type $id_etablissement
-   * @return \Etablissement
-   * @throws Exception
-   */
+private static function connexion(){
+  // Connexion
+  if(SELF::$con === null){
+    $user = 'TEST';
+    $pass = '1234';
+    $host = 'localhost';
+    $base = 'fredi_plot3';
+    $dsn = 'mysql:host='.$host.';dbname='.$base;
+    try {
+      SELF::$con = new PDO($dsn, $user, $pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+      SELF::$con->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+      die( "<p>Erreur lors de la connexion : " . $e->getMessage() . "</p>");
+    }
+  }
+  return SELF::$con;
+}
+
+
   function find($Id_Motif) {
-    $sql = "select * from motif where Id_Motif=:Id_Motif";
-    try {
-      $sth = self::get_connexion()->prepare($sql);
-      $sth->execute(array(":Id_Motif" => $id_etablissement));
-      $row = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
-    }
-    $motif = new motif($row);
 
-    return $motif;
+    $sql = "SELECT * FROM motif WHERE Id_Motif = :Id_Motif";
+      try {
+          $sth = SELF::$con->prepare($sql);
+          $sth->execute(array(':Id_Motif' => $Id_Motif));
+          $row = $sth->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+      
+      $motif = new Motif($row);
+/*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
+      return $motif;
   }
 
-  /**
-   * Lecture de tous les établissements
-   */
   function findAll() {
-    $sql = "select * from motif";
-    try {
-      $sth = self::get_connexion()->prepare($sql);
-      $sth->execute();
-      $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
-    }
-    $tableau = array();
-    foreach ($rows as $row) {
-      $tableau[] = new motif($row);
-    }
-    // Retourne un tableau d'objets
-    return $tableau;
+
+    $sql = "SELECT * FROM motif;";
+      try {
+          $sth = SELF::$con->prepare($sql);
+          $sth->execute();
+          $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      } 
+      $object = array();
+      foreach ($rows as $row) {
+        $object = New Motif($row);
+        //echo "<pre>"; print_r($object); echo "</pre>";
+        $objects[] = $object;
+      }
+
+      return $objects;     
   }
+
+  function insert(Motif $Motif){
+    $sql = "INSERT INTO `motif`(`Id_Motif`, `Libelle`) VALUES (:Id_Motif,:Libelle)";
+    try {
+      $sth = SELF::$con->prepare($sql);
+      $sth->execute(array(':Id_Motif' => $Motif->get_Id_Motif(), 
+                          ':Libelle' => $Motif->get_Libelle(), 
+                          ));
+    } catch (PDOException $ex) {
+        die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+    }
+  }
+
+  function update(Motif $Motif){
+    //$sql = "UPDATE motif set Id_Motif=:Id_Motif , Libelle=:Libelle";
+    $sql = "SHOW CREATE TABLE motif";
+    try {
+      $sth = SELF::$con->prepare($sql);
+      $sth->execute(array(':Id_Motif' => $Motif->get_Id_Motif(), 
+                          ':Libelle' => $Motif->get_Libelle(), 
+                          ));
+       $row = $sth->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $ex) {
+        die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+    }
+    echo "<pre>"; print_r($row); echo "</pre>";
+  }
+
+  function delete(Motif $Motif){
+    $sql = "DELETE FROM `motif` WHERE `Id_Motif` = :Id_Motif";
+    try {
+      $sth = SELF::$con->prepare($sql);
+      $sth->execute(array(':Id_Motif' => $Motif->get_Id_Motif(),  
+                          ));
+    } catch (PDOException $ex) {
+        die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+    }
+  }
+
 
 }
