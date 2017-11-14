@@ -26,7 +26,10 @@
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> ff7ea745018599619c5c1bab8587284495706843
 
         </div>
       </main>

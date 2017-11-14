@@ -1,6 +1,17 @@
 <?php
 
+<<<<<<< HEAD
 class ligneFrais {
+=======
+/**
+ * 
+ *
+ * @author jef
+ */
+
+class ligneFrais {
+
+>>>>>>> ff7ea745018599619c5c1bab8587284495706843
 
   private $Id_Ligne;        // id de la ligne de frais  
   private $Date;           // date
