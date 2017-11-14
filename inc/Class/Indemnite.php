@@ -5,7 +5,7 @@
  *
  * @author jef
  */
-class Demandeur {
+class Indemnite {
 
   private $Annee;                       // annee 
   private $tarifKilometrique;           // le tarif kilometrique
@@ -41,5 +41,18 @@ class Demandeur {
     $this->tarifKilometrique = $tarifKilometrique;
   }
 
+    /**
+   * Hydrateur
+   * Alimente les propriétés à partir d'un tableau
+   * @param array $tableau
+   */
+  function hydrater(array $tableau) {
+    foreach ($tableau as $cle => $valeur) {
+      $methode = 'set_' . $cle;
+      if (method_exists($this, $methode)) {
+        $this->$methode($valeur);
+      }
+    }
+  }
   
 }

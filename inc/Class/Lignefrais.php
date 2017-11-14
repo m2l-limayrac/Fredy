@@ -5,7 +5,7 @@
  *
  * @author jef
  */
-class Demandeur {
+class Lignedefrais {
 
   private $Id_Ligne;        // id de la ligne de frais  
   private $Date;           // date
