@@ -64,6 +64,56 @@ private static function connexion(){
 
       return $objects;     
   }
+
+  function insert(Club $Club){
+    $sql = "INSERT INTO `club`(`Id_Club`, `Nom`, `AdresseClub`, `Cp`, `Ville`, `Sigle`, `NomPresident`, `Id_Ligue`) 
+    VALUES (:Id_Club,:Nom,:AdresseClub,:Cp,:Ville,:Sigle,:NomPresident,:Id_Ligue)";
+    try {
+      $sth = SELF::$con->prepare($sql);
+      $sth->execute(array(':Id_Club' => $Club->get_Id_Club(), 
+                          ':Nom' => $Club->get_Nom(), 
+                          ':AdresseClub' => $Club->get_AdresseClub(), 
+                          ':Cp' => $Club->get_Cp(),
+                          ':Ville' => $Club->get_Ville(),
+                          ':Sigle' => $Club->get_Sigle(),
+                          ':NomPresident' => $Club->get_NomPresident(),
+                          ':Id_Ligue' => $Club->get_id_Ligue()
+                          ));
+    } catch (PDOException $ex) {
+        die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+    }
+  }
+
+  function update(Club $Club) {
+    $sql = "UPDATE club set Nom=:Nom,AdresseClub=:AdresseClub,Cp=:Cp,Ville=:Ville,Sigle=:Sigle,NomPresident=:NomPresident,Id_Ligue=:Id_Ligue where Id_Club=:Id_Club";
+    try {
+      $sth = SELF::$con->prepare($sql);
+       $sth->execute(array(':Id_Club' => $Club->get_Id_Club(), 
+                          ':Nom' => $Club->get_Nom(), 
+                          ':AdresseClub' => $Club->get_AdresseClub(), 
+                          ':Cp' => $Club->get_Cp(),
+                          ':Ville' => $Club->get_Ville(),
+                          ':Sigle' => $Club->get_Sigle(),
+                          ':NomPresident' => $Club->get_NomPresident(),
+                          ':Id_Ligue' => $Club->get_id_Ligue()
+                          ));
+    } catch (PDOException $e) {
+      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+    $nb = $sth->rowcount();
+    return $nb;  // Retourne le nombre de mise à jour
+  }
+
+  function delete(Club $Club) {
+    print_r($Club);
+    $sql = "DELETE from Club where Id_Club = :Id_Club ";
+    try {
+      $sth = SELF::$con->prepare($sql);
+      $sth->execute(array(":Id_Club" => $Club->get_Id_Club()));
+    } catch (PDOException $e) {
+      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+  }
 }
 
 ?>

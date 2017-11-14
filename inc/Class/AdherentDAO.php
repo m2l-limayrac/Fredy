@@ -73,7 +73,7 @@ private static function connexion(){
                           ':Nom' => $Adherent->get_Nom(), 
                           ':Prenom' => $Adherent->get_Prenom(), 
                           ':Sexe' => $Adherent->get_Sexe(),
-                          'DateNaissance' => $Adherent->get_DateNaissance(),
+                          ':DateNaissance' => $Adherent->get_DateNaissance(),
                           ':AdresseAdh' => $Adherent->get_AdresseAdh(),
                           ':CP' => $Adherent->get_CP(),
                           ':Ville' => $Adherent->get_Ville(),
@@ -83,6 +83,41 @@ private static function connexion(){
     } catch (PDOException $ex) {
         die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
     }
+  }
+
+  function update(Adherent $Adherent) {
+    $sql = "update adherent set Nom=:Nom,Prenom=:Prenom,Sexe=:Sexe,DateNaissance=:DateNaissance,AdresseAdh=:AdresseAdh,CP=:CP,Ville=:Ville,
+    Id_Demandeur=:Id_Demandeur,Id_Club=:Id_Club where numLicence=:numLicence";
+    try {
+      $sth = self::get_connexion()->prepare($sql);
+      $sth->execute(array(':numLicence' => $Adherent->get_numLicence(), 
+                          ':Nom' => $Adherent->get_Nom(), 
+                          ':Prenom' => $Adherent->get_Prenom(), 
+                          ':Sexe' => $Adherent->get_Sexe(),
+                          ':DateNaissance' => $Adherent->get_DateNaissance(),
+                          ':AdresseAdh' => $Adherent->get_AdresseAdh(),
+                          ':CP' => $Adherent->get_CP(),
+                          ':Ville' => $Adherent->get_Ville(),
+                          ':Id_Demandeur' => $Adherent->get_Id_Demandeur(),
+                          ':Id_Club' => $Adherent->get_Id_Club()
+                          ));
+    } catch (PDOException $e) {
+      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+    $nb = $sth->rowcount();
+    return $nb;  // Retourne le nombre de mise à jour
+  }
+
+  function delete($numLicence) {
+    $sql = "delete from adherent where numLicence=:numLicence";
+    try {
+      $sth = self::get_connexion()->prepare($sql);
+      $sth->execute(array(":numLicence" => $numLicence));
+    } catch (PDOException $e) {
+      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+    $nb = $sth->rowcount();
+    return $nb;  // Retourne le nombre de suppression
   }
 }
 
