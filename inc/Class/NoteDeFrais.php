@@ -3,6 +3,7 @@
 class NoteDeFrais{
 
   private $Id_NoteDeFrais;
+  private $les_lignes = array();
  
 
   function __construct(array $tableau) {
@@ -15,10 +16,17 @@ class NoteDeFrais{
     return $this->Id_NoteDeFrais;
   }
 
+  function get_les_lignes() {
+    return $this->les_lignes;
+  }
+
   function set_Id_NoteDeFrais($Id_NoteDeFrais) {
     $this->Id_NoteDeFrais = $Id_NoteDeFrais;
   }
 
+  function set_les_lignes($les_lignes) {
+    $this->les_lignes = $les_lignes;
+  }
 
   /**
    * Hydrateur
