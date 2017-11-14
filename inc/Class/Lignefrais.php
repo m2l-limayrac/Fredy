@@ -5,11 +5,8 @@
  *
  * @author jef
  */
-<<<<<<< HEAD
-class Lignedefrais {
-=======
+
 class ligneFrais {
->>>>>>> 63566f2bfa64a12a349e5f3bc187ea0995ce55a7
 
   private $Id_Ligne;        // id de la ligne de frais  
   private $Date;           // date

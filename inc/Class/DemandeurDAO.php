@@ -5,21 +5,22 @@
  *
  * @author jef
  */
-include_once 'inc/Class/NoteDeFraisDAO.php'
+include_once 'inc/Class/NoteDeFraisDAO.php';
+include_once 'inc/Class/NoteDeFrais.php';
 include_once 'inc/Class/Demandeur.php';
 
 class DemandeurDAO {
 
-  private static $connexion; // Objet de connexion
+  private static $con; // Objet de connexion
   private static $NoteDeFraisDAO;
-  /**
-   * Méthode statique de connexion
-   * @return type
-   * @throws Exception
-   */
+  
+  function __construct() {
+    SELF::$con = $this->connexion();
+  }
 
-  private static function get_connexion() {
-    if (self::$connexion === null) {
+
+  private static function connexion() {
+    if (SELF::$con === null) {
       // Récupération des paramètres de configuration BD
       $user = 'TEST';
       $pass = '1234';
@@ -28,19 +29,19 @@ class DemandeurDAO {
       $dsn = 'mysql:host=' . $host . ';dbname=' . $base;
       // Création de la connexion
       try {
-        self::$connexion = new PDO($dsn, $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-        self::$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        SELF::$con = new PDO($dsn, $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+        SELF::$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       } catch (PDOException $e) {
-        throw new Exception("Erreur lors de la connexion : " . $e->getMessage());
+        throw new Exception("Erreur lors de la con : " . $e->getMessage());
       }
     }
-    return self::$connexion;
+    return SELF::$con;
   }
 
   function find($Id_Demandeur) {
-    $sql = "select * from demandeur where Id_Demandeur=:Id_Demandeur";
+    $sql = "SELECT * FROM demandeur WHERE Id_Demandeur=:Id_Demandeur";
     try {
-      $sth = self::get_connexion()->prepare($sql);
+      $sth = SELF::$con->prepare($sql);
       $sth->execute(array(":Id_Demandeur" => $Id_Demandeur));
       $row = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -52,7 +53,7 @@ class DemandeurDAO {
       SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
     }
 
-    $demandeur->set_les_notes($NoteDeFraisDAO->find($demandeur->get_Id_Demandeur()));
+    $demandeur->set_les_notes($this->findNoteDeFrais($demandeur));
     
     return $demandeur; // Retourne l'objet métier
   }
@@ -61,25 +62,82 @@ class DemandeurDAO {
    * Lecture de toutes les chaloupes
    */
   function findAll() {
-    $sql = "select * from demandeur";
+    $sql = "SELECT * FROM demandeur";
     try {
-      $sth = self::get_connexion()->prepare($sql);
+      $sth = SELF::$con->prepare($sql);
       $sth->execute();
       $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
     }
-    $tableau = array();
-    $demandeur = new DemandeurDAO($row);
+
+    $objects = array();
     foreach ($rows as $row) {
-      $NoteDeFraisDAO = new NoteDeFraisDAO($row);
-      $Demandeur = $demandeur->find($row["Id_Demandeur"]);
-      $demandeur->set_Id_Demandeur($Demandeur);
-      $tableau[] = $demandeur;
+      $object = New Demandeur($row);
+      $les_notes = $this->findNoteDeFrais($object->get_Id_Demandeur());
+      $objects[] = $object;
     }
-    return $tableau; // Retourne un tableau d'objets
+
+    return $objects;
   }
   
+  function insert(Demandeur $demandeur){
+    //GLOBAL $con;
+
+    $sql = "INSERT INTO demandeur (AdresseMail, MotDePasse) VALUES (:AdresseMail, :MotDePasse)";
+          try {
+              $sth = SELF::$con->prepare($sql);
+              $sth->execute(array(':AdresseMail' => $demandeur->get_AdresseMail(), 
+                                  ':MotDePasse' => $demandeur->get_MotDePasse()
+                                  ));
+          } catch (PDOException $ex) {
+              die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+          }
+  }
+
+  function update(Demandeur $demandeur){
+    //GLOBAL $con;
+    
+    $sql = "UPDATE demandeur SET Id_Demandeur = :Id_Demandeur, AdresseMail = :AdresseMail, MotDePasse = :MotDePasse WHERE Id_Demandeur = :Id_Demandeur";
+      try {
+          $sth = SELF::$con->prepare($sql);
+          $sth->execute(array(':Id_Demandeur' => $demandeur->get_Id_Demandeur(), 
+                              ':AdresseMail' => $demandeur->get_AdresseMail(), 
+                              ':MotDePasse' => $demandeur->get_MotDePasse()
+                              ));
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+  }
+
+  function delete (Demandeur $demandeur){
+    //GLOBAL $con;
+    
+    $sql = "DELETE FROM demandeur WHERE Id_Demandeur = :Id_Demandeur";
+      try {
+          $sth = SELF::$con->prepare($sql);
+          $sth->execute(array(':Id_Demandeur' => $demandeur->get_Id_Demandeur()));
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }        
+  }
   
-  
+  function findNoteDeFrais($Id_Demandeur) {
+    $sql = "SELECT Id_NoteDeFrais FROM avancer WHERE Id_Demandeur = :Id_Demandeur";
+    try {
+      $sth = SELF::$con->prepare($sql);
+      $sth->execute(array(":Id_Demandeur" => $Id_Demandeur));
+      $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+    
+    $notes = array();
+    foreach ($rows as $row) {
+      $NoteDeFrais = new NoteDeFrais($row);
+      $notes[] = $NoteDeFrais;
+    }    
+    return $demandeur; // Retourne l'objet métier
+  }
+
 }

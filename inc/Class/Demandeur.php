@@ -1,20 +1,12 @@
 <?php
 
-/**
- * 
- *
- * @author jef
- */
 class Demandeur {
 
   private $Id_Demandeur;     // id du demandeur
   private $AdresseMail;           // addresse mail 
   private $MotDePasse;     // mot de passe 
   private $les_notes = array();
-  /**
-   * Constructeur
-   * @param type $nom
-   */
+
 
   function __construct(array $tableau = null) {
     if (isset($tableau)) {
@@ -58,6 +50,14 @@ class Demandeur {
     $this->les_notes = $les_notes;
   }
 
+function hydrater(array $tableau) { //appel les setter de toutes les methodes passer dans un tableau.
+    foreach ($tableau as $cle => $valeur) {
+      $methode = 'set_' . $cle;
+      if (method_exists($this, $methode)) {
+        $this->$methode($valeur);
+      }
+    }
+  }
 
 
 }
