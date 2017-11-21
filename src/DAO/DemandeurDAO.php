@@ -82,10 +82,12 @@ class DemandeurDAO extends DAO {
   function insert(Demandeur $demandeur){
     //GLOBAL $con;
 
-    $sql = "INSERT INTO demandeur (AdresseMail, MotDePasse) VALUES (:AdresseMail, :MotDePasse)";
+    $sql = "INSERT INTO demandeur (AdresseMail, MotDePasse, isRepresentant) VALUES (:AdresseMail, :MotDePasse, :isRepresentant)";
     try {
         $params = array(':AdresseMail' => $demandeur->get_AdresseMail(), 
-                        ':MotDePasse' => $demandeur->get_MotDePasse());
+                        ':MotDePasse' => $demandeur->get_MotDePasse(),
+                        ':isRepresentant' => $demandeur->get_isRepresentant());
+
         $sth = $this->executer($sql, $params);
     } catch (PDOException $ex) {
         die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
@@ -95,11 +97,12 @@ class DemandeurDAO extends DAO {
   function update(Demandeur $demandeur){
     //GLOBAL $con;
     
-    $sql = "UPDATE demandeur SET Id_Demandeur = :Id_Demandeur, AdresseMail = :AdresseMail, MotDePasse = :MotDePasse WHERE Id_Demandeur = :Id_Demandeur";
+    $sql = "UPDATE demandeur SET Id_Demandeur = :Id_Demandeur, AdresseMail = :AdresseMail, MotDePasse = :MotDePasse, isRepresentant = :isRepresentant WHERE Id_Demandeur = :Id_Demandeur";
       try {
           $params = array(':Id_Demandeur' => $demandeur->get_Id_Demandeur(), 
                               ':AdresseMail' => $demandeur->get_AdresseMail(), 
-                              ':MotDePasse' => $demandeur->get_MotDePasse());
+                              ':MotDePasse' => $demandeur->get_MotDePasse(),
+                              ':isRepresentant' => $demandeur->get_isRepresentant());
           $sth = $this->executer($sql, $params);
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());

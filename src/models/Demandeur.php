@@ -5,6 +5,8 @@ class Demandeur {
   private $Id_Demandeur;     // id du demandeur
   private $AdresseMail;           // addresse mail 
   private $MotDePasse;     // mot de passe 
+  private $isRepresentant;     // mot de passe 
+
   private $les_notes = array();
 
 
@@ -31,6 +33,9 @@ class Demandeur {
   function get_les_notes() {
     return $this->les_notes;
   }
+  function get_isRepresentant() {
+    return $this->isRepresentant;
+  }
 
   // Setter
 
@@ -48,6 +53,9 @@ class Demandeur {
 
   function set_les_notes($les_notes) {
     $this->les_notes = $les_notes;
+  }
+  function set_isRepresentant($isRepresentant) {
+    $this->isRepresentant = $isRepresentant;
   }
 
 function hydrater(array $tableau) { //appel les setter de toutes les methodes passer dans un tableau.

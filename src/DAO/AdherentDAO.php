@@ -2,6 +2,8 @@
 
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
 require_once SRC . DS . 'framework' . DS . 'DAO.php';
+require_once SRC . DS . 'models' . DS . 'Demandeur.php';
+
 
 class AdherentDAO extends DAO {
 
@@ -20,6 +22,26 @@ class AdherentDAO extends DAO {
 /*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
       return $adherent;
   }
+
+  function findDemandeur(Adherent $adherent) {
+
+      try {
+          $sql = "SELECT D.Id_Demandeur, D.AdresseMail, D.MotDePasse FROM demandeur D, adherent A WHERE A.Id_Demandeur = D.Id_Demandeur AND A.numLicence = :numLicence";
+          $params = array(':numLicence' => $adherent->get_numLicence());
+          $sth = $this->executer($sql, $params);
+          $row = $sth->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+      
+      $demandeur = new Demandeur($row);
+/*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
+      return $demandeur;
+  }
+
+
+
+
 
   function findAll() {
 
