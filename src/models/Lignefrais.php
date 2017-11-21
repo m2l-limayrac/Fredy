@@ -1,6 +1,8 @@
 <?php
 
+
 class ligneFrais {
+
 
 
   private $Id_Ligne;        // id de la ligne de frais  

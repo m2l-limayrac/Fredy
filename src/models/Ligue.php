@@ -17,8 +17,8 @@ class Ligue{
     return $this->Id_Ligue;
   }
 
-  function get_Nom_Ligue() {
-    return $this->Nom_Ligue;
+  function get_Nom_ligue() {
+    return $this->Nom_ligue;
   }
 
   function set_Id_Ligue($Id_Ligue) {
