@@ -9,7 +9,14 @@ require_once SRC . DS . 'framework' . DS . 'Controller.php';
 require_once SRC . DS . 'framework' . DS . 'Flash.php';
 require_once SRC . DS . 'framework' . DS . 'Auth.php';
 require_once SRC . DS . 'models' . DS . 'Demandeur.php';
+require_once SRC . DS . 'models' . DS . 'Adherent.php';
+require_once SRC . DS . 'models' . DS . 'Club.php';
+require_once SRC . DS . 'models' . DS . 'Ligue.php';
 require_once SRC . DS . 'DAO' . DS . 'DemandeurDAO.php';
+require_once SRC . DS . 'models' . DS . 'Adherent.php';
+require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'LigueDAO.php';
+
 
 class DemandeurController extends Controller {
 
@@ -45,6 +52,35 @@ class DemandeurController extends Controller {
     ));
   }
 
+
+  public function modif() {
+    // Formulaire saisi ?
+    if ($this->request->exists("submit")) {
+      // le formulaire est soumis
+      $adherent = new Adherent(array(
+          'login' => $this->request->get('login'),
+          'password' => $this->request->get('password'),
+          'is_admin' => $this->request->exists('is_admin')
+      ));
+      if (Auth::inscrire($adherent)) {
+        Flash::add("Vous êtes inscrit !", 1);
+      } else {
+        Flash::add("Une erreur est survenue lors de l'inscription, veuillez réessayer SVP", 3);
+      }
+    } else {
+      // Le formulaire n'a pas été soumis
+      $adherent = new Adherent();
+      $adherentDAO = new AdherentDAO();
+      $demandeur = $adherentDAO->findDemandeur($adherent);
+    }
+
+    // Appele la vue 
+    $this->show_view('demandeur/modif', array(
+        'demandeur' => $demandeur,
+        'action' => 'demandeur/modif'
+    ));
+  }
+
   /**
    * Inscrit un utilisateur
    */
@@ -64,11 +100,20 @@ class DemandeurController extends Controller {
     } else {
       // Le formulaire n'a pas été soumis
       $demandeur = new Demandeur();
+      $adherent = new Adherent();
+      $club = new Club();
+      $ligueDAO = new LigueDAO();
+      $ligues = $ligueDAO->findAll();
+
+
     }
 
     // Appele la vue 
     $this->show_view('demandeur/register', array(
         'demandeur' => $demandeur,
+        'adherent' => $adherent,
+        'club' => $club,
+        'ligues' => $ligues,
         'action' => 'demandeur/register'
     ));
   }
@@ -93,10 +138,15 @@ class DemandeurController extends Controller {
     } else {
       // Le formulaire n'a pas été soumis
       $demandeur = new Demandeur();
+      $adherent = new Adherent();
+      $club = new Club();
     }
     // Appele la vue 
     $this->show_view('demandeur/login', array(
         'demandeur' => $demandeur,
+        'adherent' => $adherent,
+        'club' => $club,
+
         'action' => 'demandeur/login'
     ));
   }

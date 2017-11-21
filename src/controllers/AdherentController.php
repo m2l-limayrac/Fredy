@@ -11,6 +11,7 @@ require_once SRC . DS . 'framework' . DS . 'Auth.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
 require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
 
+
 class AdherentController extends Controller {
 
   /**
@@ -44,6 +45,7 @@ class AdherentController extends Controller {
         'adherent' => $adherent
     ));
   }
+
 
   /**
    * Inscrit un utilisateur
