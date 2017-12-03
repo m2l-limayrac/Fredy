@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 21 Novembre 2017 à 17:04
+-- Généré le :  Dim 03 Décembre 2017 à 23:27
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.4
 
@@ -21,6 +21,14 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `fredi_plot3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `fredi_plot3`;
+
+DELIMITER $$
+--
+-- Fonctions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `strToDate` (`p_str` VARCHAR(25)) RETURNS DATE RETURN str_to_date(p_str,"%Y-%m-%d")$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -104,13 +112,24 @@ CREATE TABLE `lignefrais` (
   `id_Ligne` int(11) NOT NULL,
   `Date` date DEFAULT NULL,
   `Km` float DEFAULT NULL,
-  `CoutPeage` decimal(25,0) DEFAULT NULL,
-  `CoutRepas` decimal(25,0) DEFAULT NULL,
-  `CoutHebergement` decimal(25,0) DEFAULT NULL,
+  `CoutPeage` float(25,0) NOT NULL DEFAULT '0',
+  `CoutRepas` float(25,0) NOT NULL DEFAULT '0',
+  `CoutHebergement` float(25,0) NOT NULL DEFAULT '0',
   `Trajet` varchar(25) DEFAULT NULL,
   `Annee` year(4) NOT NULL,
   `Id_Motif` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déclencheurs `lignefrais`
+--
+DELIMITER $$
+CREATE TRIGGER `before_insert_ligneFrais` BEFORE INSERT ON `lignefrais` FOR EACH ROW BEGIN
+DECLARE newDate date;
+	select strToDate(NEW.Date) INTO newDate;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -247,7 +266,7 @@ ALTER TABLE `demandeur`
 -- AUTO_INCREMENT pour la table `lignefrais`
 --
 ALTER TABLE `lignefrais`
-  MODIFY `id_Ligne` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_Ligne` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `ligue`
 --
@@ -257,7 +276,7 @@ ALTER TABLE `ligue`
 -- AUTO_INCREMENT pour la table `motif`
 --
 ALTER TABLE `motif`
-  MODIFY `Id_Motif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Motif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Contraintes pour les tables exportées
 --

@@ -22,6 +22,38 @@ class MotifDAO extends DAO {
       return $motif;
   }
 
+  function findIdByName($Libelle) {
+
+    $sql = "SELECT DISTINCT motif.Id_Motif FROM motif WHERE Libelle = :Libelle";
+      try {
+          $params = array(':Libelle' => $Libelle);
+          $sth = $this->executer($sql, $params);
+          $row = $sth->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+      
+      $motif = new Motif($row);
+/*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
+      return $motif;
+  }
+
+  function findByLigne($id_Ligne) {
+
+    $sql = "SELECT motif.* FROM motif, lignefrais WHERE motif.Id_Motif = lignefrais.Id_Motif AND lignefrais.id_Ligne = 1";
+      try {
+          $params = array(':id_Ligne' => $id_Ligne);
+          $sth = $this->executer($sql, $params);
+          $row = $sth->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+      
+      $motif = new Motif($row);
+/*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
+      return $motif;
+  }
+
   function findAll() {
 
     $sql = "SELECT * FROM motif;";

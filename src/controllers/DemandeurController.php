@@ -17,6 +17,7 @@ require_once SRC . DS . 'models' . DS . 'LigneFrais.php';
 require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigueDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigneFraisDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'MotifDAO.php';
 
 
 class DemandeurController extends Controller {
@@ -61,14 +62,36 @@ class DemandeurController extends Controller {
     if (!Auth::est_authentifie()) {
       $this->redirect('utilisateur/login');
     }
-    // Lecture du utilisateur
-    $ligneFraisDAO = new LigneFraisDAO();
-    $ligne = $ligneFraisDAO->find($id_ligne);
-    // Appele la vue 
-    $this->show_view('demandeur/modif', array(
-        'ligne' => $ligne,
-        'action' => 'demandeur/modif'
-    ));
+     if ($this->request->exists("submit")) {
+      $ligne = new LigneFrais(array(
+        'Id_ligne' =>  $this->request->get('Id_ligne'),
+        'Date' =>  $this->request->get('Date'),
+        'Km' =>  $this->request->get('Km'),
+        'CoutPeage' =>  $this->request->get('CoutPeage'),
+        'CoutRepas' =>  $this->request->get('CoutRepas'),
+        'CoutHebergement' =>  $this->request->get('CoutHebergement'),
+        'Trajet' =>  $this->request->get('Trajet'),
+        'Motif' =>  $this->request->get('Motif')
+      ));
+      $motifDAO = new MotifDAO();
+      $ligne->set_Motif($motifDAO->findIdByName($ligne->get_Motif())->get_Id_Motif());
+      //$ligne->set_Annee(substr($ligne->get_Date(), 0, 4));
+      echo $ligne->get_Date();
+      $ligneFraisDAO = new LigneFraisDAO();
+      $ligneFraisDAO->update($ligne);
+     }else{
+      $ligneFraisDAO = new LigneFraisDAO();
+      $ligne = $ligneFraisDAO->find($id_ligne);
+      $motifDAO = new MotifDAO();
+      $les_motifs = $motifDAO->findAll();
+      // Appele la vue 
+      $this->show_view('demandeur/modif', array(
+          'ligne' => $ligne,
+          'les_motifs' => $les_motifs,
+          'action' => 'demandeur/modif'
+      ));
+     }
+    
   }
 
   /**

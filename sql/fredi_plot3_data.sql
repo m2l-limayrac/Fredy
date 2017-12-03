@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 21 Novembre 2017 à 17:04
+-- Généré le :  Dim 03 Décembre 2017 à 23:28
 -- Version du serveur :  5.7.11
 -- Version de PHP :  7.0.4
 
@@ -19,6 +19,16 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `fredi_plot3`
 --
+CREATE DATABASE IF NOT EXISTS `fredi_plot3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `fredi_plot3`;
+
+DELIMITER $$
+--
+-- Fonctions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `strToDate` (`p_str` VARCHAR(25)) RETURNS DATE RETURN str_to_date(p_str,"%Y-%m-%d")$$
+
+DELIMITER ;
 
 --
 -- Contenu de la table `adherent`
@@ -34,7 +44,9 @@ INSERT INTO `adherent` (`numLicence`, `Nom`, `Prenom`, `Sexe`, `DateNaissance`, 
 
 INSERT INTO `avancer` (`Id_Demandeur`, `id_Ligne`, `Id_NoteDeFrais`) VALUES
 (1, 1, 1),
-(2, 2, 2);
+(2, 2, 2),
+(1, 3, 1),
+(1, 4, 1);
 
 --
 -- Contenu de la table `club`
@@ -49,9 +61,8 @@ INSERT INTO `club` (`Id_Club`, `Nom`, `AdresseClub`, `Cp`, `Ville`, `Sigle`, `No
 --
 
 INSERT INTO `demandeur` (`Id_Demandeur`, `AdresseMail`, `MotDePasse`, `isRepresentant`) VALUES
-(1, 'tutu@monmail.fr', '1234', 0),
-(2, 'tata@sonmail.fr', '1234', 1),
-(14, 'utu@monmail.fr', '$2y$10$yGefDCE8Gxea1mmbxojJGOes4FtBMHOE9QET.6ONvea4RX0cuje0i', 0);
+(1, 'tutu@monmail.fr', '$2y$10$yGefDCE8Gxea1mmbxojJGOes4FtBMHOE9QET.6ONvea4RX0cuje0i', 1),
+(2, 'tata@sonmail.fr', '1234', 0);
 
 --
 -- Contenu de la table `indemnite`
@@ -66,8 +77,10 @@ INSERT INTO `indemnite` (`Annee`, `tarifKilometrique`) VALUES
 --
 
 INSERT INTO `lignefrais` (`id_Ligne`, `Date`, `Km`, `CoutPeage`, `CoutRepas`, `CoutHebergement`, `Trajet`, `Annee`, `Id_Motif`) VALUES
-(1, '2009-09-03', 125, '52', NULL, NULL, 'Toulouse-cugnaux', 2009, 1),
-(2, '2012-09-11', 2884, '215', '1500', '5000', 'toulouse-île-Maurice', 2012, 2);
+(1, '2009-10-08', 1235, 562, 555, 522, 'Toulouse-cugnaux !', 2009, 2),
+(2, '2012-09-11', 2884, 215, 1500, 5000, 'toulouse-île-Maurice', 2012, 2),
+(3, '2017-12-11', 500, 250, 0, 0, 'paris-marseille', 2009, 1),
+(4, '2017-12-04', 896, 230, 258, 695, 'toulouse-poudlard', 2009, 3);
 
 --
 -- Contenu de la table `ligue`
@@ -83,7 +96,8 @@ INSERT INTO `ligue` (`Id_Ligue`, `Nom_ligue`) VALUES
 
 INSERT INTO `motif` (`Id_Motif`, `Libelle`) VALUES
 (1, 'match de quidditch'),
-(2, 'match de pole dance');
+(2, 'match de pole dance'),
+(3, 'pétanque');
 
 --
 -- Contenu de la table `notedefrais`

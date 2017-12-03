@@ -8,14 +8,33 @@
 require_once SRC . DS . 'framework' . DS . 'DAO.php';
 require_once SRC . DS . 'framework' . DS . 'Flash.php';
 require_once SRC . DS . 'models' . DS . 'LigneFrais.php';
+require_once SRC . DS . 'DAO' . DS . 'MotifDAO.php';
+require_once SRC . DS . 'models' . DS . 'Motif.php';
 
 
 class LigneFraisDAO extends DAO {
 
-  private static $NoteDeFraisDAO;
+  private static $MotifDAO;
 
   function find($id_Ligne) {
     $sql = "SELECT * FROM lignefrais WHERE id_Ligne=:id_Ligne";
+    try {
+      $params = array(":id_Ligne" => $id_Ligne);
+      $sth = $this->executer($sql, $params);
+      $row = $sth->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+    $ligne = new LigneFrais($row);   
+    if(SELF::$MotifDAO == null){
+      SELF::$MotifDAO = new MotifDAO();
+    }
+    $ligne->set_Motif(SELF::$MotifDAO->findByLigne($ligne->get_Id_Ligne()));
+    return $ligne; // Retourne l'objet métier
+  }
+
+  function findMotif($id_Ligne) {
+    $sql = "SELECT lignefrais FROM lignefrais WHERE id_Ligne=:id_Ligne";
     try {
       $params = array(":id_Ligne" => $id_Ligne);
       $sth = $this->executer($sql, $params);
@@ -39,8 +58,8 @@ class LigneFraisDAO extends DAO {
     }
     if($row != false){
       $demandeur = new Demandeur($row);
-      /*if(SELF::$NoteDeFraisDAO == null){
-        SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
+      /*if(SELF::$MotifDAO == null){
+        SELF::$MotifDAO = new MotifDAO();
       }*/
 
       $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));      
@@ -73,14 +92,20 @@ class LigneFraisDAO extends DAO {
     return $objects;
   }
   
-  function insert(Demandeur $demandeur){
+  function insert(LigneFrais $ligneFrais){
     //GLOBAL $con;
 
-    $sql = "INSERT INTO demandeur (AdresseMail, MotDePasse, isRepresentant) VALUES (:AdresseMail, :MotDePasse, :isRepresentant)";
+    $sql = "INSERT INTO  lignefrais ( id_Ligne ,  Date ,  Km ,  CoutPeage ,  CoutRepas ,  CoutHebergement ,  Trajet ,  Annee ,  Id_Motif ) VALUES (:id_Ligne, :Date, :Km, :CoutPeage, :CoutRepas, :CoutHebergement, :Trajet, :Annee, :Id_Motif)";
     try {
-        $params = array(':AdresseMail' => $demandeur->get_AdresseMail(), 
-                        ':MotDePasse' => $demandeur->get_MotDePasse(),
-                        ':isRepresentant' => $demandeur->get_isRepresentant());
+        $params = array(':id_Ligne' => $ligneFrais->get_Id_Ligne(), 
+                        ':Date' => $ligneFrais->get_Date(),
+                        ':Km' => $ligneFrais->get_Km(),
+                        ':CoutPeage' => $ligneFrais->get_CoutPeage(),
+                        ':CoutRepas' => $ligneFrais->get_CoutRepas(),
+                        ':CoutHebergement' => $ligneFrais->get_CoutHebergement(),
+                        ':Trajet' => $ligneFrais->get_Trajet(),
+                        ':Annee' => $ligneFrais->get_Annee(),
+                        ':Id_Motif' => $ligneFrais->get_Motif());
 
         $sth = $this->executer($sql, $params);
     } catch (PDOException $ex) {
@@ -88,15 +113,20 @@ class LigneFraisDAO extends DAO {
     }
 }
 
-  function update(Demandeur $demandeur){
+  function update(LigneFrais $ligneFrais){
     //GLOBAL $con;
     
-    $sql = "UPDATE demandeur SET Id_Demandeur = :Id_Demandeur, AdresseMail = :AdresseMail, MotDePasse = :MotDePasse, isRepresentant = :isRepresentant WHERE Id_Demandeur = :Id_Demandeur";
+    $sql = "UPDATE ligneFrais SET id_Ligne = :id_Ligne, Date = :Date, Km = :Km, CoutPeage = :CoutPeage, CoutRepas = :CoutRepas, CoutHebergement = :CoutHebergement, Trajet = :Trajet, Id_Motif = :Id_Motif WHERE id_Ligne = :id_Ligne";
       try {
-          $params = array(':Id_Demandeur' => $demandeur->get_Id_Demandeur(), 
-                              ':AdresseMail' => $demandeur->get_AdresseMail(), 
-                              ':MotDePasse' => $demandeur->get_MotDePasse(),
-                              ':isRepresentant' => $demandeur->get_isRepresentant());
+          $params = array(':id_Ligne' => $ligneFrais->get_id_Ligne(), 
+                              ':Date' => $ligneFrais->get_Date(),
+                              ':Km' => $ligneFrais->get_Km(),
+                              ':CoutPeage' => $ligneFrais->get_CoutPeage(),
+                              ':CoutRepas' => $ligneFrais->get_CoutRepas(),
+                              ':CoutHebergement' => $ligneFrais->get_CoutHebergement(),
+                              ':Trajet' => $ligneFrais->get_Trajet(),
+                              //':Annee' => $ligneFrais->get_Annee(),
+                              ':Id_Motif' => $ligneFrais->get_Motif());
           $sth = $this->executer($sql, $params);
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());

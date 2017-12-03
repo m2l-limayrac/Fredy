@@ -28,6 +28,9 @@ echo "</pre>";*/
 .MDF{
 	width: 72%;
 }
+.mdl-data-table th{
+		text-align: center;
+	}
 </style>
 <pre>
 	<?php //print_r($demandeur); 
@@ -49,7 +52,7 @@ echo "</pre>";*/
 				<tr>
 					<div class="demo-list-action mdl-list">
 						<td>
-						 	<i class="material-icons mdl-list__item-avatar">bookmark</i>
+						 	<i class="material-icons">toc</i>
 						</td>
 						<td>
 						      <span><?php echo $note->get_Id_NoteDeFrais() ?></span>
@@ -94,34 +97,34 @@ echo "</pre>";*/
 							      <?php foreach ($note->get_les_lignes() as $ligne) { ?>
 								      <tr>
 
-											<td>
-												<i class="material-icons mdl-list__item-avatar">bookmark</i>
+											<td style="text-align: center;">
+												<i class="material-icons">input</i>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		      <p><?php echo $ligne->get_Id_ligne() ?></p>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		      <p><?php echo $ligne->get_Date() ?></p>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		      <p><?php echo $ligne->get_Km() ?>Km</p>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		      <p><?php if($ligne->get_CoutPeage() != ""){echo $ligne->get_CoutPeage(); } else{ echo "0";} ?>€</p> 
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		    <p><?php if($ligne->get_CoutRepas() != ""){echo $ligne->get_CoutRepas(); } else{ echo "0";} ?>€</p>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		      <p><?php if($ligne->get_CoutHebergement() != ""){echo $ligne->get_CoutHebergement(); } else{ echo "0";} ?>€</p>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		      <p><?php echo $ligne->get_Trajet() ?></p>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		      <p><?php echo $ligne->get_Motif() ?></p>
 											</td>
-											<td>
+											<td style="text-align: center;">
 									  		    <a class="mdl-list__item-secondary-action" href="#">
 									  				<div id="tt<?php echo $i ?>" class="icon material-icons">delete</div>
 									  				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Supprimmer</div>
