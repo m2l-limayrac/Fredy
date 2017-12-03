@@ -13,7 +13,7 @@ class ligneFrais {
   private $CoutHebergement;        // le cout de l'hebergement 
   private $Trajet;        // trajet   
   private $Annee;        // annee 
-  private $Id_Motif;        // l'id du motif  
+  private $Motif;        // l'id du motif  
 
   /**
    * Constructeur
@@ -54,8 +54,8 @@ class ligneFrais {
   function get_Annee() {
     return $this->Annee;
   }
-  function get_Id_Motif() {
-    return $this->Id_Motif;
+  function get_Motif() {
+    return $this->Motif;
   }
 
   // Setter
@@ -84,8 +84,8 @@ class ligneFrais {
   function set_Annee($Annee) {
     $this->Annee = $Annee;
   }
-  function set_Id_Motif($Id_Motif) {
-    $this->Id_Motif = $Id_Motif;
+  function set_Motif($Motif) {
+    $this->Motif = $Motif;
   }
 
   function hydrater(array $tableau) {

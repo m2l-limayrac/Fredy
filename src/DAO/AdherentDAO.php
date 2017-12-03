@@ -23,6 +23,22 @@ class AdherentDAO extends DAO {
       return $adherent;
   }
 
+  function findByDemandeur($Id_Demandeur) {
+
+      try {
+          $sql = "SELECT * FROM adherent WHERE Id_Demandeur = :Id_Demandeur";
+          $params = array(':Id_Demandeur' => $Id_Demandeur);
+          $sth = $this->executer($sql, $params);
+          $row = $sth->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+      
+      $adherent = new Adherent($row);
+/*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
+      return $adherent;
+  }
+
   function findDemandeur(Adherent $adherent) {
 
       try {

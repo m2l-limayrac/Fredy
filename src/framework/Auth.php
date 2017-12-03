@@ -100,6 +100,15 @@ class Auth {
     return $login;
   }
 
+  static function get_demandeur() {
+    if (isset($_SESSION['demandeur'])) {
+      $demandeur = $_SESSION['demandeur'];
+    } else {
+      $demandeur = null;
+    }
+    return $demandeur;
+  }
+
   /**
    * Détermine si l'demandeur est authentifié ou pas
    * @param type $login

@@ -10,12 +10,13 @@ require_once SRC . DS . 'framework' . DS . 'Flash.php';
 require_once SRC . DS . 'framework' . DS . 'Auth.php';
 require_once SRC . DS . 'models' . DS . 'Demandeur.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
-require_once SRC . DS . 'models' . DS . 'Club.php';
 require_once SRC . DS . 'models' . DS . 'Ligue.php';
 require_once SRC . DS . 'DAO' . DS . 'DemandeurDAO.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
+require_once SRC . DS . 'models' . DS . 'LigneFrais.php';
 require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigueDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'LigneFraisDAO.php';
 
 
 class DemandeurController extends Controller {
@@ -38,14 +39,16 @@ class DemandeurController extends Controller {
   /**
    * Détails d'un utilisateur
    */
-  public function details($id_adherent) {
+  public function details() {
     // Vérifie si l'demandeur est connecté
     if (!Auth::est_authentifie()) {
       $this->redirect('demandeur/login');
     }
     // Lecture du demandeur
-    $demandeurDAO = new DemandeurDAO();
-    $demandeur = $demandeurDAO->find($id_adherent);
+    /*$demandeurDAO = new DemandeurDAO();
+    $demandeur = $demandeurDAO->find($demandeur->get_Id_Demandeur());*/
+    $demandeur = serialize($_SESSION['demandeur']);
+    $demandeur = unserialize($demandeur);
     // Appele la vue 
     $this->show_view('demandeur/details', array(
         'demandeur' => $demandeur
@@ -53,30 +56,17 @@ class DemandeurController extends Controller {
   }
 
 
-  public function modif() {
+  public function modif($id_ligne) {
     // Formulaire saisi ?
-    if ($this->request->exists("submit")) {
-      // le formulaire est soumis
-      $adherent = new Adherent(array(
-          'login' => $this->request->get('login'),
-          'password' => $this->request->get('password'),
-          'is_admin' => $this->request->exists('is_admin')
-      ));
-      if (Auth::inscrire($adherent)) {
-        Flash::add("Vous êtes inscrit !", 1);
-      } else {
-        Flash::add("Une erreur est survenue lors de l'inscription, veuillez réessayer SVP", 3);
-      }
-    } else {
-      // Le formulaire n'a pas été soumis
-      $adherent = new Adherent();
-      $adherentDAO = new AdherentDAO();
-      $demandeur = $adherentDAO->findDemandeur($adherent);
+    if (!Auth::est_authentifie()) {
+      $this->redirect('utilisateur/login');
     }
-
+    // Lecture du utilisateur
+    $ligneFraisDAO = new LigneFraisDAO();
+    $ligne = $ligneFraisDAO->find($id_ligne);
     // Appele la vue 
     $this->show_view('demandeur/modif', array(
-        'demandeur' => $demandeur,
+        'ligne' => $ligne,
         'action' => 'demandeur/modif'
     ));
   }
@@ -101,7 +91,6 @@ class DemandeurController extends Controller {
       // Le formulaire n'a pas été soumis
       $demandeur = new Demandeur();
       $adherent = new Adherent();
-      $club = new Club();
       $ligueDAO = new LigueDAO();
       $ligues = $ligueDAO->findAll();
 
@@ -112,7 +101,6 @@ class DemandeurController extends Controller {
     $this->show_view('demandeur/register', array(
         'demandeur' => $demandeur,
         'adherent' => $adherent,
-        'club' => $club,
         'ligues' => $ligues,
         'action' => 'demandeur/register'
     ));
@@ -123,32 +111,44 @@ class DemandeurController extends Controller {
    */
   public function login() {
     // Formulaire saisi ?
+    $demandeurDAO = new DemandeurDAO();
+    $adherentDAO = new AdherentDAO();
     if ($this->request->exists("submit")) {
       // le formulaire est soumis
-      $demandeur = new Demandeur(array(
+      $demandeur = $demandeurDAO->findAllByMail($this->request->get('AdresseMail'));
+      /*$demandeur = new Demandeur(array(
           'AdresseMail' => $this->request->get('AdresseMail'),
           'MotDePasse' => $this->request->get('MotDePasse')
               )
-      );
+      );*/
+      $demandeur->set_MotDePasse($this->request->get('MotDePasse'));
+      $adherent = $adherentDAO->findByDemandeur($demandeur->get_Id_Demandeur());
       if (Auth::connecter($demandeur)) {
         Flash::add("Vous êtes connecté !");
+        /*$this->show_view('demandeur/details', array(
+          'demandeur' => $demandeur,
+          'adherent' => $adherent,
+          'action' => 'demandeur/details'
+        ));*/
+        $this->redirect('demandeur/details');
       } else {
         Flash::add("Erreur, Adresse mail et/ou Mot de passe n'existe pas.", 3);
+        $this->show_view('demandeur/login', array(
+          'demandeur' => $demandeur,
+          'adherent' => $adherent,
+          'action' => 'demandeur/login'
+        ));
       }
     } else {
       // Le formulaire n'a pas été soumis
       $demandeur = new Demandeur();
       $adherent = new Adherent();
-      $club = new Club();
-    }
-    // Appele la vue 
-    $this->show_view('demandeur/login', array(
+      $this->show_view('demandeur/login', array(
         'demandeur' => $demandeur,
         'adherent' => $adherent,
-        'club' => $club,
-
         'action' => 'demandeur/login'
     ));
+    }
   }
 
   /**

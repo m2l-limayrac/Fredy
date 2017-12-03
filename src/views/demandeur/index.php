@@ -9,7 +9,7 @@
   <?php
   foreach ($demandeurs as $demandeur) {
     ?>
-    <li><?php echo $demandeur->get_AdresseMail(); ?> <a href="<?php echo BASEURL . '/demandeur/details/' . $demandeur->get_idDemandeur(); ?> ">[détails]</a></li>
+    <li><?php echo $demandeur->get_AdresseMail(); ?> <a href="<?php echo BASEURL . '/demandeur/details/' . $demandeur->get_id_demandeur(); ?> ">[détails]</a></li>
   <?php } ?>
 </ul>
 

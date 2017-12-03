@@ -26,6 +26,8 @@ define('IMG', BASEURL . '/img');
 // Paramètres de l'application
 define('APPLINAME', 'FREDI');
 
+$MYSESSIONS = null;
+
 // Gestion de la session
 require_once SRC . DS . 'models' . DS . 'Demandeur.php';  // Obligatoire pour tous les objets susceptibles d'être sérialisés dans la session
 session_start();

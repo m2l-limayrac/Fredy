@@ -5,35 +5,27 @@
  *
  * @author jef
  */
-require_once SRC . DS . 'models' . DS . 'Demandeur.php';
 require_once SRC . DS . 'framework' . DS . 'DAO.php';
 require_once SRC . DS . 'framework' . DS . 'Flash.php';
-require_once SRC . DS . 'DAO' . DS . 'NoteDeFraisDAO.php';
-require_once SRC . DS . 'models' . DS . 'NoteDeFrais.php';
+require_once SRC . DS . 'models' . DS . 'LigneFrais.php';
 
 
-class DemandeurDAO extends DAO {
+class LigneFraisDAO extends DAO {
 
   private static $NoteDeFraisDAO;
 
-  function find($Id_Demandeur) {
-    $sql = "SELECT * FROM demandeur WHERE Id_Demandeur=:Id_Demandeur";
+  function find($id_Ligne) {
+    $sql = "SELECT * FROM lignefrais WHERE id_Ligne=:id_Ligne";
     try {
-      $params = array(":Id_Demandeur" => $Id_Demandeur);
+      $params = array(":id_Ligne" => $id_Ligne);
       $sth = $this->executer($sql, $params);
       $row = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
     }
+    $ligne = new LigneFrais($row);   
     
-    $demandeur = new Demandeur($row);
-    if(SELF::$NoteDeFraisDAO == null){
-      SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
-    }
-
-    $demandeur->set_les_notes($this->findNoteDeFrais($demandeur));
-    
-    return $demandeur; // Retourne l'objet métier
+    return $ligne; // Retourne l'objet métier
   }
 
   function findAllByMail($AdresseMail) {
@@ -124,7 +116,7 @@ class DemandeurDAO extends DAO {
   }
   
   function findNoteDeFrais($Id_Demandeur) {
-    $sql = "SELECT DISTINCT Id_NoteDeFrais FROM avancer WHERE Id_Demandeur = :Id_Demandeur";
+    $sql = "SELECT Id_NoteDeFrais FROM avancer WHERE Id_Demandeur = :Id_Demandeur";
     try {
       $params = array(":Id_Demandeur" => $Id_Demandeur);
       $sth = $this->executer($sql, $params);
@@ -137,13 +129,7 @@ class DemandeurDAO extends DAO {
     foreach ($rows as $row) {
       $NoteDeFrais = new NoteDeFrais($row);
       $notes[] = $NoteDeFrais;
-    }
-    if(SELF::$NoteDeFraisDAO == null){
-      SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
-    }
-    foreach ($notes as $note) {
-      $note->set_les_lignes(SELF::$NoteDeFraisDAO->findLigneDeFrais($note->get_Id_NoteDeFrais()));
-    }
+    }    
     return $notes; // Retourne l'objet métier
   }
 

@@ -18,6 +18,7 @@
 -->
 <html lang="fr">
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -181,5 +182,5 @@
   </body>
 </html>
 
-
-
+<!-- ligne a supprimmer lors de la mise en production -->
+<script>document.write('<script src="http://' + (location.host || '127.0.0.1').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
