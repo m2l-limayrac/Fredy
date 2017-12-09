@@ -1,4 +1,14 @@
 
+<?php 
+  
+  if(isset($_SESSION['demandeur'])){
+    $demandeur = $_SESSION['demandeur'];
+  }
+  /*echo "<pre>";
+  print_r($demandeur);
+  echo "</pre>";*/
+?>
+
 <!doctype html>
 <!--
   Material Design Lite
@@ -70,20 +80,11 @@
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-
-          <?php
-            if(basename($_SERVER['PHP_SELF']) == "index.php"){
-              echo "<span class=\"mdl-layout-title\">Accueil</span>";
-            }else if (basename($_SERVER['PHP_SELF']) == "connexion.php"){
-              echo "<span class=\"mdl-layout-title\">Connexion</span>";
-            }else if (basename($_SERVER['PHP_SELF']) == "inscription.php"){
-              echo "<span class=\"mdl-layout-title\">Inscription</span>";
-            }else if (basename($_SERVER['PHP_SELF']) == "connexion.php"){
-              echo "<span class=\"mdl-layout-title\">Connexion</span>";
-            }else if (basename($_SERVER['PHP_SELF']) == "mdpOublie.php"){
-              echo "<span class=\"mdl-layout-title\">mdpOublie</span>";
-            }
-          ?>
+          <?php if(isset($demandeur)){ ?>
+            <span class=\"mdl-layout-title\">Bienvenue <?php echo $demandeur->get_AdresseMail(); ?></span>
+          <?php }else { ?>
+            <span class=\"mdl-layout-title\">Vous n'etes pas connecter</span>
+            <?php } ?>
           <div class="mdl-layout-spacer"></div>
           <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -108,7 +109,7 @@
          <header class="demo-drawer-header">
           <img src="<?php echo IMG ?>/user.jpg" class="demo-avatar">
           <div class="demo-avatar-dropdown">
-            <span>hello@example.com</span>
+            <span><?php echo $demandeur->get_AdresseMail(); ?></span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -120,16 +121,22 @@
           </div>
         </header> 
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
+
+
+          
           <a class="mdl-navigation__link" href="acceuil.php"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Acceuil</a>
+        
+
+
+
         </nav>
       </div>
       
 
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
- <?php echo Flash::show(); ?>
         <?php echo $content; ?>
-
+        
         </div>
       </main>
     </div>

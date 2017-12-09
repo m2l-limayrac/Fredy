@@ -9,7 +9,7 @@ include SRC . DS . "framework" . DS . "Config.php";
 
 abstract class DAO {
 
-  private static $connexion;    // Objet de connexion
+  protected static $connexion;    // Objet de connexion
 
   /**
    * Ouvre une connexion (en, late bonding)

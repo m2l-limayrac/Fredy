@@ -5,25 +5,25 @@ require_once SRC . DS . 'framework' . DS . 'DAO.php';
 
 class IndemniteDAO extends DAO {
 
-  function find($Id_Ligne) {
+  function find($Annee) {
 
-    $sql = "SELECT * FROM club WHERE Id_Club = :Id_Club";
+    $sql = "SELECT * FROM indemnite WHERE Annee = :Annee";
       try {
-        $params = array(':Id_Club' => $Id_Club);
+        $params = array(':Annee' => $Annee);
         $sth = $this->executer($sql, $params);
         $row = $sth->fetch(PDO::FETCH_ASSOC);
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
       }
       
-      $club = new Club($row);
+      $indemnite = new Indemnite($row);
 /*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
-      return $club;
+      return $indemnite;
   }
 
   function findAll() {
 
-    $sql = "SELECT * FROM club;";
+    $sql = "SELECT * FROM indemnite;";
       try {
           $sth = $this->executer($sql);
           $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -38,6 +38,22 @@ class IndemniteDAO extends DAO {
       }
 
       return $objects;     
+  }
+
+  function findYearByCurrentYear(){
+    $sql = "SELECT Annee FROM indemnite WHERE Annee = :Annee";
+      try {
+        $params = array(':Annee' => date('y'));
+        $sth = $this->executer($sql, $params);
+        $row = $sth->fetch(PDO::FETCH_ASSOC);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+    
+      foreach ($row as $key => $value) {
+          $row = $value;
+      }      
+      return $row;
   }
 }
 

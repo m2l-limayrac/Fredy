@@ -18,6 +18,7 @@ require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigueDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigneFraisDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'MotifDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'IndemniteDAO.php';
 
 
 class DemandeurController extends Controller {
@@ -35,6 +36,58 @@ class DemandeurController extends Controller {
     $demandeurs = $demandeurDAO->findAll();
     // Appele la vue 
     $this->show_view('demandeur/index', array('demandeurs' => $demandeurs));
+  }
+
+  public function add($Id_NoteDeFrais){
+
+    if (!Auth::est_authentifie()) {
+      $this->redirect('demandeur/login');
+    }
+    // Lecture de tous les utilisateurs
+    $ligneFraisDAO = new LigneFraisDAO();
+    if ($this->request->exists("submit")) {
+      $ligne = new LigneFrais(array(
+        'Id_ligne' =>  $this->request->get('Id_ligne'),
+        'Date' =>  $this->request->get('Date'),
+        'Km' =>  $this->request->get('Km'),
+        'CoutPeage' =>  $this->request->get('CoutPeage'),
+        'CoutRepas' =>  $this->request->get('CoutRepas'),
+        'CoutHebergement' =>  $this->request->get('CoutHebergement'),
+        'Trajet' =>  $this->request->get('Trajet'),
+        'Annee' => $this->request->get('Annee'),
+        'Motif' =>  $this->request->get('Motif')
+      ));
+      $motifDAO = new MotifDAO();
+      $ligne->set_Motif($motifDAO->findIdByName($ligne->get_Motif())->get_Id_Motif());
+      //$ligne->set_Annee(substr($ligne->get_Date(), 0, 4));
+      /*echo "<pre>";
+      print_r($ligne);
+      echo "</pre>";*/
+      $lastIdLigne = $ligneFraisDAO->insert($ligne);
+      
+      $ligne->set_Id_Ligne($lastIdLigne);
+      $oldDemandeur = serialize($_SESSION['demandeur']);
+      $oldDemandeur = unserialize($oldDemandeur);
+
+      $ligneFraisDAO->insertAvance($oldDemandeur->get_Id_Demandeur(), $ligne->get_Id_Ligne(), $Id_NoteDeFrais);
+
+      $demandeurDAO = new DemandeurDAO();
+      $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
+      Auth::memoriser($demandeur);
+      $this->redirect('demandeur/details');
+     }else{
+      $indemniteDAO = new IndemniteDAO();
+      $Annee = $indemniteDAO->findYearByCurrentYear();
+      $motifDAO = new MotifDAO();
+      $les_motifs = $motifDAO->findAll();
+      // Appele la vue 
+      $this->show_view('demandeur/add', array(
+          'les_motifs' => $les_motifs,
+          'Annee_actuelle' => $Annee,
+          'action' => 'demandeur/add/'.$Id_NoteDeFrais
+      ));
+     }
+
   }
 
   /**

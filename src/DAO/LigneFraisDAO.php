@@ -95,23 +95,25 @@ class LigneFraisDAO extends DAO {
   function insert(LigneFrais $ligneFrais){
     //GLOBAL $con;
 
-    $sql = "INSERT INTO  lignefrais ( id_Ligne ,  Date ,  Km ,  CoutPeage ,  CoutRepas ,  CoutHebergement ,  Trajet /*,  Annee*/ ,  Id_Motif ) VALUES (:id_Ligne, :Date, :Km, :CoutPeage, :CoutRepas, :CoutHebergement, :Trajet/*, :Annee*/, :Id_Motif)";
+    $sql = "INSERT INTO  lignefrais (Date ,  Km ,  CoutPeage ,  CoutRepas ,  CoutHebergement ,  Trajet ,  Annee ,  Id_Motif ) VALUES (:Date, :Km, :CoutPeage, :CoutRepas, :CoutHebergement, :Trajet, :Annee, :Id_Motif)";
     try {
-        $params = array(':id_Ligne' => $ligneFrais->get_Id_Ligne(), 
-                        ':Date' => $ligneFrais->get_Date(),
+        $params = array(':Date' => $ligneFrais->get_Date(),
                         ':Km' => $ligneFrais->get_Km(),
                         ':CoutPeage' => $ligneFrais->get_CoutPeage(),
                         ':CoutRepas' => $ligneFrais->get_CoutRepas(),
                         ':CoutHebergement' => $ligneFrais->get_CoutHebergement(),
                         ':Trajet' => $ligneFrais->get_Trajet(),
-                        //':Annee' => $ligneFrais->get_Annee(),
+                        ':Annee' => $ligneFrais->get_Annee(),
                         ':Id_Motif' => $ligneFrais->get_Motif());
 
         $sth = $this->executer($sql, $params);
+        $return = SELF::$connexion->lastInsertId();
     } catch (PDOException $ex) {
         die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
     }
+  return $return;
 }
+
 
   function update(LigneFrais $ligneFrais){
     //GLOBAL $con;
@@ -161,6 +163,19 @@ class LigneFraisDAO extends DAO {
       $notes[] = $NoteDeFrais;
     }    
     return $notes; // Retourne l'objet métier
+  }
+
+  function insertAvance($Id_Demandeur, $Id_Ligne, $Id_NoteDeFrais){
+    $sql = "INSERT INTO  avancer (Id_Demandeur, Id_Ligne, Id_NoteDeFrais ) VALUES (:Id_Demandeur, :Id_Ligne, :Id_NoteDeFrais)";
+    try {
+        $params = array(':Id_Demandeur' => $Id_Demandeur,
+                        ':Id_Ligne' => $Id_Ligne,
+                        ':Id_NoteDeFrais' => $Id_NoteDeFrais);
+
+        $sth = $this->executer($sql, $params);
+    } catch (PDOException $ex) {
+        die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+    }
   }
 
 }

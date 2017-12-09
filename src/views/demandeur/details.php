@@ -49,7 +49,7 @@ echo "</pre>";*/
 	<tbody>
 		<?php foreach ($demandeur->get_les_notes() as $note) { 
 		 		$i = 1;?>
-				<tr>
+				<tr class="show-modal">
 					<div class="demo-list-action mdl-list">
 						<td>
 						 	<i class="material-icons">toc</i>
@@ -142,9 +142,15 @@ echo "</pre>";*/
 								  <?php } ?>
 								</tbody>
 							</table>
+							<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/add/'.$note->get_Id_NoteDeFrais(); ?>">
+								<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+								  <i class="material-icons">add</i>
+								</button>
+				  				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Ajouter une ligne de frais</div>
+							</a>
 					    </div>
 					    <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
-					      <button type="button" class="mdl-button close"><div id="tt<?php echo $i ?>" class="icon material-icons">cancel</div> Revenir aux notes de frais</button>
+							<button type="button" class="mdl-button close"><div id="tt<?php echo $i ?>" class="icon material-icons">cancel</div> Revenir aux notes de frais</button>
 					    </div>
 					  </dialog>
 <script>
@@ -171,14 +177,6 @@ echo "</pre>";*/
     }
   </script>
 
-
-
-
-
-
-
-
-  <!-- List items with avatar and action -->
 <style>
 .demo-list-action {
   width: 300px;
