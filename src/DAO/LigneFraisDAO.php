@@ -95,7 +95,7 @@ class LigneFraisDAO extends DAO {
   function insert(LigneFrais $ligneFrais){
     //GLOBAL $con;
 
-    $sql = "INSERT INTO  lignefrais ( id_Ligne ,  Date ,  Km ,  CoutPeage ,  CoutRepas ,  CoutHebergement ,  Trajet ,  Annee ,  Id_Motif ) VALUES (:id_Ligne, :Date, :Km, :CoutPeage, :CoutRepas, :CoutHebergement, :Trajet, :Annee, :Id_Motif)";
+    $sql = "INSERT INTO  lignefrais ( id_Ligne ,  Date ,  Km ,  CoutPeage ,  CoutRepas ,  CoutHebergement ,  Trajet /*,  Annee*/ ,  Id_Motif ) VALUES (:id_Ligne, :Date, :Km, :CoutPeage, :CoutRepas, :CoutHebergement, :Trajet/*, :Annee*/, :Id_Motif)";
     try {
         $params = array(':id_Ligne' => $ligneFrais->get_Id_Ligne(), 
                         ':Date' => $ligneFrais->get_Date(),
@@ -104,7 +104,7 @@ class LigneFraisDAO extends DAO {
                         ':CoutRepas' => $ligneFrais->get_CoutRepas(),
                         ':CoutHebergement' => $ligneFrais->get_CoutHebergement(),
                         ':Trajet' => $ligneFrais->get_Trajet(),
-                        ':Annee' => $ligneFrais->get_Annee(),
+                        //':Annee' => $ligneFrais->get_Annee(),
                         ':Id_Motif' => $ligneFrais->get_Motif());
 
         $sth = $this->executer($sql, $params);
@@ -133,12 +133,12 @@ class LigneFraisDAO extends DAO {
       }
   }
 
-  function delete (Demandeur $demandeur){
+  function delete (LigneFrais $ligneFrais){
     //GLOBAL $con;
     
-    $sql = "DELETE FROM demandeur WHERE Id_Demandeur = :Id_Demandeur";
+    $sql = "DELETE FROM ligneFrais WHERE id_Ligne = :id_Ligne";
       try {
-        $params = array(':Id_Demandeur' => $demandeur->get_Id_Demandeur());
+        $params = array(':id_Ligne' => $ligneFrais->get_id_Ligne());
         $sth = $this->executer($sql, $params);
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());

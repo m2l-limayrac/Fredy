@@ -26,7 +26,6 @@
 <!-- <pre>
 <?php print_r($ligne); ?>
 </pre> -->
-<?php echo $action; ?>
 <form action="<?php echo BASEURL.'/'.$action.'/'.$ligne->get_Id_ligne(); ?>" method="post">
 	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
 		<thead>
@@ -108,7 +107,7 @@
 				        </div>
 					</td>
 					<td style="text-align: center;">
-			  		    <a class="mdl-list__item-secondary-action" href="#">
+			  		    <a class="mdl-list__item-secondary-action" href="#" onclick="avort()">
 			  				<div id="tt1" class="icon material-icons">cancel</div>
 			  				<div class="mdl-tooltip mdl-tooltip--large" for="tt1">Annuler la modification</div>
 			  		    </a>
@@ -145,5 +144,9 @@ function onSelect(value){
 
 function send(){
 	document.getElementById('submit').click();
+}
+
+function avort(){
+	window.location.replace('/Fredy/web/demandeur/details');
 }
 </script>

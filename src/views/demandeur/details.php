@@ -125,7 +125,7 @@ echo "</pre>";*/
 									  		      <p><?php echo $ligne->get_Motif() ?></p>
 											</td>
 											<td style="text-align: center;">
-									  		    <a class="mdl-list__item-secondary-action" href="#">
+									  		    <a class="mdl-list__item-secondary-action" href="#" onclick="confirme(<?php echo $ligne->get_Id_ligne(); ?>)">
 									  				<div id="tt<?php echo $i ?>" class="icon material-icons">delete</div>
 									  				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Supprimmer</div>
 									  		    </a>
@@ -160,6 +160,15 @@ echo "</pre>";*/
     dialog.querySelector('.close').addEventListener('click', function() {
       dialog.close();
     });
+
+
+    function confirme($id_ligne){
+    	var test = confirm("Etes vous sur de vouloir supprimmer la ligne de frais N° : "+$id_ligne+" ?");
+
+    	if(test == true){
+    		window.location.replace('/Fredy/web/demandeur/drop_line/'+$id_ligne);
+    	}
+    }
   </script>
 
 

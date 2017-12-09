@@ -62,6 +62,7 @@ class DemandeurController extends Controller {
     if (!Auth::est_authentifie()) {
       $this->redirect('utilisateur/login');
     }
+    $ligneFraisDAO = new LigneFraisDAO();
      if ($this->request->exists("submit")) {
       $ligne = new LigneFrais(array(
         'Id_ligne' =>  $this->request->get('Id_ligne'),
@@ -75,12 +76,20 @@ class DemandeurController extends Controller {
       ));
       $motifDAO = new MotifDAO();
       $ligne->set_Motif($motifDAO->findIdByName($ligne->get_Motif())->get_Id_Motif());
-      //$ligne->set_Annee(substr($ligne->get_Date(), 0, 4));
-      echo $ligne->get_Date();
-      $ligneFraisDAO = new LigneFraisDAO();
+      $ligne->set_Annee(substr($ligne->get_Date(), 0, 4));
+      /*echo "<pre>";
+      print_r($ligne);
+      echo "</pre>";*/
       $ligneFraisDAO->update($ligne);
+
+      $oldDemandeur = serialize($_SESSION['demandeur']);
+      $oldDemandeur = unserialize($oldDemandeur);
+
+      $demandeurDAO = new DemandeurDAO();
+      $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
+      Auth::memoriser($demandeur);
+      $this->redirect('demandeur/details');
      }else{
-      $ligneFraisDAO = new LigneFraisDAO();
       $ligne = $ligneFraisDAO->find($id_ligne);
       $motifDAO = new MotifDAO();
       $les_motifs = $motifDAO->findAll();
@@ -92,6 +101,24 @@ class DemandeurController extends Controller {
       ));
      }
     
+  }
+
+  public function drop_line($id_ligne) {
+    // Vérifie si l'demandeur est connecté
+    if (!Auth::est_authentifie()) {
+      $this->redirect('demandeur/login');
+    }
+
+    $ligneFraisDAO = new LigneFraisDAO();
+    $ligne = $ligneFraisDAO->find($id_ligne);
+    $ligneFraisDAO->delete($ligne);
+    $oldDemandeur = serialize($_SESSION['demandeur']);
+    $oldDemandeur = unserialize($oldDemandeur);
+
+    $demandeurDAO = new DemandeurDAO();
+    $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
+    Auth::memoriser($demandeur);
+    $this->redirect('demandeur/details');
   }
 
   /**

@@ -17,7 +17,8 @@ class DemandeurDAO extends DAO {
   private static $NoteDeFraisDAO;
 
   function find($Id_Demandeur) {
-    $sql = "SELECT * FROM demandeur WHERE Id_Demandeur=:Id_Demandeur";
+    
+    $sql = "SELECT * FROM demandeur WHERE Id_Demandeur = :Id_Demandeur";
     try {
       $params = array(":Id_Demandeur" => $Id_Demandeur);
       $sth = $this->executer($sql, $params);
@@ -25,13 +26,13 @@ class DemandeurDAO extends DAO {
     } catch (PDOException $e) {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
     }
-    
+
     $demandeur = new Demandeur($row);
     if(SELF::$NoteDeFraisDAO == null){
       SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
     }
 
-    $demandeur->set_les_notes($this->findNoteDeFrais($demandeur));
+    $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));
     
     return $demandeur; // Retourne l'objet métier
   }
