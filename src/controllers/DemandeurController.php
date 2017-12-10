@@ -19,6 +19,7 @@ require_once SRC . DS . 'DAO' . DS . 'LigueDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigneFraisDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'MotifDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'IndemniteDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'ClubDAO.php';
 
 
 class DemandeurController extends Controller {
@@ -26,16 +27,59 @@ class DemandeurController extends Controller {
   /**
    * Action par défaut : affiche la liste des utilisateurs
    */
-  public function index() {
+
+  public function index(){}
+
+  public function settings($Id_Demandeur) {
     // Vérifie si l'utilisateur est connecté
     if (!Auth::est_authentifie()) {
       $this->redirect('demandeur/login');
     }
-    // Lecture de tous les utilisateurs
     $demandeurDAO = new DemandeurDAO();
-    $demandeurs = $demandeurDAO->findAll();
-    // Appele la vue 
-    $this->show_view('demandeur/index', array('demandeurs' => $demandeurs));
+    $demandeur = $demandeurDAO->find($Id_Demandeur);
+    $clubDAO = new ClubDAO();
+    $Clubs = $clubDAO->findAll();
+
+    if ($this->request->exists("submit")) {
+      $demandeur->set_AdresseMail($this->request->get('AdresseMail'));
+      $demandeur->set_MotDePasse(password_hash($this->request->get('MotDePasse'), PASSWORD_BCRYPT));
+      if($demandeur->get_Representant()){
+        $demandeur->get_Representant()->set_Nom($this->request->get('Nom'));
+        $demandeur->get_Representant()->set_Prenom($this->request->get('Prenom'));
+        $demandeur->get_Representant()->set_Rue($this->request->get('Rue'));
+        $demandeur->get_Representant()->set_Cp($this->request->get('Cp'));
+        $demandeur->get_Representant()->set_Ville($this->request->get('Ville'));
+      }else{
+        $demandeur->get_Adherent()->set_numLicence($this->request->get('numLicence'));
+        $demandeur->get_Adherent()->set_Nom($this->request->get('Nom'));
+        $demandeur->get_Adherent()->set_Prenom($this->request->get('Prenom'));
+        $demandeur->get_Adherent()->set_Sexe($this->request->get('Sexe'));
+        $demandeur->get_Adherent()->set_DateNaissance($this->request->get('DateNaissance'));
+        $demandeur->get_Adherent()->set_AdresseAdh($this->request->get('AdresseAdh'));
+        $demandeur->get_Adherent()->set_CP($this->request->get('CP'));
+        $demandeur->get_Adherent()->set_Ville($this->request->get('Ville'));
+        $nomClub = $this->request->get('Club');
+        foreach ($Clubs as $club) {
+          if($club->get_Nom() == $nomClub){
+            $demandeur->get_Adherent()->set_Club($club);
+            $demandeur->get_Adherent()->set_Id_Club($club->get_Id_Club());
+          }
+        }
+
+      }
+      $demandeurDAO->update($demandeur);
+      Auth::memoriser($demandeur);
+      $this->redirect('demandeur/details');
+
+    }else{
+    // Lecture de tous les utilisateurs
+      // Appele la vue 
+      $this->show_view('demandeur/settings', array(
+        'demandeur' => $demandeur,
+        'Clubs' => $Clubs,
+        'action' => 'demandeur/settings/'.$Id_Demandeur
+      ));
+    }
   }
 
   public function add($Id_NoteDeFrais){
@@ -64,7 +108,7 @@ class DemandeurController extends Controller {
       print_r($ligne);
       echo "</pre>";*/
       $lastIdLigne = $ligneFraisDAO->insert($ligne);
-      
+
       $ligne->set_Id_Ligne($lastIdLigne);
       $oldDemandeur = serialize($_SESSION['demandeur']);
       $oldDemandeur = unserialize($oldDemandeur);
@@ -179,34 +223,45 @@ class DemandeurController extends Controller {
    */
   public function register() {
     // Formulaire saisi ?
+    $clubDAO = new ClubDAO();
+    $Clubs = $clubDAO->findAll();
     if ($this->request->exists("submit")) {
       // le formulaire est soumis
       $demandeur = new Demandeur(array(
           'AdresseMail' => $this->request->get('AdresseMail'),
           'MotDePasse' => $this->request->get('MotDePasse'),
+          'isRepresentant' => $this->request->get('isRepresentant')
       ));
       if (Auth::inscrire($demandeur)) {
+
+
+        //INSCRIRE LE REPRESENTANT ET L'ADHERENT EN FONCTION DE ISREPRESENTANT
+
+
+
+
+
+
+
         Flash::add("Vous êtes inscrit !", 1);
+        $this->redirect('adherent/ajout');
       } else {
         Flash::add("Une erreur est survenue lors de l'inscription, veuillez réessayer SVP", 3);
+        $this->show_view('demandeur/register', array(
+          'demandeur' => $demandeur,
+          'Clubs' => $Clubs,
+          'action' => 'demandeur/register'
+        ));
       }
     } else {
       // Le formulaire n'a pas été soumis
       $demandeur = new Demandeur();
-      $adherent = new Adherent();
-      $ligueDAO = new LigueDAO();
-      $ligues = $ligueDAO->findAll();
-
-
+      $this->show_view('demandeur/register', array(
+          'demandeur' => $demandeur,
+          'Clubs' => $Clubs,
+          'action' => 'demandeur/register'
+      ));
     }
-
-    // Appele la vue 
-    $this->show_view('demandeur/register', array(
-        'demandeur' => $demandeur,
-        'adherent' => $adherent,
-        'ligues' => $ligues,
-        'action' => 'demandeur/register'
-    ));
   }
 
   /**
@@ -225,7 +280,7 @@ class DemandeurController extends Controller {
               )
       );*/
       $demandeur->set_MotDePasse($this->request->get('MotDePasse'));
-      $adherent = $adherentDAO->findByDemandeur($demandeur->get_Id_Demandeur());
+      //$adherent = $adherentDAO->findByDemandeur($demandeur->get_Id_Demandeur());
       if (Auth::connecter($demandeur)) {
         Flash::add("Vous êtes connecté !");
         /*$this->show_view('demandeur/details', array(
@@ -238,7 +293,7 @@ class DemandeurController extends Controller {
         Flash::add("Erreur, Adresse mail et/ou Mot de passe n'existe pas.", 3);
         $this->show_view('demandeur/login', array(
           'demandeur' => $demandeur,
-          'adherent' => $adherent,
+          //'adherent' => $adherent,
           'action' => 'demandeur/login'
         ));
       }
@@ -248,7 +303,7 @@ class DemandeurController extends Controller {
       $adherent = new Adherent();
       $this->show_view('demandeur/login', array(
         'demandeur' => $demandeur,
-        'adherent' => $adherent,
+        //'adherent' => $adherent,
         'action' => 'demandeur/login'
     ));
     }

@@ -50,29 +50,26 @@ class AdherentController extends Controller {
   /**
    * Inscrit un utilisateur
    */
-  public function register() {
+  public function ajout() {
     // Formulaire saisi ?
+    $demandeur = serialize($_SESSION['demandeur']);
+    $demandeur = unserialize($demandeur);
+
     if ($this->request->exists("submit")) {
       // le formulaire est soumis
-      $adherent = new Adherent(array(
-          'login' => $this->request->get('login'),
-          'password' => $this->request->get('password'),
-          'is_admin' => $this->request->exists('is_admin')
-      ));
-      if (Auth::inscrire($adherent)) {
-        Flash::add("Vous êtes inscrit !", 1);
-      } else {
-        Flash::add("Une erreur est survenue lors de l'inscription, veuillez réessayer SVP", 3);
-      }
+
     } else {
       // Le formulaire n'a pas été soumis
-      $adherent = new Adherent();
+      $this->show_view('adherent/ajout', array(
+        '$demandeur' => $demandeur,
+        'action' => 'adherent/ajout'
+    ));
     }
 
     // Appele la vue 
-    $this->show_view('adherent/register', array(
+    $this->show_view('adherent/ajout', array(
         'adherent' => $adherent,
-        'action' => 'adherent/register'
+        'action' => 'adherent/ajout'
     ));
   }
 

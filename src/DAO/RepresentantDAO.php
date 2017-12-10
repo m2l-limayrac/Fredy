@@ -2,8 +2,13 @@
 
 require_once SRC . DS . 'models' . DS . 'Representant.php';
 require_once SRC . DS . 'framework' . DS . 'DAO.php';
+require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
+require_once SRC . DS . 'models' . DS . 'Adherent.php';
+
 
 class RepresentantDAO extends DAO {
+
+  private static $AdherentDAO;
 
   function find($Id_Demandeur) {
 
@@ -15,9 +20,15 @@ class RepresentantDAO extends DAO {
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
       }
-      
-      $representant = new Representant($row);
-/*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
+      if($row != false){
+        $representant = new Representant($row);
+      }else{
+        $representant = new Representant();
+      }
+      if(SELF::$AdherentDAO == null){
+        SELF::$AdherentDAO = new AdherentDAO();
+      }
+      $representant->set_les_adherents(SELF::$AdherentDAO->findAllByDemandeur($Id_Demandeur));
       return $representant;
   }
 
@@ -39,6 +50,24 @@ class RepresentantDAO extends DAO {
       }
 
       return $objects;     
+  }
+
+  function update(Representant $representant){
+    print_r($representant);
+    //GLOBAL $con;
+    
+    $sql = "UPDATE representant SET Nom = :Nom, Prenom = :Prenom, Rue = :Rue, Cp = :Cp, Ville = :Ville WHERE Id_Demandeur = :Id_Demandeur";
+      try {
+          $params = array(':Id_Demandeur' => $representant->get_Id_Demandeur(), 
+                              ':Nom' => $representant->get_Nom(), 
+                              ':Prenom' => $representant->get_Prenom(),
+                              ':Rue' => $representant->get_Rue(),
+                              ':Cp' => $representant->get_Cp(),
+                              ':Ville' => $representant->get_Ville());
+          $sth = $this->executer($sql, $params);
+      } catch (PDOException $ex) {
+          die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
   }
 }
 

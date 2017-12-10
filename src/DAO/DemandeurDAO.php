@@ -9,12 +9,18 @@ require_once SRC . DS . 'models' . DS . 'Demandeur.php';
 require_once SRC . DS . 'framework' . DS . 'DAO.php';
 require_once SRC . DS . 'framework' . DS . 'Flash.php';
 require_once SRC . DS . 'DAO' . DS . 'NoteDeFraisDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'RepresentantDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
 require_once SRC . DS . 'models' . DS . 'NoteDeFrais.php';
+require_once SRC . DS . 'models' . DS . 'Representant.php';
+require_once SRC . DS . 'models' . DS . 'Adherent.php';
 
 
 class DemandeurDAO extends DAO {
 
   private static $NoteDeFraisDAO;
+  private static $RepresentantDAO;
+  private static $AdherentDAO;
 
   function find($Id_Demandeur) {
     
@@ -32,10 +38,30 @@ class DemandeurDAO extends DAO {
       SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
     }
 
+    if(SELF::$RepresentantDAO == null){
+      SELF::$RepresentantDAO = new RepresentantDAO();
+    }
+
     $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));
+    if($demandeur->get_isRepresentant()){
+        if(SELF::$RepresentantDAO == null){
+          SELF::$RepresentantDAO = new RepresentantDAO();
+        }
+        $demandeur->set_Representant(SELF::$RepresentantDAO->find($demandeur->get_Id_Demandeur()));
+      }else{
+        if(SELF::$AdherentDAO == null){
+          SELF::$AdherentDAO = new AdherentDAO();
+        }
+        $demandeur->set_Adherent(SELF::$AdherentDAO->findByDemandeur($demandeur->get_Id_Demandeur()));
+      }
+    /*if($demandeur->get_isRepresentant()){
+      $demandeur->set_les_adherents(SELF::$AdherentDAO->findAllByDemandeur($demandeur->get_Id_Demandeur()));
+    }*/
     
     return $demandeur; // Retourne l'objet métier
   }
+
+
 
   function findAllByMail($AdresseMail) {
     $sql = "SELECT * FROM demandeur WHERE AdresseMail=:AdresseMail";
@@ -51,8 +77,22 @@ class DemandeurDAO extends DAO {
       /*if(SELF::$NoteDeFraisDAO == null){
         SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
       }*/
+      if(SELF::$RepresentantDAO == null){
+      SELF::$RepresentantDAO = new RepresentantDAO();
+    }
+      $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));
+      if($demandeur->get_isRepresentant()){
+        if(SELF::$RepresentantDAO == null){
+          SELF::$RepresentantDAO = new RepresentantDAO();
+        }
+        $demandeur->set_Representant(SELF::$RepresentantDAO->find($demandeur->get_Id_Demandeur()));
+      }else{
+        if(SELF::$AdherentDAO == null){
+          SELF::$AdherentDAO = new AdherentDAO();
+        }
+        $demandeur->set_Adherent(SELF::$AdherentDAO->findByDemandeur($demandeur->get_Id_Demandeur()));
+      }
 
-      $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));      
     }else{
       $row = array();
     }
@@ -105,10 +145,22 @@ class DemandeurDAO extends DAO {
           $params = array(':Id_Demandeur' => $demandeur->get_Id_Demandeur(), 
                               ':AdresseMail' => $demandeur->get_AdresseMail(), 
                               ':MotDePasse' => $demandeur->get_MotDePasse(),
-                              ':isRepresentant' => $demandeur->get_isRepresentant());
+                              ':isRepresentant' => $demandeur->get_int_isRepresentant());
           $sth = $this->executer($sql, $params);
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+      }
+      if($demandeur->get_isRepresentant()){
+         if(SELF::$RepresentantDAO == null){
+          SELF::$RepresentantDAO = new RepresentantDAO();
+        }
+        SELF::$RepresentantDAO->update($demandeur->get_Representant());
+      }else{
+        if(SELF::$AdherentDAO == null){
+          SELF::$AdherentDAO = new AdherentDAO();
+        }
+        SELF::$AdherentDAO->update($demandeur->get_Adherent());
+
       }
   }
 

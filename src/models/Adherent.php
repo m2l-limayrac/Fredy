@@ -10,6 +10,7 @@ class Adherent {
     private $Ville;
     private $Id_Demandeur;
     private $Id_Club;
+    private $Club;
 
     function __construct(array $tab = null) {  //constructeur
      if (!is_null($tab)) {
@@ -56,6 +57,10 @@ class Adherent {
     function get_Id_Club() {
         return $this->Id_Club;
     }
+    
+    function get_Club() {
+        return $this->Club;
+    }
 
     function set_numLicence($numLicence) {
         $this->numLicence = $numLicence;
@@ -95,6 +100,10 @@ class Adherent {
 
     function set_Id_Club($Id_Club) {
         $this->Id_Club = $Id_Club;
+    }
+
+    function set_Club($Club) {
+        $this->Club = $Club;
     }
 
     function hydrater(array $tableau) { //appel les setter de toutes les methodes passer dans un tableau.

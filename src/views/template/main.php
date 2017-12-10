@@ -29,8 +29,8 @@
 <html lang="fr">
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../../web/js/jquery-ui/jquery-ui.min.css">
-    <script type="text/javascript" src="../../../web/js/jquery-ui/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Fredy/web/js/jquery-ui/jquery-ui.min.css">
+    <script type="text/javascript" src="/Fredy/web/js/jquery-ui/jquery-ui.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -82,33 +82,32 @@
         <div class="mdl-layout__header-row">
           <?php if(isset($demandeur)){ ?>
             <span class=\"mdl-layout-title\">Bienvenue <?php echo $demandeur->get_AdresseMail(); ?></span>
+            <div class="mdl-layout-spacer"></div>
           <?php }else { ?>
             <span class=\"mdl-layout-title\">Vous n'etes pas connecter</span>
             <?php } ?>
-          <div class="mdl-layout-spacer"></div>
-          <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-              <i class="material-icons">search</i>
-            </label>
-            <div class="mdl-textfield__expandable-holder">
-              <input class="mdl-textfield__input" type="text" id="search">
-              <label class="mdl-textfield__label" for="search">Enter your query...</label>
-            </div>
-          </div> -->
-          <!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-            <i class="material-icons">more_vert</i>
-          </button>
-          <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-            <li class="mdl-menu__item">About</li>
-            <li class="mdl-menu__item">Contact</li>
-            <li class="mdl-menu__item">Legal information</li>
-          </ul> -->
-        </div>
+            <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+              <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                <i class="material-icons">search</i>
+              </label>
+              <div class="mdl-textfield__expandable-holder">
+                <input class="mdl-textfield__input" type="text" id="search">
+                <label class="mdl-textfield__label" for="search">Enter your query...</label>
+              </div>
+            </div> -->
+            <!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>">Déconnexion</a></li>
+            </ul> -->
+          </div>
       </header>
       <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
          <header class="demo-drawer-header">
           <img src="<?php echo IMG ?>/user.jpg" class="demo-avatar">
           <div class="demo-avatar-dropdown">
+           <?php if(isset($demandeur)){ ?>
             <span><?php echo $demandeur->get_AdresseMail(); ?></span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
@@ -116,15 +115,19 @@
               <span class="visuallyhidden">Accounts</span>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              <li class="mdl-menu__item">parametre du compte</li>
+              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"> parametre du compte</a></li>
+              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>">Déconnexion</a></li>
             </ul>
+            <?php }else{ ?>
+            <span>Non connecté</span>
+            <?php } ?>
           </div>
         </header> 
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
 
 
           
-          <a class="mdl-navigation__link" href="acceuil.php"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Acceuil</a>
+          <a class="mdl-navigation__link" href="acceuil.php"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i></a>
         
 
 

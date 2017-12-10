@@ -29,7 +29,11 @@ class Auth {
     // Hachage du mot de passe
     $demandeur->set_MotDePasse(password_hash($demandeur->get_MotDePasse(), PASSWORD_BCRYPT));
     SELF::$demandeurDAO->insert($demandeur);
-    return true;
+    if(SELF::connecter($demandeur)){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   /**

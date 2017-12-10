@@ -7,6 +7,7 @@ class Representant {
     private $Cp;
     private $Ville;
     private $id_Demandeur;
+    private $les_adherents = array();
 
     function __construct(array $tab = null) {  //constructeur
      if (!is_null($tab)) {
@@ -14,6 +15,9 @@ class Representant {
      }
     }
 
+    function get_les_adherents() {
+    return $this->les_adherents;
+  }
     function get_Nom() {
         return $this->Nom;
     }
@@ -36,6 +40,10 @@ class Representant {
 
     function get_id_Demandeur() {
         return $this->id_Demandeur;
+    }
+
+    function set_les_adherents($les_adherents) {
+        $this->les_adherents = $les_adherents;
     }
 
     function set_Nom($Nom) {

@@ -136,8 +136,6 @@ echo "</pre>";*/
 									  				</div>
 									  		    </a>
 									  		</td>
-
-									  	
 									  </tr>
 								  <?php } ?>
 								</tbody>

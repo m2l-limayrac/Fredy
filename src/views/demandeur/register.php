@@ -1,61 +1,167 @@
+<?php
+$i=1;
+?>
+<form action="<?php echo BASEURL.'/'.$action; ?>" method="post">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="AdresseMail" type="text" id="sample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">AdresseMail</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="MotDePasse" type="password" id="sample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">MotDePasse</label>
+  </div>
+  <!-- Icon button -->
+<!-- Colored raised button -->
+<p>Je suis un :</p>
+<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="radio1">
+    <input type="radio" id="radio1" class="mdl-radio__button" name="isRepresentant" value="1" checked>
+    <span class="mdl-radio__label">Representant</span>
+</label>
+<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="radio2">
+    <input type="radio" id="radio2" class="mdl-radio__button" name="isRepresentant" value="0">
+    <span class="mdl-radio__label">Adherent</span>
+</label>
 
-<form action="<?php echo BASEURL.'/'.$action; ?>" method="POST">
-  <p><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="text" id="sample3" name="Nom" value="<?php echo $adherent->get_Nom(); ?>">
-    <label class="mdl-textfield__label" for="sample3">Nom</label>
-  </div></p>
+<br>
 
-  <p><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="text" id="sample3" name="Prenom" value="<?php echo $adherent->get_Prenom(); ?>" >
-    <label class="mdl-textfield__label" for="sample3">Prenom</label>
-  </div></p>
+<div id="isRepresentant">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Nom" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Nom</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Prenom" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Prenom</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Rue" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Rue</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Cp" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Cp</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Ville" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Ville</label>
+  </div>
+  <br>
+</div>
 
-  <p>date de naissance<br/><input type="date" name="DateDeNaissance" value="<?php echo $adherent->get_DateNaissance(); ?>" /></p>
 
-  <p><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="email" id="sample3" name="mail" value="<?php echo $demandeur->get_AdresseMail(); ?>" >
-    <label class="mdl-textfield__label" for="sample3">Adresse mail </label>
-  </div></p>
+<div id="isAdherent">
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="numLicence" type="text" id="Asample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">numLicence</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Nom" type="text" id="Asample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Nom</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Prenom" type="text" id="Asample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Prenom</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield">
+    <input class="mdl-textfield__input" name="DateNaissance" type="text" id="datepicker" value="">
+    <label class="mdl-textfield__label" for="datepicker">DateNaissance..</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="AdresseAdh" type="text" id="Asample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">AdresseAdh</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="CP" type="text" id="Asample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">CP</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" name="Ville" type="text" id="Asample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Ville</label>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield">
+    <input type="text" class="mdl-textfield__input" name="Sexe" id="Asample<?php echo $i; ?>" value="" readonly >
+    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
+      <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">Masculin</li>
+      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i;  $i++; ?>')">Feminin</li>
+    </ul>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield">
+    <input type="text" class="mdl-textfield__input" name="Club" id="Asample<?php echo $i; ?>" value="" readonly >
+    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
+      <?php foreach ($Clubs as $club) { ?>
+      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Nom() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
+      <?php } ?>
+    </ul>
+  </div>
+  
+</div>
+<br>
+<button type="submit" name="submit" id="sub" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" disabled>
+  valider
+</button>
 
-  <p><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="password" id="sample3" name="mpd" value="<?php echo $demandeur->get_MotDePasse(); ?>" >
-    <label class="mdl-textfield__label" for="sample3">Mot de passe</label>
-  </div></p>
-
-  <p><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="password" id="sample3" name="mpd" value="<?php echo $demandeur->get_MotDePasse(); ?>" >
-    <label class="mdl-textfield__label" for="sample3">Confirmation Mot de passe</label>
-  </div></p>
-
-  <p><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="text" id="sample3" name="club" value="<?php echo $club->get_Nom(); ?>" >
-    <label class="mdl-textfield__label" for="sample3">Club</label>
-  </div></p>
-
-  <p><?php echo "Ligue d'affiliation"; ?> </p>
-  <p>
-  <?php
-  $i=0;
-           		foreach ($ligues as $ligue) {
-           				echo '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-'.$i.'">
-	  <input type="radio" id="option-'.$i.'" class="mdl-radio__button" name="ligue" value="'.$ligue->get_Id_Ligue().'">
-	  <span class="mdl-radio__label">'.$ligue->get_Nom_ligue().'</span>
-	</label>';
-	$i++;
-	echo "&nbsp &nbsp &nbsp &nbsp &nbsp";
-           		}
-           ?>
-	
-</p>
-
-  <p><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4" name="licence" value="<?php echo $adherent->get_numLicence(); ?>">
-    <label class="mdl-textfield__label" for="sample4">numero de licence</label>
-    <span class="mdl-textfield__error">Le numero de licence est composé que de chiffre</span>
-  </div></p>
-
-  <p><input type="hidden" name="ID_Demandeur" value="<?php echo $demandeur->get_ID_Demandeur(); ?>"></p>
-  <p><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-  Ok
-</button></p>
 </form>
+<script type="text/javascript">
+
+
+
+  $(document).ready(function(){
+    $('#datepicker').datepicker({
+      'dateFormat' : 'yy-mm-dd'
+    });
+    
+    var divRepresentant = document.getElementById('isRepresentant');
+    var divAdherent = document.getElementById('isAdherent');
+
+    setInterval(function(){
+     
+
+     if(document.getElementById('radio1').checked){
+      $('#datepicker').datepicker("destroy");
+      $('#datepicker').removeClass("hasDatepicker");
+      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Rsample3').value || !document.getElementById('Rsample4').value || !document.getElementById('Rsample5').value || !document.getElementById('Rsample6').value || !document.getElementById('Rsample7').value){
+
+      document.getElementById('sub').setAttribute('disabled', 'disabled');
+     }else{
+      document.getElementById('sub').removeAttribute('disabled');
+     }
+      divAdherent.setAttribute('hidden', 'hidden');
+      divRepresentant.removeAttribute('hidden', 'hidden');
+    }else{
+      $('#datepicker').datepicker({
+      'dateFormat' : 'yy-mm-dd'
+    });
+      $('#datepicker').addClass("hasDatepicker");
+      $('#datepicker').attr('id', 'datepicker');
+      
+      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Asample8').value || !document.getElementById('Asample9').value || !document.getElementById('Asample10').value || !document.getElementById('Asample11').value || !document.getElementById('Asample12').value || !document.getElementById('Asample13').value || !document.getElementById('Asample14').value || !document.getElementById('Asample15').value){
+
+      document.getElementById('sub').setAttribute('disabled', 'disabled');
+     }else{
+      document.getElementById('sub').removeAttribute('disabled');
+     }
+      divRepresentant.setAttribute('hidden', 'hidden');
+      divAdherent.removeAttribute('hidden', 'hidden');
+    }
+   }, 200);
+
+  });
+
+  function onSelect(value, sample){
+  console.log(sample);
+  document.getElementById(sample).setAttribute("value", value);
+}
+</script>
