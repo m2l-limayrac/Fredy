@@ -113,6 +113,28 @@ INSERT INTO `notedefrais` (`Id_NoteDeFrais`) VALUES
 INSERT INTO `representant` (`Nom`, `Prenom`, `Rue`, `Cp`, `Ville`, `Id_Demandeur`, `id_representant`) VALUES
 ('number2', 'prenom e', 'rue efez2', '2', 'two', 1, 1),
 ('Coptere', 'Lili', '4 Rue de l\'?®lice', '1200', 'SuperCopter', 2, 2);
+--
+-- Déclencheurs `lignefrais`
+--
+DELIMITER $$
+CREATE TRIGGER `before_insert_ligneFrais` BEFORE INSERT ON `lignefrais` FOR EACH ROW BEGIN
+
+DECLARE newDate date;
+
+	select strToDate(NEW.Date) INTO newDate;
+
+END
+$$
+DELIMITER ;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;e;
+
+END
+$$
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

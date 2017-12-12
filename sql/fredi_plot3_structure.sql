@@ -115,19 +115,7 @@ CREATE TABLE `lignefrais` (
   `Id_Motif` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déclencheurs `lignefrais`
---
-DELIMITER $$
-CREATE TRIGGER `before_insert_ligneFrais` BEFORE INSERT ON `lignefrais` FOR EACH ROW BEGIN
 
-DECLARE newDate date;
-
-	select strToDate(NEW.Date) INTO newDate;
-
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
