@@ -5,7 +5,7 @@
 ?>
 <style type="text/css">
 	.Id_ligne{
-		width: 44px;
+		width: 20px;
 	}
 	.Date{
 		width: 90px;
@@ -17,17 +17,20 @@
 		width: 150px;
 	}
 	.Motif{
-		width: 72px;
+		width: 75px;
 	}
 	.mdl-data-table th{
 		text-align: center;
+	}
+	.ajust{
+		margin-left: -4%;
 	}
 </style>
 <!-- <pre>
 <?php print_r($ligne); ?>
 </pre> -->
 <form action="<?php echo BASEURL.'/'.$action.'/'.$ligne->get_Id_ligne(); ?>" method="post">
-	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
+	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp ajust">
 		<thead>
 			<tr>
 				<th class="mdl-data-table__cell--non-numeric">ligne de frais</th>

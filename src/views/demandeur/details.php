@@ -15,22 +15,18 @@ echo "</pre>";*/
 }
 
 .demo-list-radio {
-  display: inline;
+  display: inline;	
 }
 </style>
 
 <!-- List items with avatar and action -->
 <style>
-.demo-list-action {
-  width: 300px;
-}
 
-.MDF{
-	width: 72%;
-}
-.mdl-data-table th{
-		text-align: center;
-	}
+.demo-list-action {width: 300px;}
+.MDF{width: 86%;}
+.mdl-data-table th{text-align: center;}
+.ajouter{margin-top: 2%;}
+
 </style>
 <pre>
 	<?php //print_r($demandeur); 
@@ -96,6 +92,7 @@ echo "</pre>";*/
 								<tbody>
 							      <?php foreach ($note->get_les_lignes() as $ligne) { ?>
 								      <tr>
+					<div class="demo-list-action mdl-list">
 
 											<td style="text-align: center;">
 												<i class="material-icons">input</i>
@@ -136,12 +133,14 @@ echo "</pre>";*/
 									  				</div>
 									  		    </a>
 									  		</td>
+									  		</div>
 									  </tr>
 								  <?php } ?>
 								</tbody>
 							</table>
 							<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/add/'.$note->get_Id_NoteDeFrais(); ?>">
-								<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+								<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ajouter">
+
 								  <i class="material-icons">add</i>
 								</button>
 				  				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Ajouter une ligne de frais</div>

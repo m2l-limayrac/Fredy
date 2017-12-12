@@ -22,9 +22,12 @@
 	.mdl-data-table th{
 		text-align: center;
 	}
+	.ajust{
+		margin-left: -4%;
+	}
 </style>
 <form action="<?php echo BASEURL.'/'.$action.'/' ?>" method="post">
-	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
+	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp ajust">
 		<thead>
 			<tr>
 				<th class="mdl-data-table__cell--non-numeric">ligne de frais</th>

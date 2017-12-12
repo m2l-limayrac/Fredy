@@ -3,7 +3,7 @@ $i=1;
 ?>
 <form action="<?php echo BASEURL.'/'.$action; ?>" method="post">
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="AdresseMail" type="text" id="sample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="AdresseMail" type="email" id="sample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">AdresseMail</label>
   </div>
   <br>
@@ -24,7 +24,7 @@ $i=1;
 </label>
 
 <br>
-
+*
 <div id="isRepresentant">
   <div class="mdl-textfield mdl-js-textfield">
     <input class="mdl-textfield__input" name="Nom" type="text" id="Rsample<?php echo $i; ?>" value="">
@@ -105,6 +105,8 @@ $i=1;
       <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Nom() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
       <?php } ?>
     </ul>
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Club</label>
+
   </div>
   
 </div>
