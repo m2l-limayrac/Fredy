@@ -4,9 +4,9 @@
   if(isset($_SESSION['demandeur'])){
     $demandeur = $_SESSION['demandeur'];
   }
-  /*echo "<pre>";
+  echo "<pre>";
   print_r($demandeur);
-  echo "</pre>";*/
+  echo "</pre>";
 ?>
 
 <!doctype html>

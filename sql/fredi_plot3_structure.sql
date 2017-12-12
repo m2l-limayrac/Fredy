@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Dim 03 Décembre 2017 à 23:27
--- Version du serveur :  5.7.11
--- Version de PHP :  7.0.4
+-- Hôte : 127.0.0.1
+-- Généré le :  mar. 12 déc. 2017 à 14:54
+-- Version du serveur :  5.7.17
+-- Version de PHP :  5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -46,8 +48,9 @@ CREATE TABLE `adherent` (
   `CP` char(5) DEFAULT NULL,
   `Ville` varchar(25) DEFAULT NULL,
   `Id_Demandeur` int(11) NOT NULL,
-  `Id_Club` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `Id_Club` int(11) DEFAULT NULL,
+  `id_adherent` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -120,16 +123,7 @@ CREATE TABLE `lignefrais` (
   `Id_Motif` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déclencheurs `lignefrais`
---
-DELIMITER $$
-CREATE TRIGGER `before_insert_ligneFrais` BEFORE INSERT ON `lignefrais` FOR EACH ROW BEGIN
-DECLARE newDate date;
-	select strToDate(NEW.Date) INTO newDate;
-END
-$$
-DELIMITER ;
+
 
 -- --------------------------------------------------------
 
@@ -175,27 +169,29 @@ CREATE TABLE `representant` (
   `Rue` varchar(25) NOT NULL,
   `Cp` char(5) NOT NULL,
   `Ville` varchar(25) NOT NULL,
-  `Id_Demandeur` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `Id_Demandeur` int(11) NOT NULL,
+  `id_representant` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
 -- Index pour la table `adherent`
 --
 ALTER TABLE `adherent`
-  ADD PRIMARY KEY (`Id_Demandeur`),
-  ADD KEY `FK_ADHERENT_Id_Club` (`Id_Club`);
+  ADD PRIMARY KEY (`id_adherent`),
+  ADD KEY `FK_ADHERENT_Id_Club` (`Id_Club`),
+  ADD KEY `FK_ADHERENT_Id_Demandeur` (`Id_Demandeur`);
 
 --
 -- Index pour la table `avancer`
 --
 ALTER TABLE `avancer`
   ADD PRIMARY KEY (`Id_Demandeur`,`id_Ligne`,`Id_NoteDeFrais`),
-  ADD KEY `FK_Avancer_id_Ligne` (`id_Ligne`),
-  ADD KEY `FK_Avancer_Id_NoteDeFrais` (`Id_NoteDeFrais`);
+  ADD KEY `FK_Avancer_Id_NoteDeFrais` (`Id_NoteDeFrais`),
+  ADD KEY `FK_Avancer_id_Ligne` (`id_Ligne`);
 
 --
 -- Index pour la table `club`
@@ -246,12 +242,18 @@ ALTER TABLE `notedefrais`
 -- Index pour la table `representant`
 --
 ALTER TABLE `representant`
-  ADD PRIMARY KEY (`Id_Demandeur`);
+  ADD PRIMARY KEY (`id_representant`),
+  ADD KEY `FK_Representant_Id_Demandeur` (`Id_Demandeur`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
+--
+-- AUTO_INCREMENT pour la table `adherent`
+--
+ALTER TABLE `adherent`
+  MODIFY `id_adherent` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `club`
 --
@@ -261,7 +263,7 @@ ALTER TABLE `club`
 -- AUTO_INCREMENT pour la table `demandeur`
 --
 ALTER TABLE `demandeur`
-  MODIFY `Id_Demandeur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Id_Demandeur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT pour la table `lignefrais`
 --
@@ -276,17 +278,15 @@ ALTER TABLE `ligue`
 -- AUTO_INCREMENT pour la table `motif`
 --
 ALTER TABLE `motif`
-  MODIFY `Id_Motif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Motif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- Contraintes pour les tables exportées
+-- AUTO_INCREMENT pour la table `representant`
 --
-
+ALTER TABLE `representant`
+  MODIFY `id_representant` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- Contraintes pour la table `adherent`
+-- Contraintes pour les tables déchargées
 --
-ALTER TABLE `adherent`
-  ADD CONSTRAINT `FK_ADHERENT_Id_Club` FOREIGN KEY (`Id_Club`) REFERENCES `club` (`Id_Club`),
-  ADD CONSTRAINT `FK_ADHERENT_Id_Demandeur` FOREIGN KEY (`Id_Demandeur`) REFERENCES `demandeur` (`Id_Demandeur`);
 
 --
 -- Contraintes pour la table `avancer`
@@ -294,7 +294,7 @@ ALTER TABLE `adherent`
 ALTER TABLE `avancer`
   ADD CONSTRAINT `FK_Avancer_Id_Demandeur` FOREIGN KEY (`Id_Demandeur`) REFERENCES `demandeur` (`Id_Demandeur`),
   ADD CONSTRAINT `FK_Avancer_Id_NoteDeFrais` FOREIGN KEY (`Id_NoteDeFrais`) REFERENCES `notedefrais` (`Id_NoteDeFrais`),
-  ADD CONSTRAINT `FK_Avancer_id_Ligne` FOREIGN KEY (`id_Ligne`) REFERENCES `lignefrais` (`id_Ligne`);
+  ADD CONSTRAINT `FK_Avancer_id_Ligne` FOREIGN KEY (`id_Ligne`) REFERENCES `lignefrais` (`id_Ligne`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `club`
@@ -308,12 +308,7 @@ ALTER TABLE `club`
 ALTER TABLE `lignefrais`
   ADD CONSTRAINT `FK_LIGNEFRAIS_Annee` FOREIGN KEY (`Annee`) REFERENCES `indemnite` (`Annee`),
   ADD CONSTRAINT `FK_LIGNEFRAIS_Id_Motif` FOREIGN KEY (`Id_Motif`) REFERENCES `motif` (`Id_Motif`);
-
---
--- Contraintes pour la table `representant`
---
-ALTER TABLE `representant`
-  ADD CONSTRAINT `FK_Representant_Id_Demandeur` FOREIGN KEY (`Id_Demandeur`) REFERENCES `demandeur` (`Id_Demandeur`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
