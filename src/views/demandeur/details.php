@@ -44,6 +44,7 @@ echo "</pre>";*/
 			<th class="mdl-data-table__cell--non-numeric">Numero</th>
 			<th>Annee</th>
 			<th>détail de la note</th>
+			<th>Generer CERFA</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -65,6 +66,12 @@ echo "</pre>";*/
 								<div id="tt<?php echo $i ?>" class="icon material-icons">chevron_right</div>
 								<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Voir les lignes de frais</div>
 						    </a>
+						</td>
+						<td>
+						<a class="mdl-list__item-secondary-action show-modal" href="<?php echo BASEURL.'/demandeur/ndf_pdf/'.$demandeur->get_Id_demandeur();?>">
+								<div id="tt<?php echo $i ?>" class="icon material-icons">picture_as_pdf</div>
+								<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Generer votre CERFA</div>
+						    </a>							
 						</td>
 						  </div>
 					  

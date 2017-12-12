@@ -49,7 +49,6 @@ class IndemniteDAO extends DAO {
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
       }
-    
       foreach ($row as $key => $value) {
           $row = $value;
       }      

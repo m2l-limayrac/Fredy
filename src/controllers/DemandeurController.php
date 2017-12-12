@@ -20,6 +20,7 @@ require_once SRC . DS . 'DAO' . DS . 'LigneFraisDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'MotifDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'IndemniteDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'ClubDAO.php';
+require_once SRC . DS . 'models' . DS . 'MyFPDF.php';
 
 
 class DemandeurController extends Controller {
@@ -322,6 +323,25 @@ class DemandeurController extends Controller {
     // On redirige vers la page d'accueil
     $this->redirect('home/index');
   }
+
+  public function ndf_pdf($Id_demandeur) {
+    // Vérifie si l'demandeur est connecté
+    if (!Auth::est_authentifie()) {
+      $this->redirect('demandeur/login');
+    }
+
+    
+
+
+
+
+
+
+
+
+    //$this->redirect('demandeur/details');
+  }
+
 
 }
 
