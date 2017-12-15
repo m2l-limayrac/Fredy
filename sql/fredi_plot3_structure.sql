@@ -277,6 +277,11 @@ ALTER TABLE `motif`
 ALTER TABLE `representant`
   MODIFY `id_representant` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT pour la table `notedefrais`
+--
+ALTER TABLE `notedefrais`
+  MODIFY `Id_NoteDeFrais` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- Contraintes pour les tables déchargées
 --
 

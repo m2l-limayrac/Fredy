@@ -28,7 +28,7 @@ class Indemnite {
   }
 
   function get_tarifKilometrique() {
-    return $this->AdresseMail;
+    return $this->tarifKilometrique;
   }
 
   // Setter

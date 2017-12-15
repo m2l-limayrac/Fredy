@@ -83,6 +83,19 @@
           <?php if(isset($demandeur)){ ?>
             <span class=\"mdl-layout-title\">Bienvenue <?php echo $demandeur->get_AdresseMail(); ?></span>
             <div class="mdl-layout-spacer"></div>
+            
+            <?php if(isset($_GET['url'])){ ?>
+              <?php if($_GET['url'] == "demandeur/details"){ ?>
+              <a class="" href="<?php echo BASEURL.'/demandeur/addNDF' ?>">
+                <button id="newNDF" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ">
+
+                  <i class="material-icons">add</i>
+                </button>
+                <div class="mdl-tooltip mdl-tooltip--large" for="newNDF">Ajouter une note de frais</div>
+              </a>
+              <?php } ?>
+            <?php } ?>
+
           <?php }else { ?>
             <span class=\"mdl-layout-title\">Vous n'etes pas connecter</span>
             <?php } ?>
@@ -137,7 +150,7 @@
       
 
     <main class="mdl-layout__content mdl-color--grey-100">
-        <div class="mdl-grid demo-content">.
+        <div class="mdl-grid demo-content">
            <!-- <?php //echo Flash::show(); ?> -->
         <?php echo $content; ?>
         

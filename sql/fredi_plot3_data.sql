@@ -23,7 +23,14 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `fredi_plot3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `fredi_plot3`;
-
+DELIMITER $$
+  --
+ --- Fonctions
+ -- Déchargement des données de la table `adherent`
+  --
+ CREATE DEFINER=`root`@`localhost` FUNCTION `strToDate` (`p_str` VARCHAR(25)) RETURNS DATE RETURN str_to_date(p_str,"%Y-%m-%d")$$
+  
+ DELIMITER ;
 --
 -- Déchargement des données de la table `adherent`
 --

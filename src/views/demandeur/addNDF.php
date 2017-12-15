@@ -33,7 +33,7 @@
 	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp ajust">
 		<thead>
 			<tr>
-				<th class="mdl-data-table__cell--non-numeric">ligne de frais</th>
+				<th class="mdl-data-table__cell--non-numeric">Note de frais</th>
 				<th>Date</th>
 				<th>Km</th>
 				<th>Cout du Peage</th>
@@ -121,6 +121,7 @@
 			  				Valider
 			  				</div>
 			  		    </a></span>
+
 			  		</td>
 
 			  	
@@ -134,19 +135,22 @@
   
 
 <script type="text/javascript">
+	window.alert('vous devez ajouter une ligne de frais pour inserer une note de frais');
   $(document).ready(function(){
   	$('#datepicker').datepicker({
   		'dateFormat' : 'yy-mm-dd',
   		'yearRange' : '<?php echo $Annee_actuelle ?>:<?php echo $Annee_actuelle ?>'
   	});
-  })
-setInterval(function(){
+  });
+
+  setInterval(function(){
      if(!document.getElementById('datepicker').value || !document.getElementById('sample2').value || !document.getElementById('sample3').value || !document.getElementById('sample4').value || !document.getElementById('sample5').value || !document.getElementById('sample6').value || !document.getElementById('sample8').value){
       document.getElementById('send').setAttribute('class', 'disable-links');
      }else{
       document.getElementById('send').removeAttribute('class');
      }
    }, 200);
+
 function onSelect(value){
 	console.log(value);
 	document.getElementById('sample8').setAttribute("value", value);

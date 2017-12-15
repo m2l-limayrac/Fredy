@@ -24,30 +24,29 @@ $i=1;
 </label>
 
 <br>
-*
 <div id="isRepresentant">
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Nom" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="NomR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Nom</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Prenom" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="PrenomR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Prenom</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Rue" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="RueR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Rue</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Cp" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="CpR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Cp</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Ville" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="VilleR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Ville</label>
   </div>
   <br>
@@ -99,10 +98,10 @@ $i=1;
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield mdl-textfield">
-    <input type="text" class="mdl-textfield__input" name="Club" id="Asample<?php echo $i; ?>" value="" readonly >
+    <input type="text" class="mdl-textfield__input" name="Id_Club" id="Asample<?php echo $i; ?>" value="" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
       <?php foreach ($Clubs as $club) { ?>
-      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Nom() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
+      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Id_Club() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
       <?php } ?>
     </ul>
     <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Club</label>

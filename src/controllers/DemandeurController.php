@@ -11,16 +11,20 @@ require_once SRC . DS . 'framework' . DS . 'Auth.php';
 require_once SRC . DS . 'models' . DS . 'Demandeur.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
 require_once SRC . DS . 'models' . DS . 'Ligue.php';
-require_once SRC . DS . 'DAO' . DS . 'DemandeurDAO.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
 require_once SRC . DS . 'models' . DS . 'LigneFrais.php';
+require_once SRC . DS . 'models' . DS . 'Representant.php';
+require_once SRC . DS . 'models' . DS . 'MyFPDF.php';
 require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigueDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'LigneFraisDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'MotifDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'IndemniteDAO.php';
 require_once SRC . DS . 'DAO' . DS . 'ClubDAO.php';
-require_once SRC . DS . 'models' . DS . 'MyFPDF.php';
+require_once SRC . DS . 'DAO' . DS . 'DemandeurDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'RepresentantDAO.php';
+require_once SRC . DS . 'DAO' . DS . 'NoteDeFraisDAO.php';
+
 
 
 class DemandeurController extends Controller {
@@ -135,9 +139,58 @@ class DemandeurController extends Controller {
 
   }
 
-  /**
-   * Détails d'un utilisateur
-   */
+   public function addNDF(){
+
+    if (!Auth::est_authentifie()) {
+      $this->redirect('demandeur/login');
+    }
+    // Lecture de tous les utilisateurs
+    $noteDeFraisDAO = new NoteDeFraisDAO();
+    $ligneFraisDAO = new LigneFraisDAO();
+    if ($this->request->exists("submit")) {
+      $Id_NoteDeFrais = $noteDeFraisDAO->insert();
+      $ligne = new LigneFrais(array(
+        'Id_ligne' =>  $this->request->get('Id_ligne'),
+        'Date' =>  $this->request->get('Date'),
+        'Km' =>  $this->request->get('Km') ? $this->request->get('Km') : 0,
+        'CoutPeage' =>  $this->request->get('CoutPeage') ? $this->request->get('CoutPeage') : 0,
+        'CoutRepas' =>  $this->request->get('CoutRepas') ? $this->request->get('CoutRepas') : 0,
+        'CoutHebergement' =>  $this->request->get('CoutHebergement') ? $this->request->get('CoutHebergement') : 0,
+        'Trajet' =>  $this->request->get('Trajet'),
+        'Motif' =>  $this->request->get('Motif')
+      ));
+      $motifDAO = new MotifDAO();
+      $ligne->set_Motif($motifDAO->findIdByName($ligne->get_Motif())->get_Id_Motif());
+      $ligne->set_Annee(substr($ligne->get_Date(), 0, 4));
+      /*echo "<pre>";
+      print_r($ligne);
+      echo "</pre>";*/
+      $lastIdLigne = $ligneFraisDAO->insert($ligne);
+
+      $ligne->set_Id_Ligne($lastIdLigne);
+      $oldDemandeur = serialize($_SESSION['demandeur']);
+      $oldDemandeur = unserialize($oldDemandeur);
+
+      $ligneFraisDAO->insertAvance($oldDemandeur->get_Id_Demandeur(), $ligne->get_Id_Ligne(), $Id_NoteDeFrais);
+
+      $demandeurDAO = new DemandeurDAO();
+      $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
+      Auth::memoriser($demandeur);
+      $this->redirect('demandeur/details');
+     }else{
+      $indemniteDAO = new IndemniteDAO();
+      $Annee = $indemniteDAO->findYearByCurrentYear();
+      $motifDAO = new MotifDAO();
+      $les_motifs = $motifDAO->findAll();
+      // Appele la vue 
+      $this->show_view('demandeur/addNDF', array(
+          'les_motifs' => $les_motifs,
+          'Annee_actuelle' => $Annee,
+          'action' => 'demandeur/addNDF'
+      ));
+     }
+  }
+
   public function details() {
     // Vérifie si l'demandeur est connecté
     if (!Auth::est_authentifie()) {
@@ -226,26 +279,63 @@ class DemandeurController extends Controller {
     // Formulaire saisi ?
     $clubDAO = new ClubDAO();
     $Clubs = $clubDAO->findAll();
+
     if ($this->request->exists("submit")) {
       // le formulaire est soumis
+      $MotDePasse = $this->request->get('MotDePasse');
       $demandeur = new Demandeur(array(
           'AdresseMail' => $this->request->get('AdresseMail'),
-          'MotDePasse' => $this->request->get('MotDePasse'),
+          'MotDePasse' => $MotDePasse,
           'isRepresentant' => $this->request->get('isRepresentant')
       ));
-      if (Auth::inscrire($demandeur)) {
+      $demandeurDAO = new DemandeurDAO();
+      $demandeur->set_MotDePasse(password_hash($demandeur->get_MotDePasse(), PASSWORD_BCRYPT));
+      $demandeur->set_Id_Demandeur($demandeurDAO->insert($demandeur));
 
 
-        //INSCRIRE LE REPRESENTANT ET L'ADHERENT EN FONCTION DE ISREPRESENTANT
+      if ($demandeur->get_isRepresentant()) {
+        $representant = new Representant(array(
+          'Nom' => $this->request->get('NomR'),
+          'Prenom' => $this->request->get('PrenomR'),          
+          'Cp' => $this->request->get('CpR'),
+          'Ville' => $this->request->get('VilleR'),
+          'id_Demandeur' => $demandeur->get_Id_Demandeur(),
+          'Rue' => $this->request->get('RueR')
+        ));
 
+        $representantDAO = new RepresentantDAO();
+        $representantDAO->insert($representant);
 
+        $demandeur->set_Representant($representant);
+      }else{
+        $adherent = new Adherent(array(
+          'numLicence' => $this->request->get('numLicence'),
+          'Nom' => $this->request->get('Nom'),
+          'Prenom' => $this->request->get('Prenom'),          
+          'Sexe' => $this->request->get('Sexe'),          
+          'DateNaissance' => $this->request->get('DateNaissance'),          
+          'AdresseAdh' => $this->request->get('AdresseAdh'),          
+          'Cp' => $this->request->get('Cp'),
+          'Ville' => $this->request->get('Ville'),
+          'id_Demandeur' => $demandeur->get_Id_Demandeur(),
+          'Id_Club' => $this->request->get('Id_Club')
+        ));
 
+        $adherentDAO = new AdherentDAO();
+        $adherentDAO->insert($adherent);
 
-
-
+        $demandeur->set_Adherent($adherent);
+      }
+      
+      $demandeur->set_MotDePasse($MotDePasse);
+      if (Auth::connecter($demandeur)) {
 
         Flash::add("Vous êtes inscrit !", 1);
-        $this->redirect('adherent/ajout');
+        if ($demandeur->get_isRepresentant()) {
+          $this->redirect('adherent/ajout');
+        }else{
+          $this->redirect('demandeur/details');
+        }
       } else {
         Flash::add("Une erreur est survenue lors de l'inscription, veuillez réessayer SVP", 3);
         $this->show_view('demandeur/register', array(
