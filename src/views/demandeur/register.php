@@ -93,8 +93,9 @@ $i=1;
     <input type="text" class="mdl-textfield__input" name="Sexe" id="Asample<?php echo $i; ?>" value="" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
       <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">Masculin</li>
-      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i;  $i++; ?>')">Feminin</li>
+      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">Feminin</li>
     </ul>
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Sexe</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield mdl-textfield">
@@ -128,7 +129,6 @@ $i=1;
     var divAdherent = document.getElementById('isAdherent');
 
     setInterval(function(){
-     
 
      if(document.getElementById('radio1').checked){
       $('#datepicker').datepicker("destroy");
@@ -143,7 +143,9 @@ $i=1;
       divRepresentant.removeAttribute('hidden', 'hidden');
     }else{
       $('#datepicker').datepicker({
-      'dateFormat' : 'yy-mm-dd'
+      'dateFormat' : 'yy-mm-dd', 
+      'changeYear': true,
+      'yearRange' : '-100:-18'
     });
       $('#datepicker').addClass("hasDatepicker");
       $('#datepicker').attr('id', 'datepicker');

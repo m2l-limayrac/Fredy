@@ -13,11 +13,11 @@ class AdherentDAO extends DAO {
   private static $ClubDAO;
 
 
-  function find($numLicence) {
+  function find($id_adherent) {
 
       try {
-          $sql = "SELECT * FROM adherent WHERE numLicence = :numLicence";
-          $params = array(':numLicence' => $numLicence);
+          $sql = "SELECT * FROM adherent WHERE id_adherent = :id_adherent";
+          $params = array(':id_adherent' => $id_adherent);
           $sth = $this->executer($sql, $params);
           $row = $sth->fetch(PDO::FETCH_ASSOC);
       } catch (PDOException $ex) {
@@ -135,7 +135,7 @@ class AdherentDAO extends DAO {
   }
 
   function update(Adherent $Adherent) {
-    $sql = "UPDATE adherent set numLicence = :numLicence, Nom=:Nom,Prenom=:Prenom,Sexe=:Sexe,DateNaissance=:DateNaissance,AdresseAdh=:AdresseAdh,CP=:CP,Ville=:Ville, Id_Club=:Id_Club where Id_Demandeur=:Id_Demandeur";
+    $sql = "UPDATE adherent set numLicence = :numLicence, Nom=:Nom,Prenom=:Prenom,Sexe=:Sexe,DateNaissance=:DateNaissance,AdresseAdh=:AdresseAdh,CP=:CP,Ville=:Ville, Id_Club=:Id_Club, Id_Demandeur = :Id_Demandeur where id_adherent=:id_adherent";
     try {
       $params = array(':numLicence' => $Adherent->get_numLicence(), 
                           ':Nom' => $Adherent->get_Nom(), 
@@ -146,6 +146,7 @@ class AdherentDAO extends DAO {
                           ':CP' => $Adherent->get_CP(),
                           ':Ville' => $Adherent->get_Ville(),
                           ':Id_Demandeur' => $Adherent->get_Id_Demandeur(),
+                          ':id_adherent' => $Adherent->get_id_adherent(),
                           ':Id_Club' => $Adherent->get_Id_Club());
       $sth = $this->executer($sql, $params);
     } catch (PDOException $e) {
@@ -155,10 +156,10 @@ class AdherentDAO extends DAO {
     return $nb;  // Retourne le nombre de mise à jour
   }
 
-  function delete($numLicence) {
-    $sql = "delete from adherent where numLicence=:numLicence";
+  function delete($id_adherent) {
+    $sql = "delete from adherent where id_adherent=:id_adherent";
     try {
-      $params = array(':numLicence' => $numLicence);
+      $params = array(':id_adherent' => $id_adherent);
       $sth = $this->executer($sql, $params);
     } catch (PDOException $e) {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());

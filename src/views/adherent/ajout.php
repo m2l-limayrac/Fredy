@@ -42,8 +42,10 @@ $i=1;
     <input type="text" class="mdl-textfield__input" name="Sexe" id="Asample<?php echo $i; ?>" value="" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
       <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">Masculin</li>
-      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i;  $i++; ?>')">Feminin</li>
+      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">Feminin</li>
     </ul>
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Sexe</label>
+
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield mdl-textfield">
@@ -69,14 +71,16 @@ $i=1;
 <script type="text/javascript">
   $(document).ready(function(){
     $('#datepicker').datepicker({
-      'dateFormat' : 'yy-mm-dd'
+      'dateFormat' : 'yy-mm-dd',
+      'changeYear': true,
+      'yearRange' : '-18:+0'
     });
     
     var divRepresentant = document.getElementById('isRepresentant');
     var divAdherent = document.getElementById('isAdherent');
 
     setInterval(function(){
-      if(!document.getElementById('Asample1').value || !document.getElementById('Asample2').value || !document.getElementById('Asample3').value || !document.getElementById('Asample4').value || !document.getElementById('Asample5').value || !document.getElementById('Asample6').value || !document.getElementById('Asample7').value || !document.getElementById('Asample8').value){
+      if(!document.getElementById('Asample1').value || !document.getElementById('Asample2').value || !document.getElementById('Asample3').value || !document.getElementById('datepicker').value || !document.getElementById('Asample4').value || !document.getElementById('Asample5').value || !document.getElementById('Asample6').value || !document.getElementById('Asample7').value){
 
         document.getElementById('sub').setAttribute('disabled', 'disabled');
        }else{

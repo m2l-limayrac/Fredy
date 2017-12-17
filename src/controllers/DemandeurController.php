@@ -87,6 +87,21 @@ class DemandeurController extends Controller {
     }
   }
 
+  public function settingsAdherents($Id_Demandeur) {
+    // Vérifie si l'utilisateur est connecté
+    if (!Auth::est_authentifie()) {
+      $this->redirect('demandeur/login');
+    }
+    $demandeurDAO = new DemandeurDAO();
+    $demandeur = $demandeurDAO->find($Id_Demandeur);
+
+      // Appele la vue 
+      $this->show_view('demandeur/settingsAdherents', array(
+        'demandeur' => $demandeur,
+        'action' => 'demandeur/settingsAdherents/'.$Id_Demandeur
+      ));
+  }
+
   public function add($Id_NoteDeFrais){
 
     if (!Auth::est_authentifie()) {
@@ -283,11 +298,18 @@ class DemandeurController extends Controller {
     if ($this->request->exists("submit")) {
       // le formulaire est soumis
       $MotDePasse = $this->request->get('MotDePasse');
+      $isRepresentant = $this->request->get('isRepresentant');
+      echo gettype($isRepresentant);
+      if($isRepresentant == '0'){
+        $isRepresentant = false;
+      }
+      echo $isRepresentant;
       $demandeur = new Demandeur(array(
           'AdresseMail' => $this->request->get('AdresseMail'),
           'MotDePasse' => $MotDePasse,
-          'isRepresentant' => $this->request->get('isRepresentant')
+          'isRepresentant' => $isRepresentant
       ));
+
       $demandeurDAO = new DemandeurDAO();
       $demandeur->set_MotDePasse(password_hash($demandeur->get_MotDePasse(), PASSWORD_BCRYPT));
       $demandeur->set_Id_Demandeur($demandeurDAO->insert($demandeur));

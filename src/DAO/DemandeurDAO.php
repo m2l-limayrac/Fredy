@@ -124,12 +124,16 @@ class DemandeurDAO extends DAO {
   
   function insert(Demandeur $demandeur){
     //GLOBAL $con;
-
+    if($demandeur->get_isRepresentant()){
+      $isRepresentant = '1';
+    }else{
+      $isRepresentant = '0';
+    }
     $sql = "INSERT INTO demandeur (AdresseMail, MotDePasse, isRepresentant) VALUES (:AdresseMail, :MotDePasse, :isRepresentant)";
     try {
         $params = array(':AdresseMail' => $demandeur->get_AdresseMail(), 
                         ':MotDePasse' => $demandeur->get_MotDePasse(),
-                        ':isRepresentant' => $demandeur->get_isRepresentant());
+                        ':isRepresentant' => $isRepresentant /*$demandeur->get_isRepresentant()*/);
 
         $sth = $this->executer($sql, $params);
         $return = SELF::$connexion->lastInsertId();

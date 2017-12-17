@@ -33,7 +33,7 @@
 	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp ajust">
 		<thead>
 			<tr>
-				<th class="mdl-data-table__cell--non-numeric">Note de frais</th>
+				<th class="mdl-data-table__cell--non-numeric">Ligne de frais</th>
 				<th>Date</th>
 				<th>Km</th>
 				<th>Cout du Peage</th>

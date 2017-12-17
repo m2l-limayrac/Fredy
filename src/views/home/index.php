@@ -7,8 +7,10 @@
 	}
 	.demo-card-wide > .mdl-card__title {
 	  color: #0084FF;
-	  height: 550px;
-	  background: url('<?php echo IMG ?>/Fredy.png') center / cover; 
+	  height: 288px;
+	  /* background: url('<?php echo IMG ?>/Fredy.png') center / cover;  */
+	  background: url('<?php echo IMG ?>/Fredi.jpg') center / cover; 
+
 	}
 	.demo-card-wide > .mdl-card__menu {
 	  color: #fff;

@@ -53,7 +53,7 @@
 					</td>
 					<td style="text-align: center;">
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield Id_ligne">
-					    	<input class="mdl-textfield__input" name="Id_ligne" type="text" id="sample1" value="<?php echo $ligne->get_Id_ligne() ?>">
+					    	<input class="mdl-textfield__input" name="Id_ligne" type="text" id="sample1" value="<?php echo $ligne->get_Id_ligne() ?>" readonly>
 					    	<label class="mdl-textfield__label" for="sample1">Id_ligne..</label>
 					  	</div>
 					</td>

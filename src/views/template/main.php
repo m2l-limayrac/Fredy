@@ -2,7 +2,8 @@
 <?php 
   
   if(isset($_SESSION['demandeur'])){
-    $demandeur = $_SESSION['demandeur'];
+    $demandeur = serialize($_SESSION['demandeur']);
+    $demandeur = unserialize($demandeur);
   }
   /*echo "<pre>";
   print_r($demandeur);
@@ -38,19 +39,22 @@
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="<?php echo IMG ?>/Fredy.png">
+    <!-- <link rel="icon" sizes="192x192" href="<?php echo IMG ?>/Fredy.png"> -->
+    <link rel="icon" sizes="192x192" href="<?php echo IMG ?>/Fredi.jpg">
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Fredy">
-    <link rel="apple-touch-icon-precomposed" href="<?php echo IMG ?>/Fredy.png">
+    <meta name="apple-mobile-web-app-title" content="Fredi">
+    <!-- <link rel="apple-touch-icon-precomposed" href="<?php echo IMG ?>/Fredy.png"> -->
+    <link rel="apple-touch-icon-precomposed" href="<?php echo IMG ?>/Fredi.jpg">
 
     <!-- Tile icon for Win8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="<?php echo IMG ?>/touch/ms-touch-icon-144x144-precomposed.png">
     <meta name="msapplication-TileColor" content="#3372DF">
 
-    <link rel="shortcut icon" href="<?php echo IMG ?>/Fredy.png">
+    <!-- <link rel="shortcut icon" href="<?php echo IMG ?>/Fredy.png"> -->
+    <link rel="shortcut icon" href="<?php echo IMG ?>/Fredi.jpg">
 
     <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
     <!--
@@ -81,7 +85,11 @@
       <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
           <?php if(isset($demandeur)){ ?>
-            <span class=\"mdl-layout-title\">Bienvenue <?php echo $demandeur->get_AdresseMail(); ?></span>
+           <?php if($demandeur->get_isRepresentant()){ ?>
+            <span class=\"mdl-layout-title\">Bienvenue <?php echo $demandeur->get_Representant()->get_Nom(); ?> <?php echo $demandeur->get_Representant()->get_Prenom(); ?></span>
+          <?php }else{ ?>
+            <span class=\"mdl-layout-title\">Bienvenue <?php echo $demandeur->get_Adherent()->get_Nom(); ?> <?php echo $demandeur->get_Adherent()->get_Prenom(); ?></span>
+            <?php } ?>
             <div class="mdl-layout-spacer"></div>
             
             <?php if(isset($_GET['url'])){ ?>
@@ -97,32 +105,21 @@
             <?php } ?>
 
           <?php }else { ?>
-            <span class=\"mdl-layout-title\">Vous n'etes pas connecter</span>
+            <span class=\"mdl-layout-title\">Vous n'êtes pas connecter</span>
             <?php } ?>
-            <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-              <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-                <i class="material-icons">search</i>
-              </label>
-              <div class="mdl-textfield__expandable-holder">
-                <input class="mdl-textfield__input" type="text" id="search">
-                <label class="mdl-textfield__label" for="search">Enter your query...</label>
-              </div>
-            </div> -->
-            <!-- <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-              <i class="material-icons">more_vert</i>
-            </button>
-            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>">Déconnexion</a></li>
-            </ul> -->
           </div>
       </header>
       <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
          <header class="demo-drawer-header">
           <img src="<?php echo IMG ?>/user.jpg" class="demo-avatar">
           <div class="demo-avatar-dropdown">
-           <?php if(isset($demandeur)){ ?>
-            <span><?php echo $demandeur->get_AdresseMail(); ?></span>
-            <div class="mdl-layout-spacer"></div>
+          <?php if(isset($demandeur)){ ?>
+          <?php if($demandeur->get_isRepresentant()){ ?>
+            <span><?php echo $demandeur->get_Representant()->get_Nom(); ?> <?php echo $demandeur->get_Representant()->get_Prenom(); ?></span>
+          <?php }else{ ?>
+            <span><?php echo $demandeur->get_Adherent()->get_Nom(); ?> <?php echo $demandeur->get_Adherent()->get_Prenom(); ?></span>
+            <?php } ?>
+            <!-- <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
               <span class="visuallyhidden">Accounts</span>
@@ -130,7 +127,7 @@
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
               <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"> parametre du compte</a></li>
               <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>">Déconnexion</a></li>
-            </ul>
+            </ul> -->
             <?php }else{ ?>
             <span>Non connecté</span>
             <?php } ?>
@@ -139,10 +136,22 @@
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
 
 
+          <?php if(isset($demandeur)){ ?>
           
-          <a class="mdl-navigation__link" href="acceuil.php"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i></a>
-        
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/details' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">details</i>Detail des notes de frais</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/addNDF' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i>Ajouter une note de frais</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre du compte</a>
+            <?php if($demandeur->get_isRepresentant()){ ?>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settingsAdherents/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre des Adherents</a>
+           <?php } ?>
 
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">eject</i>Déconnexion</a>
+        
+          <?php }else{ ?>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/login' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>Se connecter</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/register' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>S'inscrire</a>
+          
+            <?php } ?>
 
 
         </nav>

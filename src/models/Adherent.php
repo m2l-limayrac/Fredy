@@ -6,11 +6,13 @@ class Adherent {
     private $Sexe;
     private $DateNaissance;
     private $AdresseAdh;
-    private $Cp;
+    private $CP;
     private $Ville;
     private $Id_Demandeur;
     private $Id_Club;
     private $Club;
+    private $id_adherent;
+
 
     function __construct(array $tab = null) {  //constructeur
      if (!is_null($tab)) {
@@ -42,8 +44,8 @@ class Adherent {
         return $this->AdresseAdh;
     }
 
-    function get_Cp() {
-        return $this->Cp;
+    function get_CP() {
+        return $this->CP;
     }
 
     function get_Ville() {
@@ -60,6 +62,10 @@ class Adherent {
     
     function get_Club() {
         return $this->Club;
+    }
+
+    function get_id_adherent() {
+        return $this->id_adherent;
     }
 
     function set_numLicence($numLicence) {
@@ -86,8 +92,8 @@ class Adherent {
         $this->AdresseAdh = $AdresseAdh;
     }
 
-    function set_Cp($Cp) {
-        $this->Cp = $Cp;
+    function set_CP($CP) {
+        $this->CP = $CP;
     }
 
     function set_Ville($Ville) {
@@ -104,6 +110,10 @@ class Adherent {
 
     function set_Club($Club) {
         $this->Club = $Club;
+    }
+
+    function set_id_adherent($id_adherent) {
+        $this->id_adherent = $id_adherent;
     }
 
     function hydrater(array $tableau) { //appel les setter de toutes les methodes passer dans un tableau.
