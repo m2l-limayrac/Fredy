@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mar. 12 déc. 2017 à 14:54
+-- Généré le :  Dim 17 déc. 2017 à 20:04
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -21,8 +22,16 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `fredi_plot3`
 --
-CREATE DATABASE IF NOT EXISTS `fredi_plot3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE `fredi_plot3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `fredi_plot3`;
+
+DELIMITER $$
+--
+-- Fonctions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `strToDate` (`p_str` VARCHAR(25)) RETURNS DATE RETURN str_to_date(p_str,"%Y-%m-%d")$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -30,7 +39,7 @@ USE `fredi_plot3`;
 -- Structure de la table `adherent`
 --
 
-CREATE TABLE `adherent` (
+CREATE TABLE IF NOT EXISTS `adherent` (
   `numLicence` int(11) DEFAULT NULL,
   `Nom` varchar(25) DEFAULT NULL,
   `Prenom` varchar(25) DEFAULT NULL,
@@ -41,7 +50,10 @@ CREATE TABLE `adherent` (
   `Ville` varchar(25) DEFAULT NULL,
   `Id_Demandeur` int(11) NOT NULL,
   `Id_Club` int(11) DEFAULT NULL,
-  `id_adherent` int(11) NOT NULL
+  `id_adherent` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_adherent`),
+  KEY `FK_ADHERENT_Id_Club` (`Id_Club`),
+  KEY `FK_ADHERENT_Id_Demandeur` (`Id_Demandeur`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -50,10 +62,13 @@ CREATE TABLE `adherent` (
 -- Structure de la table `avancer`
 --
 
-CREATE TABLE `avancer` (
+CREATE TABLE IF NOT EXISTS `avancer` (
   `Id_Demandeur` int(11) NOT NULL,
   `id_Ligne` int(11) NOT NULL,
-  `Id_NoteDeFrais` int(11) NOT NULL
+  `Id_NoteDeFrais` int(11) NOT NULL,
+  PRIMARY KEY (`Id_Demandeur`,`id_Ligne`,`Id_NoteDeFrais`),
+  KEY `FK_Avancer_Id_NoteDeFrais` (`Id_NoteDeFrais`),
+  KEY `FK_Avancer_id_Ligne` (`id_Ligne`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -62,15 +77,17 @@ CREATE TABLE `avancer` (
 -- Structure de la table `club`
 --
 
-CREATE TABLE `club` (
-  `Id_Club` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `club` (
+  `Id_Club` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(25) NOT NULL,
   `AdresseClub` varchar(30) DEFAULT NULL,
   `Cp` char(5) NOT NULL,
   `Ville` varchar(25) DEFAULT NULL,
   `Sigle` varchar(25) DEFAULT NULL,
   `NomPresident` varchar(25) DEFAULT NULL,
-  `Id_Ligue` int(11) DEFAULT NULL
+  `Id_Ligue` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id_Club`),
+  KEY `FK_CLUB_Id_Ligue` (`Id_Ligue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -79,11 +96,12 @@ CREATE TABLE `club` (
 -- Structure de la table `demandeur`
 --
 
-CREATE TABLE `demandeur` (
-  `Id_Demandeur` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `demandeur` (
+  `Id_Demandeur` int(11) NOT NULL AUTO_INCREMENT,
   `AdresseMail` varchar(50) DEFAULT NULL,
   `MotDePasse` varchar(60) DEFAULT NULL,
-  `isRepresentant` tinyint(4) NOT NULL DEFAULT '0'
+  `isRepresentant` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`Id_Demandeur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -92,9 +110,10 @@ CREATE TABLE `demandeur` (
 -- Structure de la table `indemnite`
 --
 
-CREATE TABLE `indemnite` (
+CREATE TABLE IF NOT EXISTS `indemnite` (
   `Annee` year(4) NOT NULL,
-  `tarifKilometrique` float NOT NULL
+  `tarifKilometrique` float NOT NULL,
+  PRIMARY KEY (`Annee`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -103,8 +122,8 @@ CREATE TABLE `indemnite` (
 -- Structure de la table `lignefrais`
 --
 
-CREATE TABLE `lignefrais` (
-  `id_Ligne` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `lignefrais` (
+  `id_Ligne` int(11) NOT NULL AUTO_INCREMENT,
   `Date` date DEFAULT NULL,
   `Km` float DEFAULT NULL,
   `CoutPeage` float(25,0) NOT NULL DEFAULT '0',
@@ -112,10 +131,25 @@ CREATE TABLE `lignefrais` (
   `CoutHebergement` float(25,0) NOT NULL DEFAULT '0',
   `Trajet` varchar(25) DEFAULT NULL,
   `Annee` year(4) NOT NULL,
-  `Id_Motif` int(11) NOT NULL
+  `Id_Motif` int(11) NOT NULL,
+  PRIMARY KEY (`id_Ligne`),
+  KEY `FK_LIGNEFRAIS_Annee` (`Annee`),
+  KEY `FK_LIGNEFRAIS_Id_Motif` (`Id_Motif`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déclencheurs `lignefrais`
+--
+DELIMITER $$
+CREATE TRIGGER `before_insert_ligneFrais` BEFORE INSERT ON `lignefrais` FOR EACH ROW BEGIN
 
+DECLARE newDate date;
+
+	select strToDate(NEW.Date) INTO newDate;
+
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -123,9 +157,10 @@ CREATE TABLE `lignefrais` (
 -- Structure de la table `ligue`
 --
 
-CREATE TABLE `ligue` (
-  `Id_Ligue` int(11) NOT NULL,
-  `Nom_ligue` varchar(25) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS `ligue` (
+  `Id_Ligue` int(11) NOT NULL AUTO_INCREMENT,
+  `Nom_ligue` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`Id_Ligue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -134,9 +169,10 @@ CREATE TABLE `ligue` (
 -- Structure de la table `motif`
 --
 
-CREATE TABLE `motif` (
-  `Id_Motif` int(11) NOT NULL,
-  `Libelle` varchar(25) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS `motif` (
+  `Id_Motif` int(11) NOT NULL AUTO_INCREMENT,
+  `Libelle` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`Id_Motif`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -145,8 +181,9 @@ CREATE TABLE `motif` (
 -- Structure de la table `notedefrais`
 --
 
-CREATE TABLE `notedefrais` (
-  `Id_NoteDeFrais` int(11) NOT NULL
+CREATE TABLE IF NOT EXISTS `notedefrais` (
+  `Id_NoteDeFrais` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`Id_NoteDeFrais`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -155,132 +192,18 @@ CREATE TABLE `notedefrais` (
 -- Structure de la table `representant`
 --
 
-CREATE TABLE `representant` (
+CREATE TABLE IF NOT EXISTS `representant` (
   `Nom` varchar(25) NOT NULL,
   `Prenom` varchar(25) NOT NULL,
   `Rue` varchar(25) NOT NULL,
   `Cp` char(5) NOT NULL,
   `Ville` varchar(25) NOT NULL,
   `Id_Demandeur` int(11) NOT NULL,
-  `id_representant` int(11) NOT NULL
+  `id_representant` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_representant`),
+  KEY `FK_Representant_Id_Demandeur` (`Id_Demandeur`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `adherent`
---
-ALTER TABLE `adherent`
-  ADD PRIMARY KEY (`id_adherent`),
-  ADD KEY `FK_ADHERENT_Id_Club` (`Id_Club`),
-  ADD KEY `FK_ADHERENT_Id_Demandeur` (`Id_Demandeur`);
-
---
--- Index pour la table `avancer`
---
-ALTER TABLE `avancer`
-  ADD PRIMARY KEY (`Id_Demandeur`,`id_Ligne`,`Id_NoteDeFrais`),
-  ADD KEY `FK_Avancer_Id_NoteDeFrais` (`Id_NoteDeFrais`),
-  ADD KEY `FK_Avancer_id_Ligne` (`id_Ligne`);
-
---
--- Index pour la table `club`
---
-ALTER TABLE `club`
-  ADD PRIMARY KEY (`Id_Club`),
-  ADD KEY `FK_CLUB_Id_Ligue` (`Id_Ligue`);
-
---
--- Index pour la table `demandeur`
---
-ALTER TABLE `demandeur`
-  ADD PRIMARY KEY (`Id_Demandeur`);
-
---
--- Index pour la table `indemnite`
---
-ALTER TABLE `indemnite`
-  ADD PRIMARY KEY (`Annee`);
-
---
--- Index pour la table `lignefrais`
---
-ALTER TABLE `lignefrais`
-  ADD PRIMARY KEY (`id_Ligne`),
-  ADD KEY `FK_LIGNEFRAIS_Annee` (`Annee`),
-  ADD KEY `FK_LIGNEFRAIS_Id_Motif` (`Id_Motif`);
-
---
--- Index pour la table `ligue`
---
-ALTER TABLE `ligue`
-  ADD PRIMARY KEY (`Id_Ligue`);
-
---
--- Index pour la table `motif`
---
-ALTER TABLE `motif`
-  ADD PRIMARY KEY (`Id_Motif`);
-
---
--- Index pour la table `notedefrais`
---
-ALTER TABLE `notedefrais`
-  ADD PRIMARY KEY (`Id_NoteDeFrais`);
-
---
--- Index pour la table `representant`
---
-ALTER TABLE `representant`
-  ADD PRIMARY KEY (`id_representant`),
-  ADD KEY `FK_Representant_Id_Demandeur` (`Id_Demandeur`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `adherent`
---
-ALTER TABLE `adherent`
-  MODIFY `id_adherent` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT pour la table `club`
---
-ALTER TABLE `club`
-  MODIFY `Id_Club` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `demandeur`
---
-ALTER TABLE `demandeur`
-  MODIFY `Id_Demandeur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
---
--- AUTO_INCREMENT pour la table `lignefrais`
---
-ALTER TABLE `lignefrais`
-  MODIFY `id_Ligne` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT pour la table `ligue`
---
-ALTER TABLE `ligue`
-  MODIFY `Id_Ligue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `motif`
---
-ALTER TABLE `motif`
-  MODIFY `Id_Motif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT pour la table `representant`
---
-ALTER TABLE `representant`
-  MODIFY `id_representant` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT pour la table `notedefrais`
---
-ALTER TABLE `notedefrais`
-  MODIFY `Id_NoteDeFrais` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Contraintes pour les tables déchargées
 --
@@ -305,6 +228,7 @@ ALTER TABLE `club`
 ALTER TABLE `lignefrais`
   ADD CONSTRAINT `FK_LIGNEFRAIS_Annee` FOREIGN KEY (`Annee`) REFERENCES `indemnite` (`Annee`),
   ADD CONSTRAINT `FK_LIGNEFRAIS_Id_Motif` FOREIGN KEY (`Id_Motif`) REFERENCES `motif` (`Id_Motif`);
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
