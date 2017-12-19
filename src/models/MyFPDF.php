@@ -67,6 +67,7 @@ class MyFPDF extends FPDF {
           $this->Cell($w[8],10,$total,'LR',0,'C');;
           $totalT = $totalT+$total;
           $this->Ln();
+          
       }
           $this->Cell(array_sum($w),0,'','T');
           $this->Ln();

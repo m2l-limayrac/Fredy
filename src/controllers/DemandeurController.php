@@ -477,18 +477,27 @@ class DemandeurController extends Controller {
 
       $pdf->Cell(28, 35, c("Je sousigné(e)"), $border, 1, 'L');
       $pdf->SetFont ('Arial', '', 11);
-      $pdf->Cell(36, -23, c($representant->get_Nom().' '.$representant->get_Prenom()), $border, 1, 'L');
+
+      $pdf->ln(-13);
+      $pdf->Cell(190, 7, c($representant->get_Nom().' '.$representant->get_Prenom()), 1, 1, 'C');
+      $pdf->ln(-13);
+
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(21, 35, c("Demeurant"), $border, 1, 'L');
       $pdf->SetFont ('Arial', '', 11);
-      $pdf->Cell(29, -23, c($representant->get_rue().' '.$representant->get_cp().' '.$representant->get_ville()), $border, 1, 'L');
+
+      $pdf->ln(-13);
+      $pdf->Cell(190, 7, c($representant->get_rue().' '.$representant->get_cp().' '.$representant->get_ville()), 1, 1, 'C');
+      $pdf->ln(-13);
+
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(10, 35, c("Certifie renoncer au remboursement des frais ci-dessous et les laisser a l'association"), $border, 1, 'L');
       $pdf->SetFont ('Arial', '', 11);
       $trouver = false;
       $oldNom = array();
       $oldNom[0] = "";
-      $pdf->Cell(10, -13, c(""), $border, 1, 'L');//Justification d'espace
+      //$pdf->Cell(10, -13, c(""), $border, 1, 'L');//Justification d'espace
+      $pdf->ln(-13);
       foreach ($representant->get_les_adherents() as $adherent){
         foreach ($oldNom as $nom ) {
           if($adherent->get_Club()->get_Nom() == $nom){
@@ -496,11 +505,16 @@ class DemandeurController extends Controller {
           }
         }       
         if($trouver == false){
-          $pdf->Cell(60, 8, c($adherent->get_Club()->get_Nom().' '.$adherent->get_Club()->get_AdresseClub().' '.$adherent->get_Club()->get_Cp().' '.$adherent->get_Club()->get_Ville()), $border, 1, 'L');
+
+          $pdf->ln(0);
+          $pdf->Cell(190, 7, c($adherent->get_Club()->get_Nom().' '.$adherent->get_Club()->get_AdresseClub().' '.$adherent->get_Club()->get_Cp().' '.$adherent->get_Club()->get_Ville()), 1, 1, 'C');
+          $pdf->ln(0);
+
         }
         $oldNom[] = $adherent->get_Club()->get_Nom();
         $trouver = false;
       }
+
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(21, 8, c("en tant que don."), $border, 1, 'L');
       $pdf->SetFont ('Arial', 'B', 11);
@@ -512,12 +526,13 @@ class DemandeurController extends Controller {
       $lignes = $noteDeFrais->get_les_lignes();
       $totalT=$pdf->ImprovedTable($header, $lignes,$indemnite);
       $pdf->SetFont ('Arial', 'B', 11);
-      $pdf->Cell(30, 14, c("Je suis le représentant légale des adhérents suivants :"), $border, 0, 'L');
+      $pdf->Cell(30, 14, c("Je suis le représentant légal des adhérents suivants :"), $border, 0, 'L');
       $pdf->Ln();
       $pdf->SetFont ('Arial', '', 11);
       foreach ($representant->get_les_adherents() as $adherent){
-          $pdf->Cell(30, 8, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), $border, 0, 'L');
-          $pdf->Ln(7);
+        $pdf->ln(0);
+      $pdf->Cell(190, 7, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), 1, 1, 'C');
+      $pdf->ln(0);
       }
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(30, 14, c("Montant total des dons : ".$totalT), $border,0, 'L');
@@ -545,16 +560,28 @@ class DemandeurController extends Controller {
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(28, 35, c("Je sousigné(e)"), $border, 1, 'L');
       $pdf->SetFont ('Arial', '', 10);
-      $pdf->Cell(20, -23, c($adherent->get_Nom().' '.$adherent->get_Prenom()), $border, 1, 'L');
+
+      $pdf->ln(-13);
+      $pdf->Cell(190, 7, c($adherent->get_Nom().' '.$adherent->get_Prenom()), 1, 1, 'C');
+      $pdf->ln(-13);
+
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(21, 35, c("Demeurant"), $border, 1, 'L');
       $pdf->SetFont ('Arial', '', 10);
-      $pdf->Cell(68, -23, c($adherent->get_AdresseAdh().' '.$adherent->get_cp().' '.$adherent->get_ville()), $border, 1, 'L');
+
+      $pdf->ln(-13);
+      $pdf->Cell(190, 7, c($adherent->get_AdresseAdh().' '.$adherent->get_cp().' '.$adherent->get_ville()), 1, 1, 'C');
+      $pdf->ln(-13);
+
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(160, 38, c("Certifie renoncer au remboursement des frais ci-dessous et les laisser a l'association"), $border, 1, 'L');
-      $pdf->Cell(10, -16, c(""), $border, 1, 'L');//Justification d'espace
+     // $pdf->Cell(10, -16, c(""), $border, 1, 'L');//Justification d'espace
       $pdf->SetFont ('Arial', '', 10);
-      $pdf->Cell(15, 8, c($adherent->get_Club()->get_Nom()), $border, 1, 'L');
+
+      $pdf->ln(-13);
+      $pdf->Cell(190, 7, c($adherent->get_Club()->get_Nom()), 1, 1, 'C');
+      $pdf->ln(0);
+
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(21, 8, c("en tant que don."), $border, 1, 'L');
       $pdf->SetFont ('Arial', 'B', 11);
@@ -568,7 +595,11 @@ class DemandeurController extends Controller {
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(28, 14, c("Je suis licencié sous le n° de licence suivant :"), $border, 0, 'L');
       $pdf->SetFont ('Arial', '', 10);
-      $pdf->Cell(28, 25, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), $border, 0, 'R');
+
+      $pdf->ln();
+      $pdf->Cell(190, 7, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), 1, 1, 'C');
+      $pdf->ln();
+
       $pdf->Ln();
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(30, -8, c("Montant total des dons : ".$totalT), $border,0, 'L');
@@ -593,12 +624,6 @@ class DemandeurController extends Controller {
     }
     
   $pdf->Output();
-    
-  /*$pdf->Output('F', $filename);*/
-    //$this->redirect('demandeur/details');
-  }
-
-
 }
-
+}
 // Classe AdherentController
