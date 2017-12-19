@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mar. 12 déc. 2017 à 14:55
+-- Généré le :  Dim 17 déc. 2017 à 20:05
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -29,74 +30,78 @@ USE `fredi_plot3`;
 --
 
 INSERT INTO `adherent` (`numLicence`, `Nom`, `Prenom`, `Sexe`, `DateNaissance`, `AdresseAdh`, `CP`, `Ville`, `Id_Demandeur`, `Id_Club`, `id_adherent`) VALUES
-(170540010, 'Bamdiela', 'Clement', 'M', '2017-09-03', '2 rue widrick', '3000', 'Toulouse', 1, 1, 1),
-(170540011, 'Javel', 'Aude', 'F', '2017-09-12', '5 rue a cot?® de ', '25660', 'A droite de ', 2, 2, 2),
-(170540010, 'berbier', 'clement', 'H', '2017-12-18', '12 rue de machin', '31000', 'toulouse', 1, 1, 3),
-(1758957875, 'Roma', 'nichel', 'H', '2017-12-04', 'caravane', '0', 'partout', 1, 2, 4);
+(1259875, 'Berbier', 'Stephane', 'M', '2003-12-25', '5 passage rouliou', '35200', 'Nancy', 1, 2, 1),
+(1259894, 'Berbier', 'Lucie', 'F', '2011-12-05', '5 passage rouliou', '35200', 'Nancy', 1, 4, 2),
+(1459274, 'Diolo', 'Corentin', 'M', '1994-09-19', '8 place gironde', '35200', 'Nancy', 2, 3, 3);
 
 --
 -- Déchargement des données de la table `avancer`
 --
 
 INSERT INTO `avancer` (`Id_Demandeur`, `id_Ligne`, `Id_NoteDeFrais`) VALUES
-(1, 1, 1),
-(1, 3, 1),
-(1, 4, 1),
-(2, 2, 2);
+(1, 5, 1),
+(1, 6, 1),
+(1, 1, 2),
+(1, 2, 2),
+(1, 3, 2),
+(2, 7, 3),
+(2, 8, 3);
 
 --
 -- Déchargement des données de la table `club`
 --
 
 INSERT INTO `club` (`Id_Club`, `Nom`, `AdresseClub`, `Cp`, `Ville`, `Sigle`, `NomPresident`, `Id_Ligue`) VALUES
-(1, 'lapinrou', '3 rue du honk-honk', '31000', 'lapinville', NULL, 'Bugs Bunny', 1),
-(2, 'pinsella', '8 rue de la grotte', '32000', 'lascaux', NULL, 'BlobFish', 2);
+(2, 'Nancy Football Club', '3 rue du foot', '54200', 'nancy', 'NFC', 'Pichon', 1),
+(3, 'Nancy Rugby Club', '5 rue du rugby', '35200', 'Nancy', 'NRC', 'Benjamin Rolin', 2),
+(4, 'Nancy Badminton Club', '8 rue du volant', '32500', 'Nancy', 'NBC', 'Gérard Plodon', 3);
 
 --
 -- Déchargement des données de la table `demandeur`
 --
 
 INSERT INTO `demandeur` (`Id_Demandeur`, `AdresseMail`, `MotDePasse`, `isRepresentant`) VALUES
-(1, 'tutu@monmail.fr', '$2y$10$2gTVcXJ9ddxyioWiw91c3eVHfJhlmZhZUFF8QoRYolKn5ADHWWGtW', 1),
-(2, 'tata@sonmail.fr', '$2y$10$das67oKRGIUYANcIgtpujuTeCz2MvtJSYxm9MDJiuJD/gU.M.okGC', 0),
-(8, 'test', '$2y$10$58SP/.zWx8LYA4bJCHBpE.A8hY78W06YoUs56CDQG7rqNdHMDQDeq', 1);
+(1, 'simon.berbier@gmail.com', '$2y$10$Q9P.gaJKZc4scIDzHKMwguBuMaQzAoBdp6F5xYELer7mt4RFJvUyG', 1),
+(2, 'corentin.diolo@gmail.com', '$2y$10$pkhApG8zUvK0jXmZC0J89eFLFmCW55mfqjcgmK870dNIlHknFN1Mm', 0);
 
 --
 -- Déchargement des données de la table `indemnite`
 --
 
 INSERT INTO `indemnite` (`Annee`, `tarifKilometrique`) VALUES
-(2009, 0.28),
-(2012, 0.52),
-(2017, 0.64);
+(2016, 0.56),
+(2017, 0.57);
 
 --
 -- Déchargement des données de la table `lignefrais`
 --
 
 INSERT INTO `lignefrais` (`id_Ligne`, `Date`, `Km`, `CoutPeage`, `CoutRepas`, `CoutHebergement`, `Trajet`, `Annee`, `Id_Motif`) VALUES
-(1, '2009-10-08', 1235, 100, 100, 100, 'Toulouse-cugnaux', 2009, 2),
-(2, '2012-09-11', 2884, 215, 1500, 5000, 'toulouse-?«le-Maurice', 2012, 2),
-(3, '2017-12-11', 500, 250, 50, 50, 'paris-marseille', 2009, 2),
-(4, '2009-09-15', 896, 230, 258, 695, 'toulouse-poudlard', 2009, 3);
+(1, '2017-09-05', 5, 34, 0, 0, 'Nancy - tourcoin', 2017, 1),
+(2, '2017-10-03', 5, 5, 0, 0, 'Nancy - Maxeville', 2017, 2),
+(3, '2017-11-13', 250, 75, 58, 120, 'Nancy - Paris', 2017, 3),
+(5, '2016-04-12', 25, 15, 28, 0, 'Nancy - Eulmont', 2016, 1),
+(6, '2016-08-15', 22, 25, 63, 0, 'Nancy - Tomblaine', 2016, 1),
+(7, '2017-12-19', 42, 57, 25, 34, 'Nancy - Paris', 2017, 3),
+(8, '2017-09-03', 24, 22, 0, 24, 'Nancy - Maxeville', 2017, 2);
 
 --
 -- Déchargement des données de la table `ligue`
 --
 
 INSERT INTO `ligue` (`Id_Ligue`, `Nom_ligue`) VALUES
-(1, 'foot'),
-(2, 'rugby');
+(1, 'Football'),
+(2, 'Rugby'),
+(3, 'Badminton');
 
 --
 -- Déchargement des données de la table `motif`
 --
 
 INSERT INTO `motif` (`Id_Motif`, `Libelle`) VALUES
-(1, 'match de quidditch'),
-(2, 'match de pole dance'),
-(3, 'p?®tanque'),
-(4, 'test');
+(1, 'Match'),
+(2, 'entrainement'),
+(3, 'tournoie');
 
 --
 -- Déchargement des données de la table `notedefrais`
@@ -104,28 +109,16 @@ INSERT INTO `motif` (`Id_Motif`, `Libelle`) VALUES
 
 INSERT INTO `notedefrais` (`Id_NoteDeFrais`) VALUES
 (1),
-(2);
+(2),
+(3);
 
 --
 -- Déchargement des données de la table `representant`
 --
 
 INSERT INTO `representant` (`Nom`, `Prenom`, `Rue`, `Cp`, `Ville`, `Id_Demandeur`, `id_representant`) VALUES
-('number2', 'prenom e', 'rue efez2', '2', 'two', 1, 1),
-('Coptere', 'Lili', '4 Rue de l\'?®lice', '1200', 'SuperCopter', 2, 2);
---
--- Déclencheurs `lignefrais`
---
-DELIMITER $$
-CREATE TRIGGER `before_insert_ligneFrais` BEFORE INSERT ON `lignefrais` FOR EACH ROW BEGIN
-
-DECLARE newDate date;
-
-	select strToDate(NEW.Date) INTO newDate;
-
-END
-$$
-DELIMITER ;
+('Berbier', 'Simon', '5 passage rouliou', '32500', 'Nancy', 1, 1);
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

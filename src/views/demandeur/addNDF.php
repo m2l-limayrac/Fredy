@@ -5,7 +5,7 @@
 ?>
 <style type="text/css">
 	.Id_ligne{
-		width: 20px;
+		width: 44px;
 	}
 	.Date{
 		width: 90px;
@@ -17,7 +17,7 @@
 		width: 150px;
 	}
 	.Motif{
-		width: 75px;
+		width: 72px;
 	}
 	.mdl-data-table th{
 		text-align: center;
@@ -25,22 +25,22 @@
 	.ajust{
 		margin-left: -4%;
 	}
+	.disable-links {
+    	pointer-events: none;
+	}
 </style>
-<!-- <pre>
-<?php print_r($ligne); ?>
-</pre> -->
-<form action="<?php echo BASEURL.'/'.$action.'/'.$ligne->get_Id_ligne(); ?>" method="post">
+<form action="<?php echo BASEURL.'/'.$action.'/' ?>" method="post">
 	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp ajust">
 		<thead>
 			<tr>
-				<th class="mdl-data-table__cell--non-numeric">ligne de frais</th>
-				<th>Numero</th>
+				<th class="mdl-data-table__cell--non-numeric">Ligne de frais</th>
 				<th>Date</th>
 				<th>Km</th>
 				<th>Cout du Peage</th>
 				<th>Cout du Repas</th>
 				<th>Cout de l'hebergement</th>
 				<th>Trajet</th>
+				<th>Année</th>
 				<th>Motif</th>
 				<th>Actions</th>
 			</tr>
@@ -52,27 +52,21 @@
 						<i class="material-icons">input</i>
 					</td>
 					<td style="text-align: center;">
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield Id_ligne">
-					    	<input class="mdl-textfield__input" name="Id_ligne" type="text" id="sample1" value="<?php echo $ligne->get_Id_ligne() ?>" readonly>
-					    	<label class="mdl-textfield__label" for="sample1">Id_ligne..</label>
-					  	</div>
-					</td>
-					<td style="text-align: center;">
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield Date">
-					    	<input class="mdl-textfield__input" name="Date" type="text" id="datepicker" value="<?php echo $ligne->get_Date() ?>">
+					    	<input class="mdl-textfield__input" name="Date" type="text" id="datepicker" value="">
 					    	<label class="mdl-textfield__label" for="datepicker">Date..</label>
 					  	</div>
 					</td>
 					<td style="text-align: center;">
 						<div class="mdl-textfield mdl-js-textfield KM">
-						    <input class="mdl-textfield__input" name="Km" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2" value="<?php echo $ligne->get_Km() ?>">
+						    <input class="mdl-textfield__input" name="Km" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2" value="">
 						    <label class="mdl-textfield__label" for="sample2">Km..</label>
 						    <span class="mdl-textfield__error">Ce n'est pas un chiffre</span>
 					  	</div>
 					</td>
 					<td style="text-align: center;">
 						<div class="mdl-textfield mdl-js-textfield KM">
-						    <input class="mdl-textfield__input" name="CoutPeage" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample3" value="<?php echo $ligne->get_CoutPeage() ?>">
+						    <input class="mdl-textfield__input" name="CoutPeage" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample3" value="">
 						    <label class="mdl-textfield__label" for="sample3">Cout Peage..</label>
 						    <span class="mdl-textfield__error">Ce n'est pas un chiffre</span>
 					  	</div>
@@ -80,14 +74,14 @@
 					</td>
 					<td style="text-align: center;">
 						<div class="mdl-textfield mdl-js-textfield KM">
-						    <input class="mdl-textfield__input" name="CoutRepas" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4" value="<?php echo $ligne->get_CoutRepas()?>">
+						    <input class="mdl-textfield__input" name="CoutRepas" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4" value="">
 						    <label class="mdl-textfield__label" for="sample4">Cout Repas..</label>
 						    <span class="mdl-textfield__error">Ce n'est pas un chiffre</span>
 					  	</div>
 					</td>
 					<td style="text-align: center;">
 						<div class="mdl-textfield mdl-js-textfield KM">
-						    <input class="mdl-textfield__input" name="CoutHebergement" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample5" value="<?php echo $ligne->get_CoutHebergement()?>">
+						    <input class="mdl-textfield__input" name="CoutHebergement" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample5" value="">
 						    <label class="mdl-textfield__label" for="sample5">Cout Hébergement..</label>
 						    <span class="mdl-textfield__error">Ce n'est pas un chiffre</span>
 					  	</div>
@@ -95,13 +89,19 @@
 					</td>
 					<td style="text-align: center;">
 						<div class="mdl-textfield mdl-js-textfield mdl-textfield Trajet">
-					    	<input class="mdl-textfield__input" name="Trajet" type="text" id="sample6" value="<?php echo $ligne->get_Trajet() ?>">
+					    	<input class="mdl-textfield__input" name="Trajet" type="text" id="sample6" value="">
 					    	<label class="mdl-textfield__label" for="sample6">Trajet..</label>
 					  	</div>
 					</td>
 					<td style="text-align: center;">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield KM">
+					    	<input class="mdl-textfield__input" name="Annee" type="text" id="sample7" value="<?php echo $Annee_actuelle; ?>" readonly>
+					    	<label class="mdl-textfield__label" for="sample7">Année..</label>
+					  	</div>
+					</td>
+					<td style="text-align: center;">
 				        <div class="mdl-textfield mdl-js-textfield mdl-textfield Motif">
-				        	<input type="text" class="mdl-textfield__input" name="Motif" id="sample8" value="<?php echo $ligne->get_Motif()->get_Libelle(); ?>" readonly >
+				        	<input type="text" class="mdl-textfield__input" name="Motif" id="sample8" value="" readonly>
 				        	<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="sample8">
 				        		<?php foreach ($les_motifs as $motif) { ?>
 				        		<li class="mdl-menu__item" onclick="onSelect('<?php echo $motif->get_Libelle(); ?>')"><?php echo $motif->get_Libelle(); ?></li>
@@ -109,17 +109,19 @@
 				        	</ul>
 				        </div>
 					</td>
+
 					<td style="text-align: center;">
 			  		    <a class="mdl-list__item-secondary-action" href="#" onclick="avort()">
 			  				<div id="tt1" class="icon material-icons">cancel</div>
-			  				<div class="mdl-tooltip mdl-tooltip--large" for="tt1">Annuler la modification</div>
+			  				<div class="mdl-tooltip mdl-tooltip--large" for="tt1">Annuler l'insertion</div>
 			  		    </a>
-			  		    <a class="mdl-list__item-secondary-action" href="#" onclick="send()">
+			  		    <span class="disable-links" id="send"><a class="mdl-list__item-secondary-action" href="#" onclick="send()">
 			  				<div id="tt2" class="icon material-icons" style="margin-left: 40%;">check</div>
 			  				<div class="mdl-tooltip mdl-tooltip--large" for="tt2">
 			  				Valider
 			  				</div>
-			  		    </a>
+			  		    </a></span>
+
 			  		</td>
 
 			  	
@@ -133,12 +135,21 @@
   
 
 <script type="text/javascript">
+	window.alert('vous devez ajouter une ligne de frais pour inserer une note de frais');
   $(document).ready(function(){
   	$('#datepicker').datepicker({
   		'dateFormat' : 'yy-mm-dd',
-  		'yearRange' : '<?php echo $ligne->get_Annee() ?>:<?php echo $ligne->get_Annee() ?>'
+  		'yearRange' : '<?php echo $Annee_actuelle ?>:<?php echo $Annee_actuelle ?>'
   	});
-  })
+  });
+
+  setInterval(function(){
+     if(!document.getElementById('datepicker').value || !document.getElementById('sample2').value || !document.getElementById('sample3').value || !document.getElementById('sample4').value || !document.getElementById('sample5').value || !document.getElementById('sample6').value || !document.getElementById('sample8').value){
+      document.getElementById('send').setAttribute('class', 'disable-links');
+     }else{
+      document.getElementById('send').removeAttribute('class');
+     }
+   }, 200);
 
 function onSelect(value){
 	console.log(value);

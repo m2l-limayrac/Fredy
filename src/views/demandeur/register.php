@@ -3,7 +3,7 @@ $i=1;
 ?>
 <form action="<?php echo BASEURL.'/'.$action; ?>" method="post">
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="AdresseMail" type="text" id="sample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="AdresseMail" type="email" id="sample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">AdresseMail</label>
   </div>
   <br>
@@ -24,30 +24,29 @@ $i=1;
 </label>
 
 <br>
-
 <div id="isRepresentant">
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Nom" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="NomR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Nom</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Prenom" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="PrenomR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Prenom</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Rue" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="RueR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Rue</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Cp" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="CpR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Cp</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" name="Ville" type="text" id="Rsample<?php echo $i; ?>" value="">
+    <input class="mdl-textfield__input" name="VilleR" type="text" id="Rsample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="Rsample<?php echo $i; $i++; ?>">Ville</label>
   </div>
   <br>
@@ -94,17 +93,20 @@ $i=1;
     <input type="text" class="mdl-textfield__input" name="Sexe" id="Asample<?php echo $i; ?>" value="" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
       <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">Masculin</li>
-      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i;  $i++; ?>')">Feminin</li>
+      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">Feminin</li>
     </ul>
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Sexe</label>
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield mdl-textfield">
-    <input type="text" class="mdl-textfield__input" name="Club" id="Asample<?php echo $i; ?>" value="" readonly >
+    <input type="text" class="mdl-textfield__input" name="Id_Club" id="Asample<?php echo $i; ?>" value="" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
       <?php foreach ($Clubs as $club) { ?>
-      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Nom() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
+      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Id_Club() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
       <?php } ?>
     </ul>
+    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Club</label>
+
   </div>
   
 </div>
@@ -127,7 +129,6 @@ $i=1;
     var divAdherent = document.getElementById('isAdherent');
 
     setInterval(function(){
-     
 
      if(document.getElementById('radio1').checked){
       $('#datepicker').datepicker("destroy");
@@ -142,7 +143,9 @@ $i=1;
       divRepresentant.removeAttribute('hidden', 'hidden');
     }else{
       $('#datepicker').datepicker({
-      'dateFormat' : 'yy-mm-dd'
+      'dateFormat' : 'yy-mm-dd', 
+      'changeYear': true,
+      'yearRange' : '-100:-18'
     });
       $('#datepicker').addClass("hasDatepicker");
       $('#datepicker').attr('id', 'datepicker');

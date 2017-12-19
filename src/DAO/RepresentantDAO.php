@@ -52,8 +52,25 @@ class RepresentantDAO extends DAO {
       return $objects;     
   }
 
+function insert(Representant $representant){
+    //GLOBAL $con;
+
+    $sql = "INSERT INTO representant (Nom, Prenom, Rue, Cp, Ville, id_Demandeur) VALUES (:Nom, :Prenom, :Rue, :Cp, :Ville, :id_Demandeur)";
+    try {
+        $params = array(':Nom' => $representant->get_Nom(),
+                        ':Prenom' => $representant->get_Prenom(),
+                        ':Rue' => $representant->get_Rue(),
+                        ':Cp' => $representant->get_Cp(),
+                        ':Ville' => $representant->get_Ville(),
+                        ':id_Demandeur' => $representant->get_id_Demandeur());
+        $sth = $this->executer($sql, $params);
+    } catch (PDOException $ex) {
+        die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
+    }
+}
+
   function update(Representant $representant){
-    print_r($representant);
+    //print_r($representant);
     //GLOBAL $con;
     
     $sql = "UPDATE representant SET Nom = :Nom, Prenom = :Prenom, Rue = :Rue, Cp = :Cp, Ville = :Ville WHERE Id_Demandeur = :Id_Demandeur";

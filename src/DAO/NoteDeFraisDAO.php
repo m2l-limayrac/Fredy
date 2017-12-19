@@ -59,16 +59,17 @@ class NoteDeFraisDAO extends DAO {
     return $objects;
   }
   
-  function insert(NoteDeFrais $noteDeFrais){
+  function insert(){
     //GLOBAL $con;
 
-    $sql = "INSERT INTO noteDeFrais (Id_NoteDeFrais) VALUES (:Id_NoteDeFrais)";
+    $sql = "INSERT INTO noteDeFrais () VALUES ()";
     try {
-        $params = array(':Id_NoteDeFrais' => $noteDeFrais->get_Id_NoteDeFrais());
-        $sth = $this->executer($sql, $params);
+        $sth = $this->executer($sql);
+        $return = SELF::$connexion->lastInsertId();
     } catch (PDOException $ex) {
         die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
     }
+    return $return;
 }
 
   function update(NoteDeFrais $noteDeFrais){

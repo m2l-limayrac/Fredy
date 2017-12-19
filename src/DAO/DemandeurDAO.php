@@ -64,7 +64,7 @@ class DemandeurDAO extends DAO {
 
 
   function findAllByMail($AdresseMail) {
-    $sql = "SELECT * FROM demandeur WHERE AdresseMail=:AdresseMail";
+    $sql = "SELECT DISTINCT * FROM demandeur WHERE AdresseMail=:AdresseMail";
     try {
       $params = array(":AdresseMail" => $AdresseMail);
       $sth = $this->executer($sql, $params);
@@ -78,8 +78,8 @@ class DemandeurDAO extends DAO {
         SELF::$NoteDeFraisDAO = new NoteDeFraisDAO();
       }*/
       if(SELF::$RepresentantDAO == null){
-      SELF::$RepresentantDAO = new RepresentantDAO();
-    }
+        SELF::$RepresentantDAO = new RepresentantDAO();
+      }
       $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));
       if($demandeur->get_isRepresentant()){
         if(SELF::$RepresentantDAO == null){
@@ -124,17 +124,23 @@ class DemandeurDAO extends DAO {
   
   function insert(Demandeur $demandeur){
     //GLOBAL $con;
-
+    if($demandeur->get_isRepresentant()){
+      $isRepresentant = '1';
+    }else{
+      $isRepresentant = '0';
+    }
     $sql = "INSERT INTO demandeur (AdresseMail, MotDePasse, isRepresentant) VALUES (:AdresseMail, :MotDePasse, :isRepresentant)";
     try {
         $params = array(':AdresseMail' => $demandeur->get_AdresseMail(), 
                         ':MotDePasse' => $demandeur->get_MotDePasse(),
-                        ':isRepresentant' => $demandeur->get_isRepresentant());
+                        ':isRepresentant' => $isRepresentant /*$demandeur->get_isRepresentant()*/);
 
         $sth = $this->executer($sql, $params);
+        $return = SELF::$connexion->lastInsertId();
     } catch (PDOException $ex) {
         die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
     }
+    return $return;
 }
 
   function update(Demandeur $demandeur){

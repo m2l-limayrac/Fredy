@@ -22,9 +22,15 @@
 	.mdl-data-table th{
 		text-align: center;
 	}
+	.ajust{
+		margin-left: -4%;
+	}
+	.disable-links {
+    	pointer-events: none;
+	}
 </style>
 <form action="<?php echo BASEURL.'/'.$action.'/' ?>" method="post">
-	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
+	<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp ajust">
 		<thead>
 			<tr>
 				<th class="mdl-data-table__cell--non-numeric">ligne de frais</th>
@@ -109,12 +115,12 @@
 			  				<div id="tt1" class="icon material-icons">cancel</div>
 			  				<div class="mdl-tooltip mdl-tooltip--large" for="tt1">Annuler l'insertion</div>
 			  		    </a>
-			  		    <a class="mdl-list__item-secondary-action" href="#" onclick="send()">
+			  		    <span class="disable-links" id="send"><a class="mdl-list__item-secondary-action" href="#" onclick="send()">
 			  				<div id="tt2" class="icon material-icons" style="margin-left: 40%;">check</div>
 			  				<div class="mdl-tooltip mdl-tooltip--large" for="tt2">
 			  				Valider
 			  				</div>
-			  		    </a>
+			  		    </a></span>
 			  		</td>
 
 			  	
@@ -134,7 +140,13 @@
   		'yearRange' : '<?php echo $Annee_actuelle ?>:<?php echo $Annee_actuelle ?>'
   	});
   })
-
+setInterval(function(){
+     if(!document.getElementById('datepicker').value || !document.getElementById('sample2').value || !document.getElementById('sample3').value || !document.getElementById('sample4').value || !document.getElementById('sample5').value || !document.getElementById('sample6').value || !document.getElementById('sample8').value){
+      document.getElementById('send').setAttribute('class', 'disable-links');
+     }else{
+      document.getElementById('send').removeAttribute('class');
+     }
+   }, 200);
 function onSelect(value){
 	console.log(value);
 	document.getElementById('sample8').setAttribute("value", value);
