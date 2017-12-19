@@ -3,9 +3,9 @@
 //
 // Vue "Détails d'un adherent"
 //
-echo "<pre>";
+/*echo "<pre>";
 print_r($demandeur);
-echo "</pre>";
+echo "</pre>";*/
 ?>
 
 <!-- List with avatar and controls -->
@@ -69,10 +69,10 @@ echo "</pre>";
 					</a>
 				</td>
 				<td>
-					<a class="mdl-list__item-secondary-action show-modal" href="<?php echo BASEURL.'/demandeur/ndf_pdf/'.$demandeur->get_Id_demandeur();?>">
+					<a class="mdl-list__item-secondary-action show-modal" target="_blank" href="<?php echo BASEURL.'/demandeur/ndf_pdf/'.$demandeur->get_Id_demandeur().'/'.$note->get_Id_NoteDeFrais();?>">
 						<div id="tt<?php echo $i ?>" class="icon material-icons">picture_as_pdf</div>
 						<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Generer votre CERFA</div>
-					</a>							
+				    </a>							
 				</td>
 			</div>
 		</tr>

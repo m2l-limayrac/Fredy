@@ -460,6 +460,7 @@ class DemandeurController extends Controller {
 
     $pdf = new MyFPDF();
     $pdf->AddPage();
+    $pdf->setTitle('Note de frais');
     $border = 0;
     $pdf->SetMargins(10, 10, 10, 10);
 
@@ -507,47 +508,52 @@ class DemandeurController extends Controller {
       $pdf->SetFont ('Arial', '', 11);
       $pdf->Cell(215, 14, c("Tarif kilometrique appliqué pour le remboursement :".$indemnite->get_tarifKilometrique()), $border, 1, 'C');
       $pdf->SetFont('Arial', '', 9);
-      $header = array('Date', 'Motif', 'Trajet', 'Kilometre','Cout trajet','Péages','Repas','Hébergement','Total');
+      $header = array('Date', 'Motif', 'Trajet', 'Kilometre','Cout trajet',c('Péages'),'Repas',c('Hébergement'),'Total');
       $lignes = $noteDeFrais->get_les_lignes();
-      $pdf->ImprovedTable($header, $lignes,$indemnite);
+      $totalT=$pdf->ImprovedTable($header, $lignes,$indemnite);
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(30, 14, c("Je suis le représentant légale des adhérents suivants :"), $border, 0, 'L');
       $pdf->Ln();
       $pdf->SetFont ('Arial', '', 11);
       foreach ($representant->get_les_adherents() as $adherent){
-          $pdf->Cell(30, 8, c($adherent->get_Nom().' licence numéro '.$adherent->get_numLicence()), $border, 0, 'L');
+          $pdf->Cell(30, 8, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), $border, 0, 'L');
           $pdf->Ln(7);
       }
       $pdf->SetFont ('Arial', 'B', 11);
-      $pdf->Cell(30, 14, c("Montant total des dons :"), $border,0, 'L');
+      $pdf->Cell(30, 14, c("Montant total des dons : ".$totalT), $border,0, 'L');
       $pdf->SetFont ('Arial', 'I', 9);
       $pdf->Ln(7);
       $pdf->Cell(30, 14, c("Pour bénéficier du reçu de dons, cette note de frais doit être accompagnée de toutes les justificatifs correspondants"), $border, 0, 'L');
       $pdf->Ln(7);
       $pdf->SetFont ('Arial', 'B', 11);
-      $pdf->Cell(30, 14, c("A"), $border,0, 'L');
-      $pdf->Cell(30, 14, c("Le"), $border,1, 'L');
+      $pdf->Cell(30, 17, c("A"), $border,0, 'L');
+      $pdf->Cell(45, 17, c("Le"), $border,1, 'C');
       $pdf->Cell(30, 14, c("Signature du bénevole :"), $border,1, 'L');
+      $pdf->ln(7);
       $width = 100;
       $height = 15;
-      $pdf->Ln(10);
       $pdf->setX(11);
       $y = $pdf->getY(50);
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(74,8, c("Partie reservé à l'association"), $border,1, 'R');
       $pdf->SetFont ('Arial', '', 11);
-      $pdf->MultiCell($width,7, c("N° ordre de recu :\nRemis le :\nSignature du tresorier :"),1);
+      $pdf->MultiCell($width,7, c("N° ordre de recu : ".$noteDeFrais->get_les_lignes()[0]->get_Annee().' - '.$noteDeFrais->get_Id_NoteDeFrais()."\nRemis le :\nSignature du tresorier :\n\n\n"),1);
       $pdf->setY($y + $height);
     }
     else{
       $adherent = $demandeur->get_Adherent();
-
+      $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(28, 35, c("Je sousigné(e)"), $border, 1, 'L');
+      $pdf->SetFont ('Arial', '', 10);
       $pdf->Cell(20, -23, c($adherent->get_Nom().' '.$adherent->get_Prenom()), $border, 1, 'L');
+      $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(21, 35, c("Demeurant"), $border, 1, 'L');
+      $pdf->SetFont ('Arial', '', 10);
       $pdf->Cell(68, -23, c($adherent->get_AdresseAdh().' '.$adherent->get_cp().' '.$adherent->get_ville()), $border, 1, 'L');
+      $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(160, 38, c("Certifie renoncer au remboursement des frais ci-dessous et les laisser a l'association"), $border, 1, 'L');
       $pdf->Cell(10, -16, c(""), $border, 1, 'L');//Justification d'espace
+      $pdf->SetFont ('Arial', '', 10);
       $pdf->Cell(15, 8, c($adherent->get_Club()->get_Nom()), $border, 1, 'L');
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(21, 8, c("en tant que don."), $border, 1, 'L');
@@ -556,23 +562,24 @@ class DemandeurController extends Controller {
       $pdf->SetFont ('Arial', '', 11);
       $pdf->Cell(215, 14, c("Tarif kilometrique appliqué pour le remboursement :".$indemnite->get_tarifKilometrique()), $border, 1, 'C');
       $pdf->SetFont('Arial', '', 9);
-      $header = array('Date', 'Motif', 'Trajet', 'Kilometre','Cout trajet','Péages','Repas','Hébergement','Total');
+      $header = array('Date', 'Motif', 'Trajet', c('Kilomètre'),'Cout trajet',c('Péages'),'Repas',c('Hébergement'),'Total');
       $lignes = $noteDeFrais->get_les_lignes();
-      $pdf->ImprovedTable($header, $lignes,$indemnite);
+      $totalT = $pdf->ImprovedTable($header, $lignes,$indemnite);
       $pdf->SetFont ('Arial', 'B', 11);
-      $pdf->Cell(30, 14, c("Je sui licencié sous le n° de licence suivant :"), $border, 0, 'L');
-      $pdf->Cell(32, 25, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), $border, 0, 'R');
+      $pdf->Cell(28, 14, c("Je suis licencié sous le n° de licence suivant :"), $border, 0, 'L');
+      $pdf->SetFont ('Arial', '', 10);
+      $pdf->Cell(28, 25, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), $border, 0, 'R');
       $pdf->Ln();
       $pdf->SetFont ('Arial', 'B', 11);
-      $pdf->Cell(30, 14, c("Montant total des dons :"), $border,0, 'L');
+      $pdf->Cell(30, -8, c("Montant total des dons : ".$totalT), $border,0, 'L');
       $pdf->SetFont ('Arial', 'I', 9);
       $pdf->Ln(7);
-      $pdf->Cell(30, 14, c("Pour bénéficier du reçu de dons, cette note de frais doit être accompagnée de toutes les justificatifs correspondants"), $border, 0, 'L');
+      $pdf->Cell(30, -9, c("Pour bénéficier du reçu de dons, cette note de frais doit être accompagnée de toutes les justificatifs correspondants"), $border, 0, 'L');
       $pdf->Ln(7);
       $pdf->SetFont ('Arial', 'B', 11);
-      $pdf->Cell(30, 14, c("A"), $border,0, 'L');
-      $pdf->Cell(30, 14, c("Le"), $border,1, 'L');
-      $pdf->Cell(30, 14, c("Signature du bénevole :"), $border,1, 'L');
+      $pdf->Cell(30, -8, c("A"), $border,0, 'L');
+      $pdf->Cell(30, -8, c("Le"), $border,1, 'R');
+      $pdf->Cell(30, 25, c("Signature du bénevole :"), $border,1, 'L');
       $width = 100;
       $height = 15;
       $pdf->Ln(10);
@@ -581,15 +588,13 @@ class DemandeurController extends Controller {
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(74,8, c("Partie reservé à l'association"), $border,1, 'R');
       $pdf->SetFont ('Arial', '', 11);
-      $pdf->MultiCell($width,7, c("N° ordre de recu :\nRemis le :\nSignature du tresorier :"),1);
+      $pdf->MultiCell($width,7, c("N° ordre de recu : ".$noteDeFrais->get_les_lignes()[0]->get_Annee().' - '.$noteDeFrais->get_Id_NoteDeFrais()."\nRemis le :\nSignature du tresorier :\n\n\n"),1);
       $pdf->setY($y + $height);
     }
     
-  $pdf->Output();//probleme a resoudre
+  $pdf->Output();
     
-    // Génération du document PDF et envoi au navigateur
-
-    //$pdf->Output('D', $filename);//probleme a resoudre
+  /*$pdf->Output('F', $filename);*/
     //$this->redirect('demandeur/details');
   }
 
