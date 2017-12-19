@@ -23,6 +23,7 @@ require_once SRC . DS . 'DAO' . DS . 'ClubDAO.php';
 require_once SRC . DS . 'models' . DS . 'MyFPDF.php';
 
 
+
 class DemandeurController extends Controller {
 
   /**
@@ -324,21 +325,159 @@ class DemandeurController extends Controller {
     $this->redirect('home/index');
   }
 
-  public function ndf_pdf($Id_demandeur) {
+  
+  public function ndf_pdf($Id_demandeur, $Id_NoteDeFrais) {
     // Vérifie si l'demandeur est connecté
     if (!Auth::est_authentifie()) {
       $this->redirect('demandeur/login');
     }
+    function c($string) {
+      return iconv('UTF-8', 'windows-1252', $string);
+    }
+    $demandeurDAO = new DemandeurDAO();
+    $demandeur = $demandeurDAO->find($Id_demandeur);
 
+    foreach ($demandeur->get_les_notes() as $note) { // utiliser l'objet demandeur, pour recuperer la collection des notes 
+          if ($note->get_Id_NoteDeFrais() == $Id_NoteDeFrais) {// utiliser la collection des notes de frais Renomé note pour recuperer l'ID de la note de frais de l'objer note pour le comparer a id note de frais passer en parametre 
+            $noteDeFrais = $note;//utiliser noteDeFrais hors foreach
+          }
+        }
+    $Annee = $noteDeFrais->get_les_lignes()[0]->get_Annee();
+    $indemniteDAO = new IndemniteDAO();
+    $indemnite = $indemniteDAO->find($Annee);
+
+    $pdf = new MyFPDF();
+    $pdf->AddPage();
+    $border = 0;
+    $pdf->SetMargins(10, 10, 10, 10);
+
+    //$filename = "note de frais.pdf";//non utiliser probleme a resoudre
+
+    // Titre de page
+    $pdf->SetFont ('Arial', 'B', 15);
+    $pdf->Cell(70, 10, c("Note de frais des bénévoles"), $border, 1, 'C');
+    $pdf->Cell(300, -10, c("Année civile : ". $noteDeFrais->get_les_lignes()[0]->get_Annee()), $border, 1, 'C');
+    $pdf->SetFont ('Arial', 'B', 11);
+  
+    if ($demandeur->get_isRepresentant() == true) {
+      $representant = $demandeur->get_Representant();
+
+      $pdf->Cell(28, 35, c("Je sousigné(e)"), $border, 1, 'L');
+      $pdf->SetFont ('Arial', '', 11);
+      $pdf->Cell(36, -23, c($representant->get_Nom().' '.$representant->get_Prenom()), $border, 1, 'L');
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(21, 35, c("Demeurant"), $border, 1, 'L');
+      $pdf->SetFont ('Arial', '', 11);
+      $pdf->Cell(29, -23, c($representant->get_rue().' '.$representant->get_cp().' '.$representant->get_ville()), $border, 1, 'L');
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(10, 35, c("Certifie renoncer au remboursement des frais ci-dessous et les laisser a l'association"), $border, 1, 'L');
+      $pdf->SetFont ('Arial', '', 11);
+      $trouver = false;
+      $oldNom = array();
+      $oldNom[0] = "";
+      $pdf->Cell(10, -13, c(""), $border, 1, 'L');//Justification d'espace
+      foreach ($representant->get_les_adherents() as $adherent){
+        foreach ($oldNom as $nom ) {
+          if($adherent->get_Club()->get_Nom() == $nom){
+            $trouver = true;
+          }
+        }       
+        if($trouver == false){
+          $pdf->Cell(60, 8, c($adherent->get_Club()->get_Nom().' '.$adherent->get_Club()->get_AdresseClub().' '.$adherent->get_Club()->get_Cp().' '.$adherent->get_Club()->get_Ville()), $border, 1, 'L');
+        }
+        $oldNom[] = $adherent->get_Club()->get_Nom();
+        $trouver = false;
+      }
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(21, 8, c("en tant que don."), $border, 1, 'L');
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("Frais de deplacement"), $border, 0, 'L');
+      $pdf->SetFont ('Arial', '', 11);
+      $pdf->Cell(215, 14, c("Tarif kilometrique appliqué pour le remboursement :".$indemnite->get_tarifKilometrique()), $border, 1, 'C');
+      $pdf->SetFont('Arial', '', 9);
+      $header = array('Date', 'Motif', 'Trajet', 'Kilometre','Cout trajet','Péages','Repas','Hébergement','Total');
+      $lignes = $noteDeFrais->get_les_lignes();
+      $pdf->ImprovedTable($header, $lignes,$indemnite);
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("Je suis le représentant légale des adhérents suivants :"), $border, 0, 'L');
+      $pdf->Ln();
+      $pdf->SetFont ('Arial', '', 11);
+      foreach ($representant->get_les_adherents() as $adherent){
+          $pdf->Cell(30, 8, c($adherent->get_Nom().' licence numéro '.$adherent->get_numLicence()), $border, 0, 'L');
+          $pdf->Ln(7);
+      }
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("Montant total des dons :"), $border,0, 'L');
+      $pdf->SetFont ('Arial', 'I', 9);
+      $pdf->Ln(7);
+      $pdf->Cell(30, 14, c("Pour bénéficier du reçu de dons, cette note de frais doit être accompagnée de toutes les justificatifs correspondants"), $border, 0, 'L');
+      $pdf->Ln(7);
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("A"), $border,0, 'L');
+      $pdf->Cell(30, 14, c("Le"), $border,1, 'L');
+      $pdf->Cell(30, 14, c("Signature du bénevole :"), $border,1, 'L');
+      $width = 100;
+      $height = 15;
+      $pdf->Ln(10);
+      $pdf->setX(11);
+      $y = $pdf->getY(50);
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(74,8, c("Partie reservé à l'association"), $border,1, 'R');
+      $pdf->SetFont ('Arial', '', 11);
+      $pdf->MultiCell($width,7, c("N° ordre de recu :\nRemis le :\nSignature du tresorier :"),1);
+      $pdf->setY($y + $height);
+    }
+    else{
+      $adherent = $demandeur->get_Adherent();
+
+      $pdf->Cell(28, 35, c("Je sousigné(e)"), $border, 1, 'L');
+      $pdf->Cell(20, -23, c($adherent->get_Nom().' '.$adherent->get_Prenom()), $border, 1, 'L');
+      $pdf->Cell(21, 35, c("Demeurant"), $border, 1, 'L');
+      $pdf->Cell(68, -23, c($adherent->get_AdresseAdh().' '.$adherent->get_cp().' '.$adherent->get_ville()), $border, 1, 'L');
+      $pdf->Cell(160, 38, c("Certifie renoncer au remboursement des frais ci-dessous et les laisser a l'association"), $border, 1, 'L');
+      $pdf->Cell(10, -16, c(""), $border, 1, 'L');//Justification d'espace
+      $pdf->Cell(15, 8, c($adherent->get_Club()->get_Nom()), $border, 1, 'L');
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(21, 8, c("en tant que don."), $border, 1, 'L');
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("Frais de deplacement"), $border, 0, 'L');
+      $pdf->SetFont ('Arial', '', 11);
+      $pdf->Cell(215, 14, c("Tarif kilometrique appliqué pour le remboursement :".$indemnite->get_tarifKilometrique()), $border, 1, 'C');
+      $pdf->SetFont('Arial', '', 9);
+      $header = array('Date', 'Motif', 'Trajet', 'Kilometre','Cout trajet','Péages','Repas','Hébergement','Total');
+      $lignes = $noteDeFrais->get_les_lignes();
+      $pdf->ImprovedTable($header, $lignes,$indemnite);
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("Je sui licencié sous le n° de licence suivant :"), $border, 0, 'L');
+      $pdf->Cell(32, 25, c($adherent->get_Nom().' '.$adherent->get_Prenom().' licence n° '.$adherent->get_numLicence()), $border, 0, 'R');
+      $pdf->Ln();
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("Montant total des dons :"), $border,0, 'L');
+      $pdf->SetFont ('Arial', 'I', 9);
+      $pdf->Ln(7);
+      $pdf->Cell(30, 14, c("Pour bénéficier du reçu de dons, cette note de frais doit être accompagnée de toutes les justificatifs correspondants"), $border, 0, 'L');
+      $pdf->Ln(7);
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(30, 14, c("A"), $border,0, 'L');
+      $pdf->Cell(30, 14, c("Le"), $border,1, 'L');
+      $pdf->Cell(30, 14, c("Signature du bénevole :"), $border,1, 'L');
+      $width = 100;
+      $height = 15;
+      $pdf->Ln(10);
+      $pdf->setX(11);
+      $y = $pdf->getY(50);
+      $pdf->SetFont ('Arial', 'B', 11);
+      $pdf->Cell(74,8, c("Partie reservé à l'association"), $border,1, 'R');
+      $pdf->SetFont ('Arial', '', 11);
+      $pdf->MultiCell($width,7, c("N° ordre de recu :\nRemis le :\nSignature du tresorier :"),1);
+      $pdf->setY($y + $height);
+    }
     
+  $pdf->Output();//probleme a resoudre
+    
+    // Génération du document PDF et envoi au navigateur
 
-
-
-
-
-
-
-
+    //$pdf->Output('D', $filename);//probleme a resoudre
     //$this->redirect('demandeur/details');
   }
 

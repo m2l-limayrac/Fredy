@@ -7,7 +7,7 @@ class ClubDAO extends DAO {
 
   function find($Id_Club) {
 
-    $sql = "SELECT * FROM club WHERE Id_Club = :Id_Club";
+    $sql = "SELECT  * FROM club WHERE Id_Club = :Id_Club";
       try {
           $params = array(':Id_Club' => $Id_Club);
           $sth = $this->executer($sql, $params);

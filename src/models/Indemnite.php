@@ -27,8 +27,8 @@ class Indemnite {
     return $this->Annee;
   }
 
-  function get_tarifKilometrique() {
-    return $this->AdresseMail;
+  function get_tarifKilometrique() { //modification faute de frappe ()
+    return $this->tarifKilometrique;
   }
 
   // Setter
