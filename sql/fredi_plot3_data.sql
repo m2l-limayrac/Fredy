@@ -100,8 +100,8 @@ INSERT INTO `ligue` (`Id_Ligue`, `Nom_ligue`) VALUES
 
 INSERT INTO `motif` (`Id_Motif`, `Libelle`) VALUES
 (1, 'Match'),
-(2, 'entrainement'),
-(3, 'tournoie');
+(2, 'Entrainement'),
+(3, 'Tournoi');
 
 --
 -- Déchargement des données de la table `notedefrais`
