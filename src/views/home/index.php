@@ -7,7 +7,7 @@
 	}
 	.demo-card-wide > .mdl-card__title {
 	  color: #0084FF;
-	  height: 288px;
+	  height: 500px;
 	  /* background: url('<?php echo IMG ?>/Fredy.png') center / cover;  */
 	  background: url('<?php echo IMG ?>/Fredi.jpg') center / cover; 
 

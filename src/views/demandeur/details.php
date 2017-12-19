@@ -51,7 +51,7 @@ echo "</pre>";*/
 	</thead>
 	<tbody>
 		<?php foreach ($demandeur->get_les_notes() as $note) { ?>
-		<tr class="show-modal<?php echo $modal; ?>">
+		<tr >
 			<div class="demo-list-action mdl-list">
 				<td>
 					<i class="material-icons">toc</i>
@@ -62,7 +62,7 @@ echo "</pre>";*/
 				<td>
 					<?php echo $note->get_les_lignes()[0]->get_Annee(); ?>
 				</td>
-				<td>
+				<td class="show-modal<?php echo $modal; ?>">
 					<a class="mdl-list__item-secondary-action show-modal" href="#">
 						<div id="tt<?php echo $i ?>" class="icon material-icons">chevron_right</div>
 						<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Voir les lignes de frais</div>
@@ -84,7 +84,7 @@ echo "</pre>";*/
 
 <?php foreach ($demandeur->get_les_notes() as $note) { ?>
 <dialog id="dialog<?php echo $modal ?>" class="mdl-dialog MDF">
-	<div class="mdl-dialog__title">Note de frais : <?php echo $note->get_Id_NoteDeFrais() ?></div>
+	<div class="mdl-dialog__title">Note de frais de <?php echo $note->get_les_lignes()[0]->get_Annee(); ?></div>
 	<div class="mdl-dialog__content">
 		<table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
 			<thead>
