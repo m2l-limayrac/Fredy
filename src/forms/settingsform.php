@@ -15,6 +15,12 @@ $i=1;
     <input class="mdl-textfield__input" name="MotDePasse" type="password" id="sample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">MotDePasse</label>
   </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="password" id="sample<?php echo $i; ?>" value="">
+    <label class="mdl-textfield__label" for="pass2">MotDePasse</label>
+  </div>
+  <p id="diff" style="display: none; color: #ff0000">Les mots de passe sont diferents</p>
   <!-- Icon button -->
 <!-- Colored raised button -->
 <br>
@@ -121,11 +127,19 @@ $i=1;
     });
 
     setInterval(function(){
-     if(!document.getElementById('sample2').value){
-      document.getElementById('sub').setAttribute('disabled', 'disabled');
-     }else{
-      document.getElementById('sub').removeAttribute('disabled');
-     }
+       if(!document.getElementById('sample2').value || document.getElementById('sample2').value != document.getElementById('sample3').value){
+        document.getElementById('sub').setAttribute('disabled', 'disabled');
+       }else{
+        document.getElementById('sub').removeAttribute('disabled');
+       }
+
+
+       if(document.getElementById('sample2').value == document.getElementById('sample3').value){
+            document.getElementById('diff').style.display = "none";
+            document.getElementById('diff').style.color = "#ff0000";
+         }else{
+            document.getElementById('diff').style.display = "";
+         }
    }, 200);
 
   });

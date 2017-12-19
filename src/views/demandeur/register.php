@@ -11,6 +11,12 @@ $i=1;
     <input class="mdl-textfield__input" name="MotDePasse" type="password" id="sample<?php echo $i; ?>" value="">
     <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">MotDePasse</label>
   </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield">
+    <input class="mdl-textfield__input" type="password" id="pass2" value="">
+    <label class="mdl-textfield__label" for="pass2">MotDePasse</label>
+  </div>
+  <p id="diff" style="display: none; color: #ff0000">Les mots de passe sont diferents</p>
   <!-- Icon button -->
 <!-- Colored raised button -->
 <p>Je suis un :</p>
@@ -129,16 +135,22 @@ $i=1;
     var divAdherent = document.getElementById('isAdherent');
 
     setInterval(function(){
-
+if(document.getElementById('sample2').value == document.getElementById('pass2').value){
+            document.getElementById('diff').style.display = "none";
+            document.getElementById('diff').style.color = "#ff0000";
+         }else{
+            document.getElementById('diff').style.display = "";
+         }
      if(document.getElementById('radio1').checked){
       $('#datepicker').datepicker("destroy");
       $('#datepicker').removeClass("hasDatepicker");
-      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Rsample3').value || !document.getElementById('Rsample4').value || !document.getElementById('Rsample5').value || !document.getElementById('Rsample6').value || !document.getElementById('Rsample7').value){
+      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('pass2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Rsample3').value || !document.getElementById('Rsample4').value || !document.getElementById('Rsample5').value || !document.getElementById('Rsample6').value || !document.getElementById('Rsample7').value ){
 
       document.getElementById('sub').setAttribute('disabled', 'disabled');
      }else{
       document.getElementById('sub').removeAttribute('disabled');
      }
+
       divAdherent.setAttribute('hidden', 'hidden');
       divRepresentant.removeAttribute('hidden', 'hidden');
     }else{
@@ -150,12 +162,13 @@ $i=1;
       $('#datepicker').addClass("hasDatepicker");
       $('#datepicker').attr('id', 'datepicker');
       
-      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Asample8').value || !document.getElementById('Asample9').value || !document.getElementById('Asample10').value || !document.getElementById('Asample11').value || !document.getElementById('Asample12').value || !document.getElementById('Asample13').value || !document.getElementById('Asample14').value || !document.getElementById('Asample15').value){
+      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('pass2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Asample8').value || !document.getElementById('Asample9').value || !document.getElementById('Asample10').value || !document.getElementById('Asample11').value || !document.getElementById('Asample12').value || !document.getElementById('Asample13').value || !document.getElementById('Asample14').value || !document.getElementById('Asample15').value){
 
       document.getElementById('sub').setAttribute('disabled', 'disabled');
      }else{
       document.getElementById('sub').removeAttribute('disabled');
      }
+     
       divRepresentant.setAttribute('hidden', 'hidden');
       divAdherent.removeAttribute('hidden', 'hidden');
     }
