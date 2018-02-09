@@ -1,5 +1,5 @@
 # Fredi
-## réalisé par : 
+## Réalisé par : 
 * Alexis Lapeze
 * Julien Pinet
 * Clement Roussel
