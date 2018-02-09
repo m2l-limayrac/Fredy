@@ -51,7 +51,7 @@ class IndemniteDAO extends DAO {
       }
       foreach ($row as $key => $value) {
           $row = $value;
-      }      
+      }
       return $row;
   }
 }
