@@ -145,7 +145,6 @@ $i=1;
   });
 
   function onSelect(value, sample){
-  console.log(sample);
   document.getElementById(sample).setAttribute("value", value);
 }
 </script>
