@@ -14,7 +14,6 @@ date_default_timezone_set('Europe/Paris');
 // Définition des chemins des fichiers
 define('ROOT', dirname(dirname(dirname(__FILE__))));  // Racine du site en absolu
 // TODO : il y a dans la doc. un second paramètre pour indiquer que l'on remonte MAIS ça ne fonctionne pas en PHP5, il faut passer à PHP7
-
 define('DS', DIRECTORY_SEPARATOR);   // Séparateur de dossier (dépend de l'OS)
 define('SRC', ROOT . DS . 'src');  // Dossier src en absolu
 // Définition des URLs
