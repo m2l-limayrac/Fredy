@@ -143,6 +143,7 @@
             <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre du compte</a>
             <?php if($demandeur->get_isRepresentant()){ ?>
             <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settingsAdherents/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre des Adherents</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/adherent/ajout/'?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Ajouter un Adherent mineur </a>
            <?php } ?>
 
             <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">eject</i>Déconnexion</a>
