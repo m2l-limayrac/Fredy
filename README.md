@@ -1,5 +1,5 @@
 # Fredi
-## réalisé par : 
+## Réalisé par : 
 * Alexis Lapeze
 * Julien Pinet
 * Clement Roussel
@@ -14,4 +14,4 @@ mysql-upgrade.exe -u root --force
 ## Utilisation : 
 * Privilégier google chrome pour lancer le site.
 * Login : 'simon.berbier@gmail.com' & 'corentin.diolo@gmail.com'
-* Tous les mots de passes sont : '1234' 
+* Tous les mots de passes sont : '1234'
