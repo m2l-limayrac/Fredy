@@ -3,9 +3,9 @@
 class Demandeur {
 
   private $Id_Demandeur;     // id du demandeur
-  private $AdresseMail;           // addresse mail 
-  private $MotDePasse;     // mot de passe 
-  private $isRepresentant;     // mot de passe 
+  private $AdresseMail;          
+  private $MotDePasse;     
+  private $isRepresentant;     
 
   private $Representant;
   private $Adherent;
