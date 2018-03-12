@@ -223,6 +223,23 @@ class DemandeurController extends Controller {
     ));
   }
 
+  public function validate($Id_NoteDeFrais) {
+    $demandeur = serialize($_SESSION['demandeur']);
+    $demandeur = unserialize($demandeur);
+
+    $noteDeFraisDAO = new NoteDeFraisDAO();
+    $noteDeFrais = $noteDeFraisDAO->find($Id_NoteDeFrais);
+    $noteDeFrais->set_isValidate(1);  
+
+    $noteDeFraisDAO->update($noteDeFrais);
+
+    $idDemandeur = $demandeur->get_Id_Demandeur();
+
+    $demandeurDAO = new DemandeurDAO();
+    $demandeur = $demandeurDAO->find($idDemandeur);
+    Auth::memoriser($demandeur);
+    $this->redirect('demandeur/details');
+  }
 
   public function modif($id_ligne) {
     // Formulaire saisi ?

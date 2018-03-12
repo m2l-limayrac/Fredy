@@ -183,7 +183,7 @@ class DemandeurDAO extends DAO {
   }
   
   function findNoteDeFrais($Id_Demandeur) {
-    $sql = "SELECT DISTINCT Id_NoteDeFrais FROM avancer WHERE Id_Demandeur = :Id_Demandeur";
+    $sql = "SELECT DISTINCT N.* FROM avancer A, notedefrais N WHERE A.Id_NoteDeFrais = N.Id_NoteDeFrais AND Id_Demandeur = :Id_Demandeur";
     try {
       $params = array(":Id_Demandeur" => $Id_Demandeur);
       $sth = $this->executer($sql, $params);
@@ -191,7 +191,6 @@ class DemandeurDAO extends DAO {
     } catch (PDOException $e) {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
     }
-    
     $notes = array();
     foreach ($rows as $row) {
       $NoteDeFrais = new NoteDeFrais($row);
@@ -203,6 +202,7 @@ class DemandeurDAO extends DAO {
     foreach ($notes as $note) {
       $note->set_les_lignes(SELF::$NoteDeFraisDAO->findLigneDeFrais($note->get_Id_NoteDeFrais()));
     }
+
     return $notes; // Retourne l'objet métier
   }
 

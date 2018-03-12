@@ -70,7 +70,8 @@ INSERT INTO `demandeur` (`Id_Demandeur`, `AdresseMail`, `MotDePasse`, `isReprese
 
 INSERT INTO `indemnite` (`Annee`, `tarifKilometrique`) VALUES
 (2016, 0.56),
-(2017, 0.57);
+(2017, 0.57),
+(2018, 0.58);
 
 --
 -- Déchargement des données de la table `lignefrais`

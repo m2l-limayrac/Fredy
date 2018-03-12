@@ -26,14 +26,14 @@ class NoteDeFraisDAO extends DAO {
     } catch (PDOException $e) {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
     }
-    
+
     $noteDeFrais = new NoteDeFrais($row);
     if(SELF::$LigneFraisDAO == null){
       SELF::$LigneFraisDAO = new LigneFraisDAO();
     }
 
-    $noteDeFrais->set_les_lignes($this->findLigneDeFrais($NoteDeFrais->get_Id_NoteDeFrais()));
-    
+    $noteDeFrais->set_les_lignes($this->findLigneDeFrais($noteDeFrais->get_Id_NoteDeFrais()));
+
     return $noteDeFrais; // Retourne l'objet métier
   }
 
@@ -75,9 +75,10 @@ class NoteDeFraisDAO extends DAO {
   function update(NoteDeFrais $noteDeFrais){
     //GLOBAL $con;
     
-    $sql = "UPDATE notedefrais SET Id_noteDeFrais = :Id_noteDeFrais WHERE Id_noteDeFrais = :Id_noteDeFrais";
+    $sql = "UPDATE notedefrais SET Id_noteDeFrais = :Id_noteDeFrais, isValidate = :isValidate WHERE Id_noteDeFrais = :Id_noteDeFrais";
       try {
-          $params = array(':Id_noteDeFrais' => $noteDeFrais->get_Id_noteDeFrais());
+          $params = array(':Id_noteDeFrais' => $noteDeFrais->get_Id_noteDeFrais(),
+                          ':isValidate' => $noteDeFrais->get_isValidate());
           $sth = $this->executer($sql, $params);
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());

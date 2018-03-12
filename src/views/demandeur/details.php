@@ -46,7 +46,7 @@ echo "</pre>";*/
 			<th class="mdl-data-table__cell--non-numeric">Numero</th>
 			<th>Annee</th>
 			<th>détail de la note</th>
-			<th>Generer CERFA</th>
+			<th>Generer PDF</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -71,7 +71,7 @@ echo "</pre>";*/
 				<td>
 					<a class="mdl-list__item-secondary-action show-modal" target="_blank" href="<?php echo BASEURL.'/demandeur/ndf_pdf/'.$demandeur->get_Id_demandeur().'/'.$note->get_Id_NoteDeFrais();?>">
 						<div id="tt<?php echo $i ?>" class="icon material-icons">picture_as_pdf</div>
-						<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Generer votre CERFA</div>
+						<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Generer votre PDF</div>
 				    </a>							
 				</td>
 			</div>
@@ -98,7 +98,7 @@ echo "</pre>";*/
 					<th>Cout de l'hebergement</th>
 					<th>Trajet</th>
 					<th>Motif</th>
-					<th>Actions</th>
+					<?php if(!$note->get_boolIsValidate()) { ?> <th>Actions</th> <?php } ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -134,29 +134,40 @@ echo "</pre>";*/
 						<td style="text-align: center;">
 							<p><?php echo $ligne->get_Motif() ?></p>
 						</td>
-						<td style="text-align: center;">
-							<a class="mdl-list__item-secondary-action" href="#" onclick="confirme(<?php echo $ligne->get_Id_ligne(); ?>)">
-								<div id="tt<?php echo $i ?>" class="icon material-icons">delete</div>
-								<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Supprimmer</div>
-							</a>
-							<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/modif/'.$ligne->get_Id_ligne();?>">
-								<div id="tt<?php echo $i ?>" class="icon material-icons" style="margin-left: 40%;">edit</div>
-								<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">
-									Modifier
-								</div>
-							</a>
+						<?php if(!$note->get_boolIsValidate()) { ?>
+							<td style="text-align: center;">
+								<a class="mdl-list__item-secondary-action" href="#" onclick="confirme(<?php echo $ligne->get_Id_ligne(); ?>)">
+									<div id="tt<?php echo $i ?>" class="icon material-icons">delete</div>
+									<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Supprimmer</div>
+								</a>
+							
+								<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/modif/'.$ligne->get_Id_ligne();?>">
+									<div id="tt<?php echo $i ?>" class="icon material-icons" style="margin-left: 40%;">edit</div>
+									<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">
+										Modifier
+									</div>
+								</a>
+							</td>
+						<?php } ?>
 					</div>
 				</tr>
 				<?php } ?>
 			</tbody>
 		</table>
-		<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/add/'.$note->get_Id_NoteDeFrais(); ?>">
-			<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ajouter">
-
-				<i class="material-icons">add</i>
-			</button>
-			<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Ajouter une ligne de frais</div>
-		</a>
+		<?php if(!$note->get_boolIsValidate()) { ?>
+			<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/add/'.$note->get_Id_NoteDeFrais(); ?>">
+				<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ajouter">
+					<i class="material-icons">add</i>
+				</button>
+				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Ajouter une ligne de frais</div>
+			</a>
+			<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/validate/'.$note->get_Id_NoteDeFrais(); ?>">
+				<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ajouter">
+					<i class="material-icons">check_circle</i>
+				</button>
+				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">validé la note de frais</div>
+			</a>
+		<?php } ?>
 	</div>
 	<div class="mdl-dialog__actions mdl-dialog__actions--full-width">
 		<button type="button" class="mdl-button close"><div id="tt<?php echo $i ?>" class="icon material-icons">cancel</div> Revenir aux notes de frais</button>
