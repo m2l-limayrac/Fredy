@@ -4,7 +4,7 @@
 * Julien Pinet
 * Clement Roussel
 
-## Instalation : 
+## Installation : 
 * Récupérer le projet : 
 ```cmd
 git clone https://github.com/m2l-limayrac/Fredy.git
