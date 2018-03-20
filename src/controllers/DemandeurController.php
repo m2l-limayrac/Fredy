@@ -355,7 +355,7 @@ class DemandeurController extends Controller {
           'Sexe' => $this->request->get('Sexe'),          
           'DateNaissance' => $this->request->get('DateNaissance'),          
           'AdresseAdh' => $this->request->get('AdresseAdh'),          
-          'Cp' => $this->request->get('Cp'),
+          'CP' => $this->request->get('CP'),
           'Ville' => $this->request->get('Ville'),
           'id_Demandeur' => $demandeur->get_Id_Demandeur(),
           'Id_Club' => $this->request->get('Id_Club')
