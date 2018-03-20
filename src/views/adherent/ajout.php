@@ -41,8 +41,8 @@ $i=1;
   <div class="mdl-textfield mdl-js-textfield mdl-textfield">
     <input type="text" class="mdl-textfield__input" name="Sexe" id="Asample<?php echo $i; ?>" value="" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
-      <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">Masculin</li>
-      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">Feminin</li>
+      <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">M</li>
+      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">F</li>
     </ul>
     <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Sexe</label>
 

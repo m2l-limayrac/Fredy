@@ -112,7 +112,6 @@ $i=1;
       <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">F</li>
     </ul>
     <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Sexe</label>
-  </div>  
 </div>
 <br>
 <button type="submit" name="submit" id="sub" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" disabled>

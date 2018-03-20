@@ -358,6 +358,13 @@ class DemandeurController extends Controller {
 
         $demandeur->set_Representant($representant);
       }else{
+        $monClub = "";
+        $clubRequest = $this->request->get('Id_Club');
+        foreach ($Clubs as $club) {
+          if($club->get_Nom() == $clubRequest){
+            $monClub = $club->get_Id_Club();
+          }
+        }
         $adherent = new Adherent(array(
           'numLicence' => $this->request->get('numLicence'),
           'Nom' => $this->request->get('Nom'),
