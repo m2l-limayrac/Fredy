@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  Dim 17 déc. 2017 à 20:05
+-- Généré le :  mar. 20 mars 2018 à 15:06
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
@@ -12,6 +12,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+USE `fredi_plot3`;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -22,8 +23,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `fredi_plot3`
 --
-CREATE DATABASE IF NOT EXISTS `fredi_plot3` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `fredi_plot3`;
 
 --
 -- Déchargement des données de la table `adherent`
@@ -108,10 +107,10 @@ INSERT INTO `motif` (`Id_Motif`, `Libelle`) VALUES
 -- Déchargement des données de la table `notedefrais`
 --
 
-INSERT INTO `notedefrais` (`Id_NoteDeFrais`) VALUES
-(1),
-(2),
-(3);
+INSERT INTO `notedefrais` (`Id_NoteDeFrais`, `isValidate`) VALUES
+(1, 0),
+(2, 0),
+(3, 0);
 
 --
 -- Déchargement des données de la table `representant`
