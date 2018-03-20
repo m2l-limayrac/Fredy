@@ -28,10 +28,10 @@ USE `fredi_plot3`;
 -- Déchargement des données de la table `adherent`
 --
 
-INSERT INTO `adherent` (`numLicence`, `Nom`, `Prenom`, `Sexe`, `DateNaissance`, `AdresseAdh`, `CP`, `Ville`, `Id_Demandeur`, `Id_Club`, `id_adherent`) VALUES
-(1259875, 'Berbier', 'Stephane', 'M', '2003-12-25', '5 passage rouliou', '35200', 'Nancy', 1, 2, 1),
-(1259894, 'Berbier', 'Lucie', 'F', '2011-12-05', '5 passage rouliou', '35200', 'Nancy', 1, 4, 2),
-(1459274, 'Diolo', 'Corentin', 'M', '1994-09-19', '8 place gironde', '35200', 'Nancy', 2, 3, 3);
+INSERT INTO `adherent` (`numLicence`, `Nom`, `Prenom`, `Sexe`, `DateNaissance`, `AdresseAdh`, `CP`, `Ville`, `Id_Demandeur`, `id_adherent`) VALUES
+(1259875, 'Berbier', 'Stephane', 'M', '2003-12-25', '5 passage rouliou', '35200', 'Nancy', 1, 1),
+(1259894, 'Berbier', 'Lucie', 'F', '2011-12-05', '5 passage rouliou', '35200', 'Nancy', 1, 2),
+(1459274, 'Diolo', 'Corentin', 'M', '1994-09-19', '8 place gironde', '35200', 'Nancy', 2, 3);
 
 --
 -- Déchargement des données de la table `avancer`
@@ -51,17 +51,17 @@ INSERT INTO `avancer` (`Id_Demandeur`, `id_Ligne`, `Id_NoteDeFrais`) VALUES
 --
 
 INSERT INTO `club` (`Id_Club`, `Nom`, `AdresseClub`, `Cp`, `Ville`, `Sigle`, `NomPresident`, `Id_Ligue`) VALUES
-(2, 'Nancy Football Club', '3 rue du foot', '54200', 'nancy', 'NFC', 'Pichon', 1),
-(3, 'Nancy Rugby Club', '5 rue du rugby', '35200', 'Nancy', 'NRC', 'Benjamin Rolin', 2),
-(4, 'Nancy Badminton Club', '8 rue du volant', '32500', 'Nancy', 'NBC', 'Gérard Plodon', 3);
+(1, 'Nancy Football Club', '3 rue du foot', '54200', 'nancy', 'NFC', 'Pichon', 1),
+(2, 'Nancy Rugby Club', '5 rue du rugby', '35200', 'Nancy', 'NRC', 'Benjamin Rolin', 2),
+(3, 'Nancy Badminton Club', '8 rue du volant', '32500', 'Nancy', 'NBC', 'Gérard Plodon', 3);
 
 --
 -- Déchargement des données de la table `demandeur`
 --
 
-INSERT INTO `demandeur` (`Id_Demandeur`, `AdresseMail`, `MotDePasse`, `isRepresentant`) VALUES
-(1, 'simon.berbier@gmail.com', '$2y$10$Q9P.gaJKZc4scIDzHKMwguBuMaQzAoBdp6F5xYELer7mt4RFJvUyG', 1),
-(2, 'corentin.diolo@gmail.com', '$2y$10$pkhApG8zUvK0jXmZC0J89eFLFmCW55mfqjcgmK870dNIlHknFN1Mm', 0);
+INSERT INTO `demandeur` (`Id_Demandeur`, `AdresseMail`, `MotDePasse`, `isRepresentant`, `Id_Club`) VALUES
+(1, 'simon.berbier@gmail.com', '$2y$10$Q9P.gaJKZc4scIDzHKMwguBuMaQzAoBdp6F5xYELer7mt4RFJvUyG', 1, 2),
+(2, 'corentin.diolo@gmail.com', '$2y$10$pkhApG8zUvK0jXmZC0J89eFLFmCW55mfqjcgmK870dNIlHknFN1Mm', 0, 3);
 
 --
 -- Déchargement des données de la table `indemnite`

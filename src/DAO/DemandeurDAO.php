@@ -14,6 +14,8 @@ require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
 require_once SRC . DS . 'models' . DS . 'NoteDeFrais.php';
 require_once SRC . DS . 'models' . DS . 'Representant.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
+require_once SRC . DS . 'models' . DS . 'Club.php';
+require_once SRC . DS . 'DAO' . DS . 'ClubDAO.php';
 
 
 class DemandeurDAO extends DAO {
@@ -21,6 +23,7 @@ class DemandeurDAO extends DAO {
   private static $NoteDeFraisDAO;
   private static $RepresentantDAO;
   private static $AdherentDAO;
+  private static $ClubDAO;
 
   function find($Id_Demandeur) {
     
@@ -43,6 +46,13 @@ class DemandeurDAO extends DAO {
     }
 
     $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));
+
+    if(SELF::$ClubDAO == null){
+      SELF::$ClubDAO = new ClubDAO();
+    }
+    $demandeur->set_Club(SELF::$ClubDAO->find($demandeur->get_Id_Club()));
+
+
     if($demandeur->get_isRepresentant()){
         if(SELF::$RepresentantDAO == null){
           SELF::$RepresentantDAO = new RepresentantDAO();
@@ -81,6 +91,12 @@ class DemandeurDAO extends DAO {
         SELF::$RepresentantDAO = new RepresentantDAO();
       }
       $demandeur->set_les_notes($this->findNoteDeFrais($demandeur->get_Id_Demandeur()));
+
+      if(SELF::$ClubDAO == null){
+        SELF::$ClubDAO = new ClubDAO();
+      }
+      $demandeur->set_Club(SELF::$ClubDAO->find($demandeur->get_Id_Club()));
+
       if($demandeur->get_isRepresentant()){
         if(SELF::$RepresentantDAO == null){
           SELF::$RepresentantDAO = new RepresentantDAO();
@@ -112,12 +128,18 @@ class DemandeurDAO extends DAO {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
+    if(SELF::$ClubDAO == null){
+      SELF::$ClubDAO = new ClubDAO();
+    }
+
     $objects = array();
     foreach ($rows as $row) {
       $object = New Demandeur($row);
       $les_notes = $this->findNoteDeFrais($object->get_Id_Demandeur());
+      $object->set_Club(SELF::$ClubDAO->find($object->get_Id_Club()));
       $objects[] = $object;
     }
+
 
     return $objects;
   }
@@ -129,11 +151,12 @@ class DemandeurDAO extends DAO {
     }else{
       $isRepresentant = '0';
     }
-    $sql = "INSERT INTO demandeur (AdresseMail, MotDePasse, isRepresentant) VALUES (:AdresseMail, :MotDePasse, :isRepresentant)";
+    $sql = "INSERT INTO `demandeur`(`AdresseMail`, `MotDePasse`, `Id_Club`, `isRepresentant`) VALUES (:AdresseMail, :MotDePasse, :Id_Club, :isRepresentant)";
     try {
         $params = array(':AdresseMail' => $demandeur->get_AdresseMail(), 
                         ':MotDePasse' => $demandeur->get_MotDePasse(),
-                        ':isRepresentant' => $isRepresentant /*$demandeur->get_isRepresentant()*/);
+                        ':Id_Club' => $demandeur->get_Id_Club(),
+                        ':isRepresentant' => $isRepresentant);
 
         $sth = $this->executer($sql, $params);
         $return = SELF::$connexion->lastInsertId();
@@ -146,11 +169,12 @@ class DemandeurDAO extends DAO {
   function update(Demandeur $demandeur){
     //GLOBAL $con;
     
-    $sql = "UPDATE demandeur SET Id_Demandeur = :Id_Demandeur, AdresseMail = :AdresseMail, MotDePasse = :MotDePasse, isRepresentant = :isRepresentant WHERE Id_Demandeur = :Id_Demandeur";
+    $sql = "UPDATE demandeur SET Id_Demandeur = :Id_Demandeur, AdresseMail = :AdresseMail, MotDePasse = :MotDePasse, Id_Club = :Id_Club, isRepresentant = :isRepresentant WHERE Id_Demandeur = :Id_Demandeur";
       try {
           $params = array(':Id_Demandeur' => $demandeur->get_Id_Demandeur(), 
                               ':AdresseMail' => $demandeur->get_AdresseMail(), 
                               ':MotDePasse' => $demandeur->get_MotDePasse(),
+                              ':Id_Club' => $demandeur->get_Id_Club(),
                               ':isRepresentant' => $demandeur->get_int_isRepresentant());
           $sth = $this->executer($sql, $params);
       } catch (PDOException $ex) {

@@ -315,6 +315,14 @@ class DemandeurController extends Controller {
 
     if ($this->request->exists("submit")) {
       // le formulaire est soumis
+      $nomClub = $this->request->get('Id_Club');
+      $idClub = "";
+      foreach ($Clubs as $club) {
+        if($club->get_Nom() == $nomClub){
+          $idClub = $club->get_Id_Club();
+        }
+      }
+
       $MotDePasse = $this->request->get('MotDePasse');
       $isRepresentant = $this->request->get('isRepresentant');
       echo gettype($isRepresentant);
@@ -325,7 +333,8 @@ class DemandeurController extends Controller {
       $demandeur = new Demandeur(array(
           'AdresseMail' => $this->request->get('AdresseMail'),
           'MotDePasse' => $MotDePasse,
-          'isRepresentant' => $isRepresentant
+          'isRepresentant' => $isRepresentant,
+          'Id_Club' => $nomClub
       ));
 
       $demandeurDAO = new DemandeurDAO();
@@ -340,7 +349,8 @@ class DemandeurController extends Controller {
           'Cp' => $this->request->get('CpR'),
           'Ville' => $this->request->get('VilleR'),
           'id_Demandeur' => $demandeur->get_Id_Demandeur(),
-          'Rue' => $this->request->get('RueR')
+          'Rue' => $this->request->get('RueR'),
+          'Id_Club' => $idClub
         ));
 
         $representantDAO = new RepresentantDAO();
@@ -364,8 +374,7 @@ class DemandeurController extends Controller {
           'AdresseAdh' => $this->request->get('AdresseAdh'),          
           'CP' => $this->request->get('CP'),
           'Ville' => $this->request->get('Ville'),
-          'id_Demandeur' => $demandeur->get_Id_Demandeur(),
-          'Id_Club' => $monClub
+          'id_Demandeur' => $demandeur->get_Id_Demandeur()
         ));
 
         $adherentDAO = new AdherentDAO();
@@ -522,22 +531,10 @@ class DemandeurController extends Controller {
       $oldNom[0] = "";
       //$pdf->Cell(10, -13, c(""), $border, 1, 'L');//Justification d'espace
       $pdf->ln(-13);
-      foreach ($representant->get_les_adherents() as $adherent){
-        foreach ($oldNom as $nom ) {
-          if($adherent->get_Club()->get_Nom() == $nom){
-            $trouver = true;
-          }
-        }       
-        if($trouver == false){
-
-          $pdf->ln(0);
-          $pdf->Cell(190, 7, c($adherent->get_Club()->get_Nom().' '.$adherent->get_Club()->get_AdresseClub().' '.$adherent->get_Club()->get_Cp().' '.$adherent->get_Club()->get_Ville()), 1, 1, 'C');
-          $pdf->ln(0);
-
-        }
-        $oldNom[] = $adherent->get_Club()->get_Nom();
-        $trouver = false;
-      }
+      
+      $pdf->ln(0);
+      $pdf->Cell(190, 7, c($demandeur->get_Club()->get_Nom().' '.$demandeur->get_Club()->get_AdresseClub().' '.$demandeur->get_Club()->get_Cp().' '.$demandeur->get_Club()->get_Ville()), 1, 1, 'C');
+      $pdf->ln(0);
 
       $pdf->SetFont ('Arial', 'B', 11);
       $pdf->Cell(21, 8, c("en tant que don."), $border, 1, 'L');

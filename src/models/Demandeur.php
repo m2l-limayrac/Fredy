@@ -5,10 +5,13 @@ class Demandeur {
   private $Id_Demandeur;     // id du demandeur
   private $AdresseMail;          
   private $MotDePasse;     
-  private $isRepresentant;     
+  private $isRepresentant;
+  private $Id_Club;    
 
   private $Representant;
   private $Adherent;
+  private $Club;
+
 
   private $les_notes = array();
 
@@ -49,12 +52,20 @@ class Demandeur {
     }
   }
 
+  function get_Id_Club() {
+    return $this->Id_Club;
+  }
+
   function get_Representant() {
     return $this->Representant;
   }
 
   function get_Adherent() {
     return $this->Adherent;
+  }
+
+  function get_Club() {
+    return $this->Club;
   }
 
   // Setter
@@ -81,6 +92,14 @@ class Demandeur {
 
   function set_Adherent($Adherent) {
     $this->Adherent = $Adherent;
+  }
+
+  function set_Club($Club) {
+    $this->Club = $Club;
+  }
+
+  function set_Id_Club($Id_Club) {
+    $this->Id_Club = $Id_Club;
   }
 
   function set_isRepresentant($isRepresentant) {

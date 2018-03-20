@@ -49,16 +49,6 @@ $i=1;
       <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'sample'.$i;  $i++; ?>')">Feminin</li>
     </ul>
   </div>
-  <br>
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield">
-    <input type="text" class="mdl-textfield__input" name="Club" id="sample<?php echo $i; ?>" value="<?php echo $adherent->get_Club()->get_Nom(); ?>" readonly >
-    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="sample<?php echo $i; ?>">
-      <?php foreach ($Clubs as $club) { ?>
-      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Nom() ?>', '<?php echo 'sample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
-      <?php } ?>
-    </ul>
-  </div>
-
 <br>
 
 

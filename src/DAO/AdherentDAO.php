@@ -3,14 +3,10 @@
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
 require_once SRC . DS . 'framework' . DS . 'DAO.php';
 require_once SRC . DS . 'models' . DS . 'Demandeur.php';
-require_once SRC . DS . 'models' . DS . 'Club.php';
-require_once SRC . DS . 'DAO' . DS . 'ClubDAO.php';
 
 
 
 class AdherentDAO extends DAO {
-
-  private static $ClubDAO;
 
 
   function find($id_adherent) {
@@ -25,10 +21,7 @@ class AdherentDAO extends DAO {
       }
       
       $adherent = new Adherent($row);
-      if(SELF::$ClubDAO == null){
-        SELF::$ClubDAO = new ClubDAO();
-      }
-      $adherent->set_Club(SELF::$ClubDAO->find($adherent->get_Id_Club()));
+      
       return $adherent;
   }
 
@@ -44,10 +37,6 @@ class AdherentDAO extends DAO {
       }
       
       $adherent = new Adherent($row);
-      if(SELF::$ClubDAO == null){
-        SELF::$ClubDAO = new ClubDAO();
-      }
-      $adherent->set_Club(SELF::$ClubDAO->find($adherent->get_Id_Club()));
 /*      echo "<pre>"; print_r($pizza); echo "</pre>";*/
       return $adherent;
   }
@@ -78,13 +67,9 @@ class AdherentDAO extends DAO {
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
       } 
-        if(SELF::$ClubDAO == null){
-        SELF::$ClubDAO = new ClubDAO();
-      }
       $objects = array();
       foreach ($rows as $row) {
         $object = New Adherent($row);
-        $object->set_Club(SELF::$ClubDAO->find($object->get_Id_Club()));
         //echo "<pre>"; print_r($object); echo "</pre>";
         $objects[] = $object;
       }
@@ -101,13 +86,10 @@ class AdherentDAO extends DAO {
       } catch (PDOException $ex) {
           die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
       } 
-        if(SELF::$ClubDAO == null){
-        SELF::$ClubDAO = new ClubDAO();
-      }
+        
       $object = array();
       foreach ($rows as $row) {
         $object = New Adherent($row);
-        $object->set_Club(SELF::$ClubDAO->find($adherent->get_Id_Club()));
         //echo "<pre>"; print_r($object); echo "</pre>";
         $objects[] = $object;
       }
@@ -116,7 +98,7 @@ class AdherentDAO extends DAO {
   }
 
   function insert(Adherent $Adherent){
-    $sql = "INSERT INTO `adherent`(`numLicence`, `Nom`, `Prenom`, `Sexe`, `DateNaissance`, `AdresseAdh`, `CP`, `Ville`, `Id_Demandeur`, `Id_Club`) VALUES (:numLicence,:Nom,:Prenom,:Sexe,:DateNaissance,:AdresseAdh,:CP,:Ville,:Id_Demandeur,:Id_Club)";
+    $sql = "INSERT INTO `adherent`(`numLicence`, `Nom`, `Prenom`, `Sexe`, `DateNaissance`, `AdresseAdh`, `CP`, `Ville`, `Id_Demandeur`) VALUES (:numLicence,:Nom,:Prenom,:Sexe,:DateNaissance,:AdresseAdh,:CP,:Ville,:Id_Demandeur)";
     try {
       $params = array(':numLicence' => $Adherent->get_numLicence(), 
                           ':Nom' => $Adherent->get_Nom(), 
@@ -126,8 +108,7 @@ class AdherentDAO extends DAO {
                           ':AdresseAdh' => $Adherent->get_AdresseAdh(),
                           ':CP' => $Adherent->get_CP(),
                           ':Ville' => $Adherent->get_Ville(),
-                          ':Id_Demandeur' => $Adherent->get_Id_Demandeur(),
-                          ':Id_Club' => $Adherent->get_Id_Club());
+                          ':Id_Demandeur' => $Adherent->get_Id_Demandeur());
           $sth = $this->executer($sql, $params);
     } catch (PDOException $ex) {
         die("Erreur lors de l'execution de la requette : ".$ex->getMessage());
@@ -135,7 +116,7 @@ class AdherentDAO extends DAO {
   }
 
   function update(Adherent $Adherent) {
-    $sql = "UPDATE adherent set numLicence = :numLicence, Nom=:Nom,Prenom=:Prenom,Sexe=:Sexe,DateNaissance=:DateNaissance,AdresseAdh=:AdresseAdh,CP=:CP,Ville=:Ville, Id_Club=:Id_Club, Id_Demandeur = :Id_Demandeur where id_adherent=:id_adherent";
+    $sql = "UPDATE adherent set numLicence = :numLicence, Nom=:Nom,Prenom=:Prenom,Sexe=:Sexe,DateNaissance=:DateNaissance,AdresseAdh=:AdresseAdh,CP=:CP,Ville=:Ville, Id_Demandeur = :Id_Demandeur where id_adherent=:id_adherent";
     try {
       $params = array(':numLicence' => $Adherent->get_numLicence(), 
                           ':Nom' => $Adherent->get_Nom(), 
@@ -146,8 +127,7 @@ class AdherentDAO extends DAO {
                           ':CP' => $Adherent->get_CP(),
                           ':Ville' => $Adherent->get_Ville(),
                           ':Id_Demandeur' => $Adherent->get_Id_Demandeur(),
-                          ':id_adherent' => $Adherent->get_id_adherent(),
-                          ':Id_Club' => $Adherent->get_Id_Club());
+                          ':id_adherent' => $Adherent->get_id_adherent());
       $sth = $this->executer($sql, $params);
     } catch (PDOException $e) {
       throw new Exception("Erreur lors de la requête SQL : " . $e->getMessage());
