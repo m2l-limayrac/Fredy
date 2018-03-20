@@ -106,6 +106,13 @@ class AdherentController extends Controller {
 
     $clubDAO = new ClubDAO();
     $Clubs = $clubDAO->findAll();
+    $monClub = "";
+    $clubRequest = $this->request->get('Id_Club');
+    foreach ($Clubs as $club) {
+      if($club->get_Nom() == $clubRequest){
+        $monClub = $club->get_Id_Club();
+      }
+    }
 
     if ($this->request->exists("submit")) {
       // le formulaire est soumis
@@ -119,7 +126,7 @@ class AdherentController extends Controller {
           'CP' => $this->request->get('CP'),
           'Ville' => $this->request->get('Ville'),
           'id_Demandeur' => $demandeur->get_Id_Demandeur(),
-          'Id_Club' => $this->request->get('Id_Club')
+          'Id_Club' => $monClub
         ));
 
         $adherentDAO = new AdherentDAO();
