@@ -165,7 +165,7 @@ echo "</pre>";*/
 				<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ajouter">
 					<i class="material-icons">check_circle</i>
 				</button>
-				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">validé la note de frais</div>
+				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Valider la note de frais</div>
 			</a>
 		<?php } ?>
 	</div>

@@ -539,7 +539,7 @@ class DemandeurController extends Controller {
       $pdf->SetFont ('Arial', '', 11);
       $pdf->Cell(215, 14, c("Tarif kilomètrique appliqué pour le remboursement :".$indemnite->get_tarifKilometrique()), $border, 1, 'C');
       $pdf->SetFont('Arial', '', 9);
-      $header = array('Date', 'Motif', 'Trajet', 'Kilomètre','Cout trajet',c('Péages'),'Repas',c('Hébergement'),'Total');
+      $header = array('Date', 'Motif', 'Trajet', c('Kilomètre'),'Cout trajet',c('Péages'),'Repas',c('Hébergement'),'Total');
       $lignes = $noteDeFrais->get_les_lignes();
       $totalT=$pdf->ImprovedTable($header, $lignes,$indemnite);
       $pdf->SetFont ('Arial', 'B', 11);
