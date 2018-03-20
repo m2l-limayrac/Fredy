@@ -19,6 +19,16 @@ $i=1;
   <p id="diff" style="display: none; color: #ff0000">Les mots de passe sont diferents</p>
   <!-- Icon button -->
 <!-- Colored raised button -->
+<br>
+<div class="mdl-textfield mdl-js-textfield mdl-textfield">
+  <input type="text" class="mdl-textfield__input" name="Id_Club" id="sample<?php echo $i; ?>" value="" readonly >
+  <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="sample<?php echo $i; ?>">
+    <?php foreach ($Clubs as $club) { ?>
+    <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Nom() ?>', '<?php echo 'sample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
+    <?php } ?>
+  </ul>
+  <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">Club</label>
+</div>
 <p>Je suis un :</p>
 <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="radio1">
     <input type="radio" id="radio1" class="mdl-radio__button" name="isRepresentant" value="1" checked>
@@ -98,23 +108,11 @@ $i=1;
   <div class="mdl-textfield mdl-js-textfield mdl-textfield">
     <input type="text" class="mdl-textfield__input" name="Sexe" id="Asample<?php echo $i; ?>" value="" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
-      <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">Masculin</li>
-      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">Feminin</li>
+      <li class="mdl-menu__item" onclick="onSelect('M', '<?php echo 'Asample'.$i; ?>')">M</li>
+      <li class="mdl-menu__item" onclick="onSelect('F', '<?php echo 'Asample'.$i; ?>')">F</li>
     </ul>
     <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Sexe</label>
-  </div>
-  <br>
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield">
-    <input type="text" class="mdl-textfield__input" name="Id_Club" id="Asample<?php echo $i; ?>" value="" readonly >
-    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
-      <?php foreach ($Clubs as $club) { ?>
-      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Id_Club() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
-      <?php } ?>
-    </ul>
-    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Club</label>
-
-  </div>
-  
+  </div>  
 </div>
 <br>
 <button type="submit" name="submit" id="sub" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" disabled>
@@ -144,7 +142,17 @@ if(document.getElementById('sample2').value == document.getElementById('pass2').
      if(document.getElementById('radio1').checked){
       $('#datepicker').datepicker("destroy");
       $('#datepicker').removeClass("hasDatepicker");
-      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('pass2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Rsample3').value || !document.getElementById('Rsample4').value || !document.getElementById('Rsample5').value || !document.getElementById('Rsample6').value || !document.getElementById('Rsample7').value ){
+      if(!document.getElementById('sample1').value ||
+       !document.getElementById('sample2').value ||
+        !document.getElementById('sample3').value ||
+         !document.getElementById('pass2').value ||
+          !document.getElementById('radio1').value ||
+           !document.getElementById('radio2').value ||
+             !document.getElementById('Rsample4').value ||
+              !document.getElementById('Rsample5').value ||
+               !document.getElementById('Rsample6').value ||
+                !document.getElementById('Rsample7').value ||
+                 !document.getElementById('Rsample8').value ){
 
       document.getElementById('sub').setAttribute('disabled', 'disabled');
      }else{
@@ -162,7 +170,18 @@ if(document.getElementById('sample2').value == document.getElementById('pass2').
       $('#datepicker').addClass("hasDatepicker");
       $('#datepicker').attr('id', 'datepicker');
       
-      if(!document.getElementById('sample1').value || !document.getElementById('sample2').value || !document.getElementById('pass2').value || !document.getElementById('radio1').value || !document.getElementById('radio2').value || !document.getElementById('Asample8').value || !document.getElementById('Asample9').value || !document.getElementById('Asample10').value || !document.getElementById('Asample11').value || !document.getElementById('Asample12').value || !document.getElementById('Asample13').value || !document.getElementById('Asample14').value || !document.getElementById('Asample15').value){
+      if(!document.getElementById('sample1').value ||
+       !document.getElementById('sample2').value ||
+        !document.getElementById('pass2').value ||
+         !document.getElementById('radio1').value ||
+          !document.getElementById('radio2').value ||
+            !document.getElementById('Asample9').value ||
+             !document.getElementById('Asample10').value ||
+              !document.getElementById('Asample11').value ||
+               !document.getElementById('Asample12').value ||
+                !document.getElementById('Asample13').value ||
+                 !document.getElementById('Asample14').value ||
+                  !document.getElementById('Asample15').value ){
 
       document.getElementById('sub').setAttribute('disabled', 'disabled');
      }else{

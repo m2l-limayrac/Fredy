@@ -9,8 +9,6 @@ class Adherent {
     private $CP;
     private $Ville;
     private $Id_Demandeur;
-    private $Id_Club;
-    private $Club;
     private $id_adherent;
 
 
@@ -56,14 +54,6 @@ class Adherent {
         return $this->Id_Demandeur;
     }
 
-    function get_Id_Club() {
-        return $this->Id_Club;
-    }
-    
-    function get_Club() {
-        return $this->Club;
-    }
-
     function get_id_adherent() {
         return $this->id_adherent;
     }
@@ -102,14 +92,6 @@ class Adherent {
 
     function set_Id_Demandeur($Id_Demandeur) {
         $this->Id_Demandeur = $Id_Demandeur;
-    }
-
-    function set_Id_Club($Id_Club) {
-        $this->Id_Club = $Id_Club;
-    }
-
-    function set_Club($Club) {
-        $this->Club = $Club;
     }
 
     function set_id_adherent($id_adherent) {

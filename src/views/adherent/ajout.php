@@ -47,16 +47,6 @@ $i=1;
     <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Sexe</label>
 
   </div>
-  <br>
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield">
-    <input type="text" class="mdl-textfield__input" name="Id_Club" id="Asample<?php echo $i; ?>" value="" readonly >
-    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="Asample<?php echo $i; ?>">
-      <?php foreach ($Clubs as $club) { ?>
-      <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Id_Club() ?>', '<?php echo 'Asample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>
-      <?php } ?>
-    </ul>
-    <label class="mdl-textfield__label" for="Asample<?php echo $i; $i++; ?>">Club</label>
-  </div>
   <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
     <input type="checkbox" id="switch-1" name="otherInsert" class="mdl-switch__input" checked>
     <span class="mdl-switch__label">Je veux inserer un autre Adherent</span>
