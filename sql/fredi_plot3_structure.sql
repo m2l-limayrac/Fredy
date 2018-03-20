@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mar. 20 mars 2018 à 16:33
+-- Généré le :  mar. 20 mars 2018 à 16:50
 -- Version du serveur :  5.7.17
 -- Version de PHP :  5.6.30
 
@@ -38,11 +38,9 @@ DELIMITER ;
 --
 -- Structure de la table `adherent`
 --
--- Création :  mar. 20 mars 2018 à 15:17
---
 
 CREATE TABLE IF NOT EXISTS `adherent` (
-  `numLicense` int(11) DEFAULT NULL,
+  `numLicence` int(11) DEFAULT NULL,
   `Nom` varchar(25) DEFAULT NULL,
   `Prenom` varchar(25) DEFAULT NULL,
   `Sexe` varchar(25) DEFAULT NULL,
@@ -50,24 +48,26 @@ CREATE TABLE IF NOT EXISTS `adherent` (
   `AdresseAdh` varchar(30) DEFAULT NULL,
   `CP` char(5) DEFAULT NULL,
   `Ville` varchar(25) DEFAULT NULL,
-  `idDemandeur` int(11) NOT NULL,
-  PRIMARY KEY (`idDemandeur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Id_Demandeur` int(11) NOT NULL,
+  `Id_Club` int(11) DEFAULT NULL,
+  `id_adherent` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_adherent`),
+  KEY `FK_ADHERENT_Id_Club` (`Id_Club`),
+  KEY `FK_ADHERENT_Id_Demandeur` (`Id_Demandeur`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `avancer`
 --
--- Création :  mar. 20 mars 2018 à 15:17
---
 
 CREATE TABLE IF NOT EXISTS `avancer` (
-  `idDemandeur` int(11) NOT NULL,
-  `idLigne` int(11) NOT NULL,
+  `Id_Demandeur` int(11) NOT NULL,
+  `id_Ligne` int(11) NOT NULL,
   `Id_NoteDeFrais` int(11) NOT NULL,
-  PRIMARY KEY (`idDemandeur`,`idLigne`,`Id_NoteDeFrais`),
-  KEY `FK_Avancer_idLigne` (`idLigne`),
+  PRIMARY KEY (`Id_Demandeur`,`id_Ligne`,`Id_NoteDeFrais`),
+  KEY `FK_Avancer_idLigne` (`id_Ligne`),
   KEY `FK_Avancer_Id_NoteDeFrais` (`Id_NoteDeFrais`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -76,11 +76,9 @@ CREATE TABLE IF NOT EXISTS `avancer` (
 --
 -- Structure de la table `club`
 --
--- Création :  mar. 20 mars 2018 à 15:17
---
 
 CREATE TABLE IF NOT EXISTS `club` (
-  `idClub` int(11) NOT NULL AUTO_INCREMENT,
+  `Id_Club` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(25) NOT NULL,
   `AdresseClub` varchar(30) DEFAULT NULL,
   `Cp` char(5) NOT NULL,
@@ -88,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `club` (
   `Sigle` varchar(25) DEFAULT NULL,
   `NomPresident` varchar(25) DEFAULT NULL,
   `Id_Ligue` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idClub`),
+  PRIMARY KEY (`Id_Club`),
   KEY `FK_CLUB_Id_Ligue` (`Id_Ligue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -97,25 +95,21 @@ CREATE TABLE IF NOT EXISTS `club` (
 --
 -- Structure de la table `demandeur`
 --
--- Création :  mar. 20 mars 2018 à 15:23
---
 
 CREATE TABLE IF NOT EXISTS `demandeur` (
-  `idDemandeur` int(11) NOT NULL AUTO_INCREMENT,
+  `Id_Demandeur` int(11) NOT NULL AUTO_INCREMENT,
   `AdresseMail` varchar(50) DEFAULT NULL,
-  `MotDePasse` varchar(50) DEFAULT NULL,
-  `idClub` int(11) DEFAULT NULL,
+  `MotDePasse` varchar(60) DEFAULT NULL,
+  `Id_Club` int(11) DEFAULT NULL,
   `isRepresentant` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`idDemandeur`),
-  KEY `FK_DEMANDEUR_idClub` (`idClub`)
+  PRIMARY KEY (`Id_Demandeur`),
+  KEY `FK_DEMANDEUR_idClub` (`Id_Club`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `indemnite`
---
--- Création :  mar. 20 mars 2018 à 15:24
 --
 
 CREATE TABLE IF NOT EXISTS `indemnite` (
@@ -129,11 +123,9 @@ CREATE TABLE IF NOT EXISTS `indemnite` (
 --
 -- Structure de la table `lignefrais`
 --
--- Création :  mar. 20 mars 2018 à 15:25
---
 
 CREATE TABLE IF NOT EXISTS `lignefrais` (
-  `idLigne` int(11) NOT NULL AUTO_INCREMENT,
+  `id_Ligne` int(11) NOT NULL AUTO_INCREMENT,
   `Date` date DEFAULT NULL,
   `Km` float DEFAULT NULL,
   `CoutPeage` decimal(25,0) DEFAULT '0',
@@ -141,10 +133,10 @@ CREATE TABLE IF NOT EXISTS `lignefrais` (
   `CoutHebergement` decimal(25,0) DEFAULT '0',
   `Trajet` varchar(25) DEFAULT NULL,
   `Annee` year(4) DEFAULT NULL,
-  `idMotif` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idLigne`),
+  `id_Motif` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_Ligne`),
   KEY `FK_LIGNEFRAIS_Annee` (`Annee`),
-  KEY `FK_LIGNEFRAIS_idMotif` (`idMotif`)
+  KEY `FK_LIGNEFRAIS_idMotif` (`id_Motif`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -166,8 +158,6 @@ DELIMITER ;
 --
 -- Structure de la table `ligue`
 --
--- Création :  mar. 20 mars 2018 à 15:17
---
 
 CREATE TABLE IF NOT EXISTS `ligue` (
   `Id_Ligue` int(11) NOT NULL AUTO_INCREMENT,
@@ -180,21 +170,17 @@ CREATE TABLE IF NOT EXISTS `ligue` (
 --
 -- Structure de la table `motif`
 --
--- Création :  mar. 20 mars 2018 à 15:17
---
 
 CREATE TABLE IF NOT EXISTS `motif` (
-  `idMotif` int(11) NOT NULL AUTO_INCREMENT,
+  `id_Motif` int(11) NOT NULL AUTO_INCREMENT,
   `Libelle` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`idMotif`)
+  PRIMARY KEY (`id_Motif`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `notedefrais`
---
--- Création :  mar. 20 mars 2018 à 15:27
 --
 
 CREATE TABLE IF NOT EXISTS `notedefrais` (
@@ -207,9 +193,6 @@ CREATE TABLE IF NOT EXISTS `notedefrais` (
 
 --
 -- Structure de la table `representant`
---
--- Création :  mar. 20 mars 2018 à 15:30
--- Dernière modification :  mar. 20 mars 2018 à 15:30
 --
 
 CREATE TABLE IF NOT EXISTS `representant` (
@@ -229,18 +212,12 @@ CREATE TABLE IF NOT EXISTS `representant` (
 --
 
 --
--- Contraintes pour la table `adherent`
---
-ALTER TABLE `adherent`
-  ADD CONSTRAINT `FK_ADHERENT_idDemandeur` FOREIGN KEY (`idDemandeur`) REFERENCES `demandeur` (`idDemandeur`);
-
---
 -- Contraintes pour la table `avancer`
 --
 ALTER TABLE `avancer`
   ADD CONSTRAINT `FK_Avancer_Id_NoteDeFrais` FOREIGN KEY (`Id_NoteDeFrais`) REFERENCES `notedefrais` (`Id_NoteDeFrais`),
-  ADD CONSTRAINT `FK_Avancer_idDemandeur` FOREIGN KEY (`idDemandeur`) REFERENCES `demandeur` (`idDemandeur`),
-  ADD CONSTRAINT `FK_Avancer_idLigne` FOREIGN KEY (`idLigne`) REFERENCES `lignefrais` (`idLigne`);
+  ADD CONSTRAINT `FK_Avancer_idDemandeur` FOREIGN KEY (`Id_Demandeur`) REFERENCES `demandeur` (`Id_Demandeur`),
+  ADD CONSTRAINT `FK_Avancer_idLigne` FOREIGN KEY (`id_Ligne`) REFERENCES `lignefrais` (`id_Ligne`);
 
 --
 -- Contraintes pour la table `club`
@@ -252,14 +229,14 @@ ALTER TABLE `club`
 -- Contraintes pour la table `demandeur`
 --
 ALTER TABLE `demandeur`
-  ADD CONSTRAINT `FK_DEMANDEUR_idClub` FOREIGN KEY (`idClub`) REFERENCES `club` (`idClub`);
+  ADD CONSTRAINT `FK_DEMANDEUR_idClub` FOREIGN KEY (`Id_Club`) REFERENCES `club` (`Id_Club`);
 
 --
 -- Contraintes pour la table `lignefrais`
 --
 ALTER TABLE `lignefrais`
   ADD CONSTRAINT `FK_LIGNEFRAIS_Annee` FOREIGN KEY (`Annee`) REFERENCES `indemnite` (`Annee`),
-  ADD CONSTRAINT `FK_LIGNEFRAIS_idMotif` FOREIGN KEY (`idMotif`) REFERENCES `motif` (`idMotif`);
+  ADD CONSTRAINT `FK_LIGNEFRAIS_idMotif` FOREIGN KEY (`id_Motif`) REFERENCES `motif` (`id_Motif`);
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
