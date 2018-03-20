@@ -183,8 +183,9 @@ CREATE TABLE IF NOT EXISTS `motif` (
 
 CREATE TABLE IF NOT EXISTS `notedefrais` (
   `Id_NoteDeFrais` int(11) NOT NULL AUTO_INCREMENT,
+  `isValidate` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id_NoteDeFrais`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
