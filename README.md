@@ -18,7 +18,7 @@ git clone https://github.com/m2l-limayrac/Fredy.git
 mysql-upgrade.exe -u root --force
 ```
 ## Utilisation : 
-* Privilégier google chrome pour lancer le site.
+* Privilégier __**Google Chrome**__ pour lancer le site.
 * Login : 'simon.berbier@gmail.com' & 'corentin.diolo@gmail.com'
 * Tous les mots de passes sont : '1234'
 * Pour modifier le tarrif kilométrique, modifier la valeur de l'année courente dans la table "indemnité"
