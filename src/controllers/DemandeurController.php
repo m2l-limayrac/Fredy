@@ -334,7 +334,7 @@ class DemandeurController extends Controller {
           'AdresseMail' => $this->request->get('AdresseMail'),
           'MotDePasse' => $MotDePasse,
           'isRepresentant' => $isRepresentant,
-          'Id_Club' => $nomClub
+          'Id_Club' => $idClub
       ));
 
       $demandeurDAO = new DemandeurDAO();
