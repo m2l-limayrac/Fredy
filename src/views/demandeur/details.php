@@ -200,9 +200,8 @@ echo "</pre>";*/
 
 		function confirme($id_ligne){
 			var test = confirm("Etes vous sur de vouloir supprimmer la ligne de frais N° : "+$id_ligne+" ?");
-
 			if(test == true){
-				window.location.replace('/Fredy/web/demandeur/drop_line/'+$id_ligne);
+				window.location.replace('<?php echo BASEURL ?>/demandeur/drop_line/'+$id_ligne);
 			}
 		}
 	</script>

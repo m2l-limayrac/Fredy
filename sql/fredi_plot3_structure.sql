@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `representant` (
 ALTER TABLE `avancer`
   ADD CONSTRAINT `FK_Avancer_Id_NoteDeFrais` FOREIGN KEY (`Id_NoteDeFrais`) REFERENCES `notedefrais` (`Id_NoteDeFrais`),
   ADD CONSTRAINT `FK_Avancer_idDemandeur` FOREIGN KEY (`Id_Demandeur`) REFERENCES `demandeur` (`Id_Demandeur`),
-  ADD CONSTRAINT `FK_Avancer_idLigne` FOREIGN KEY (`id_Ligne`) REFERENCES `lignefrais` (`id_Ligne`);
+  ADD CONSTRAINT `FK_Avancer_idLigne` FOREIGN KEY (`id_Ligne`) REFERENCES `lignefrais` (`id_Ligne`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `club`
