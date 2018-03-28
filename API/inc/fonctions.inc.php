@@ -4,7 +4,6 @@
 //
 // Fonctions pour l'application
 
-
 /**
  * Construit une chaîne JSON à partir d'un tableau PHP
  * @param string $message
@@ -12,16 +11,14 @@
  * @param array $clubs
  * @return string
  */
-function build_json($message,$token,$clubs) {
+function build_json($lesLignes,$token,$clubs) {
   // Horodatage du JSON
   $now = new DateTime("now", new DateTimeZone('Europe/Paris'));
   $date = $now->format('Y-m-d H:i:s');
     
   $tableau = array(
-    "date" => $date,
-    "message" => $message,
+    "lesLignes" => $lesLignes,
     "token" => $token,
-    "clubs" => $clubs
 );
 $json = json_encode($tableau);
 return $json;
