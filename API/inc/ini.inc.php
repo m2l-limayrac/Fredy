@@ -22,4 +22,5 @@ require_once ROOT. DS . "API". DS ."inc". DS ."fonctions.inc.php";
 
  
 // Emplacement du fichier des tokens
-define("TOKEN_FILENAME",ROOT."API/files/tokens.txt");
+
+define("TOKEN_FILENAME",ROOT.DS."API".DS."tokens.txt");

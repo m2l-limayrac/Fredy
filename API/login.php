@@ -32,7 +32,7 @@ if (isset($user) && isset($password)) {
 			foreach ($note->get_les_lignes() as $ligne) {
 				if($ligne->get_Annee() == date("Y")){
 					$myLigne = array(
-					  "Id_Ligne" => $ligne->get_Id_Ligne(), 
+					  "id_Ligne" => $ligne->get_Id_Ligne(), 
 					  "Date" => $ligne->get_Date(), 
 					  "Km" => $ligne->get_Km(), 
 					  "CoutPeage" => $ligne->get_CoutPeage(),  
