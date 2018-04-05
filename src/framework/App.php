@@ -15,7 +15,7 @@ class App {
   protected $params = [];           // Liste des paramètres passés dans l'URL
   protected $request;               // Liste des paramètres passés en GET et POST
 
-  const DEFAULT_CONTROLLER_NAME = 'home';
+  const DEFAULT_CONTROLLER_NAME = 'Home';
   const DEFAULT_ACTION_NAME = 'index';
 
   /**

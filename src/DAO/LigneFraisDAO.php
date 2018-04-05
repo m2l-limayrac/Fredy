@@ -7,7 +7,7 @@
  */
 require_once SRC . DS . 'framework' . DS . 'DAO.php';
 require_once SRC . DS . 'framework' . DS . 'Flash.php';
-require_once SRC . DS . 'models' . DS . 'LigneFrais.php';
+require_once SRC . DS . 'models' . DS . 'Lignefrais.php';
 require_once SRC . DS . 'DAO' . DS . 'MotifDAO.php';
 require_once SRC . DS . 'models' . DS . 'Motif.php';
 
