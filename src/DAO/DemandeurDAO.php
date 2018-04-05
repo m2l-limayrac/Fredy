@@ -111,6 +111,7 @@ class DemandeurDAO extends DAO {
 
     }else{
       $row = array();
+      $demandeur = new Demandeur();
     }
     
     return $demandeur; // Retourne l'objet métier

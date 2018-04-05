@@ -44,8 +44,9 @@ INSERT INTO `avancer` (`Id_Demandeur`, `id_Ligne`, `Id_NoteDeFrais`) VALUES
 (1, 2, 2),
 (1, 3, 2),
 (2, 7, 3),
-(2, 8, 3);
-
+(2, 8, 3),
+(1, 9, 4),
+(1, 10, 4);
 --
 -- Déchargement des données de la table `club`
 --
@@ -83,7 +84,9 @@ INSERT INTO `lignefrais` (`id_Ligne`, `Date`, `Km`, `CoutPeage`, `CoutRepas`, `C
 (5, '2016-04-12', 25, 15, 28, 0, 'Nancy - Eulmont', 2016, 1),
 (6, '2016-08-15', 22, 25, 63, 0, 'Nancy - Tomblaine', 2016, 1),
 (7, '2017-12-19', 42, 57, 25, 34, 'Nancy - Paris', 2017, 3),
-(8, '2017-09-03', 24, 22, 0, 24, 'Nancy - Maxeville', 2017, 2);
+(8, '2017-09-03', 24, 22, 0, 24, 'Nancy - Maxeville', 2017, 2),
+(9, '2018-03-13', 44, 4, 4, 4, 'Nancy - Paris', 2018, 1),
+(10, '2018-03-11', 22, 22, 22, 22, 'Nancy - Lyon', 2018, 3);
 
 --
 -- Déchargement des données de la table `ligue`
@@ -110,7 +113,8 @@ INSERT INTO `motif` (`Id_Motif`, `Libelle`) VALUES
 INSERT INTO `notedefrais` (`Id_NoteDeFrais`, `isValidate`) VALUES
 (1, 0),
 (2, 0),
-(3, 0);
+(3, 0),
+(4, 0);
 
 --
 -- Déchargement des données de la table `representant`

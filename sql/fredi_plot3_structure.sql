@@ -49,12 +49,10 @@ CREATE TABLE IF NOT EXISTS `adherent` (
   `CP` char(5) DEFAULT NULL,
   `Ville` varchar(25) DEFAULT NULL,
   `Id_Demandeur` int(11) NOT NULL,
-  `Id_Club` int(11) DEFAULT NULL,
   `id_adherent` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_adherent`),
-  KEY `FK_ADHERENT_Id_Club` (`Id_Club`),
   KEY `FK_ADHERENT_Id_Demandeur` (`Id_Demandeur`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -205,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `representant` (
   `id_representant` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_representant`),
   KEY `FK_Representant_Id_Demandeur` (`Id_Demandeur`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contraintes pour les tables déchargées
