@@ -12,7 +12,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-USE `fredi_plot3`;
+USE `fredi_plot3AlexsiLapeze`;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,7 +21,7 @@ USE `fredi_plot3`;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `fredi_plot3`
+-- Base de données :  `fredi_plot3AlexsiLapeze`
 --
 
 --

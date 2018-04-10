@@ -20,10 +20,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `fredi_plot3`
+-- Base de données :  `fredi_plot3AlexsiLapeze`
 --
-CREATE DATABASE IF NOT EXISTS `fredi_plot3` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `fredi_plot3`;
+CREATE DATABASE IF NOT EXISTS `fredi_plot3AlexsiLapeze` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `fredi_plot3AlexsiLapeze`;
 
 DELIMITER $$
 --

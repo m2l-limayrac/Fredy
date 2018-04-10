@@ -1,0 +1,6 @@
+; Configuration de développement
+[DB]
+user=root
+password=slam3
+host=192.168.150.56
+base=fredi_plot3AlexisLapeze
