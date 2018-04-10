@@ -16,7 +16,7 @@ class HomeController extends Controller {
    */
   public function index() {
     // Appele la vue 
-    $this->show_view('home/index');
+    $this->show_view('Home/index');
   }
 
 }

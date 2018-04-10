@@ -30,13 +30,13 @@ class App {
       $url[0] = SELF::DEFAULT_CONTROLLER_NAME;
     }
     $this->controller_name = $url[0] . "Controller";
-    
-    if (!file_exists(SRC . DS . 'controllers/' . $this->controller_name . '.php')) {
+
+    if (!file_exists(SRC . DS . 'Controllers/' . $this->controller_name . '.php')) {
       throw new Exception("Erreur, le contrôleur " . $this->controller_name . " n'existe pas");
     }
 
     // Instancie le contrôleur
-    require_once SRC . DS . 'controllers/' . $this->controller_name . '.php';
+    require_once SRC . DS . 'Controllers/' . $this->controller_name . '.php';
     $this->controller = new $this->controller_name;
 
     // Détermine la méthode
@@ -78,6 +78,10 @@ class App {
     if (isset($_GET['url'])) {
       $tableau = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
     }
+    echo $_GET['url'];
+    echo "<pre>";
+    print_r($tableau);
+    echo "</pre>";
     return $tableau;
   }
 

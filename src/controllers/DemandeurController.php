@@ -39,7 +39,7 @@ class DemandeurController extends Controller {
   public function settings($Id_Demandeur) {
     // Vérifie si l'utilisateur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     $demandeurDAO = new DemandeurDAO();
     $demandeur = $demandeurDAO->find($Id_Demandeur);
@@ -75,15 +75,15 @@ class DemandeurController extends Controller {
       }
       $demandeurDAO->update($demandeur);
       Auth::memoriser($demandeur);
-      $this->redirect('demandeur/details');
+      $this->redirect('Demandeur/details');
 
     }else{
     // Lecture de tous les utilisateurs
       // Appele la vue 
-      $this->show_view('demandeur/settings', array(
+      $this->show_view('Demandeur/settings', array(
         'demandeur' => $demandeur,
         'Clubs' => $Clubs,
-        'action' => 'demandeur/settings/'.$Id_Demandeur
+        'action' => 'Demandeur/settings/'.$Id_Demandeur
       ));
     }
   }
@@ -91,22 +91,22 @@ class DemandeurController extends Controller {
   public function settingsAdherents($Id_Demandeur) {
     // Vérifie si l'utilisateur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     $demandeurDAO = new DemandeurDAO();
     $demandeur = $demandeurDAO->find($Id_Demandeur);
 
       // Appele la vue 
-      $this->show_view('demandeur/settingsAdherents', array(
+      $this->show_view('Demandeur/settingsAdherents', array(
         'demandeur' => $demandeur,
-        'action' => 'demandeur/settingsAdherents/'.$Id_Demandeur
+        'action' => 'Demandeur/settingsAdherents/'.$Id_Demandeur
       ));
   }
 
   public function add($Id_NoteDeFrais){
 
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     // Lecture de tous les utilisateurs
     $ligneFraisDAO = new LigneFraisDAO();
@@ -139,17 +139,17 @@ class DemandeurController extends Controller {
       $demandeurDAO = new DemandeurDAO();
       $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
       Auth::memoriser($demandeur);
-      $this->redirect('demandeur/details');
+      $this->redirect('Demandeur/details');
      }else{
       $indemniteDAO = new IndemniteDAO();
       $Annee = $indemniteDAO->findYearByCurrentYear();
       $motifDAO = new MotifDAO();
       $les_motifs = $motifDAO->findAll();
       // Appele la vue 
-      $this->show_view('demandeur/add', array(
+      $this->show_view('Demandeur/add', array(
           'les_motifs' => $les_motifs,
           'Annee_actuelle' => $Annee,
-          'action' => 'demandeur/add/'.$Id_NoteDeFrais
+          'action' => 'Demandeur/add/'.$Id_NoteDeFrais
       ));
      }
 
@@ -158,7 +158,7 @@ class DemandeurController extends Controller {
    public function addNDF(){
 
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     // Lecture de tous les utilisateurs
     $noteDeFraisDAO = new NoteDeFraisDAO();
@@ -192,17 +192,17 @@ class DemandeurController extends Controller {
       $demandeurDAO = new DemandeurDAO();
       $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
       Auth::memoriser($demandeur);
-      $this->redirect('demandeur/details');
+      $this->redirect('Demandeur/details');
      }else{
       $indemniteDAO = new IndemniteDAO();
       $Annee = $indemniteDAO->findYearByCurrentYear();
       $motifDAO = new MotifDAO();
       $les_motifs = $motifDAO->findAll();
       // Appele la vue 
-      $this->show_view('demandeur/addNDF', array(
+      $this->show_view('Demandeur/addNDF', array(
           'les_motifs' => $les_motifs,
           'Annee_actuelle' => $Annee,
-          'action' => 'demandeur/addNDF'
+          'action' => 'Demandeur/addNDF'
       ));
      }
   }
@@ -210,7 +210,7 @@ class DemandeurController extends Controller {
   public function details() {
     // Vérifie si l'demandeur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     // Lecture du demandeur
     /*$demandeurDAO = new DemandeurDAO();
@@ -218,7 +218,7 @@ class DemandeurController extends Controller {
     $demandeur = serialize($_SESSION['demandeur']);
     $demandeur = unserialize($demandeur);
     // Appele la vue 
-    $this->show_view('demandeur/details', array(
+    $this->show_view('Demandeur/details', array(
         'demandeur' => $demandeur
     ));
   }
@@ -238,7 +238,7 @@ class DemandeurController extends Controller {
     $demandeurDAO = new DemandeurDAO();
     $demandeur = $demandeurDAO->find($idDemandeur);
     Auth::memoriser($demandeur);
-    $this->redirect('demandeur/details');
+    $this->redirect('Demandeur/details');
   }
 
   public function modif($id_ligne) {
@@ -272,16 +272,16 @@ class DemandeurController extends Controller {
       $demandeurDAO = new DemandeurDAO();
       $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
       Auth::memoriser($demandeur);
-      $this->redirect('demandeur/details');
+      $this->redirect('Demandeur/details');
      }else{
       $ligne = $ligneFraisDAO->find($id_ligne);
       $motifDAO = new MotifDAO();
       $les_motifs = $motifDAO->findAll();
       // Appele la vue 
-      $this->show_view('demandeur/modif', array(
+      $this->show_view('Demandeur/modif', array(
           'ligne' => $ligne,
           'les_motifs' => $les_motifs,
-          'action' => 'demandeur/modif'
+          'action' => 'Demandeur/modif'
       ));
      }
     
@@ -290,7 +290,7 @@ class DemandeurController extends Controller {
   public function drop_line($id_ligne) {
     // Vérifie si l'demandeur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
 
     $ligneFraisDAO = new LigneFraisDAO();
@@ -302,7 +302,7 @@ class DemandeurController extends Controller {
     $demandeurDAO = new DemandeurDAO();
     $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
     Auth::memoriser($demandeur);
-    $this->redirect('demandeur/details');
+    $this->redirect('Demandeur/details');
   }
 
   /**
@@ -388,25 +388,25 @@ class DemandeurController extends Controller {
 
         Flash::add("Vous êtes inscrit !", 1);
         if ($demandeur->get_isRepresentant()) {
-          $this->redirect('adherent/ajout');
+          $this->redirect('Adherent/ajout');
         }else{
-          $this->redirect('demandeur/details');
+          $this->redirect('Demandeur/details');
         }
       } else {
         Flash::add("Une erreur est survenue lors de l'inscription, veuillez réessayer SVP", 3);
-        $this->show_view('demandeur/register', array(
+        $this->show_view('Demandeur/register', array(
           'demandeur' => $demandeur,
           'Clubs' => $Clubs,
-          'action' => 'demandeur/register'
+          'action' => 'Demandeur/register'
         ));
       }
     } else {
       // Le formulaire n'a pas été soumis
       $demandeur = new Demandeur();
-      $this->show_view('demandeur/register', array(
+      $this->show_view('Demandeur/register', array(
           'demandeur' => $demandeur,
           'Clubs' => $Clubs,
-          'action' => 'demandeur/register'
+          'action' => 'Demandeur/register'
       ));
     }
   }
@@ -430,28 +430,28 @@ class DemandeurController extends Controller {
       //$adherent = $adherentDAO->findByDemandeur($demandeur->get_Id_Demandeur());
       if (Auth::connecter($demandeur)) {
         Flash::add("Vous êtes connecté !");
-        /*$this->show_view('demandeur/details', array(
+        /*$this->show_view('Demandeur/details', array(
           'demandeur' => $demandeur,
           'adherent' => $adherent,
-          'action' => 'demandeur/details'
+          'action' => 'Demandeur/details'
         ));*/
-        $this->redirect('demandeur/details');
+        $this->redirect('Demandeur/details');
       } else {
         Flash::add("Erreur, Adresse mail et/ou Mot de passe n'existe pas.", 3);
-        $this->show_view('demandeur/login', array(
+        $this->show_view('Demandeur/login', array(
           'demandeur' => $demandeur,
           //'adherent' => $adherent,
-          'action' => 'demandeur/login'
+          'action' => 'Demandeur/login'
         ));
       }
     } else {
       // Le formulaire n'a pas été soumis
       $demandeur = new Demandeur();
       $adherent = new Adherent();
-      $this->show_view('demandeur/login', array(
+      $this->show_view('Demandeur/login', array(
         'demandeur' => $demandeur,
         //'adherent' => $adherent,
-        'action' => 'demandeur/login'
+        'action' => 'Demandeur/login'
     ));
     }
   }
@@ -467,14 +467,14 @@ class DemandeurController extends Controller {
       Flash::add("Erreur, impossible de vous déconnecter", 3);
     }
     // On redirige vers la page d'accueil
-    $this->redirect('home/index');
+    $this->redirect('Home/index');
   }
 
   
   public function ndf_pdf($Id_demandeur, $Id_NoteDeFrais) {
     // Vérifie si l'demandeur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     function c($string) {
       return iconv('UTF-8', 'windows-1252', $string);
