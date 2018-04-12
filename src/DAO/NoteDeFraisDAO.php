@@ -18,7 +18,7 @@ class NoteDeFraisDAO extends DAO {
   private static $LigneFraisDAO;
 
   function find($Id_NoteDeFrais) {
-    $sql = "SELECT * FROM NoteDeFrais WHERE Id_NoteDeFrais=:Id_NoteDeFrais";
+    $sql = "SELECT * FROM notedefrais WHERE Id_NoteDeFrais=:Id_NoteDeFrais";
     try {
       $params = array(":Id_NoteDeFrais" => $Id_NoteDeFrais);
       $sth = $this->executer($sql, $params);
@@ -41,7 +41,7 @@ class NoteDeFraisDAO extends DAO {
    * Lecture de toutes les chaloupes
    */
   function findAll() {
-    $sql = "SELECT * FROM noteDeFrais";
+    $sql = "SELECT * FROM notedefrais";
     try { 
       $sth = $this->executer($sql);
       $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -62,7 +62,7 @@ class NoteDeFraisDAO extends DAO {
   function insert(){
     //GLOBAL $con;
 
-    $sql = "INSERT INTO noteDeFrais () VALUES ()";
+    $sql = "INSERT INTO notedefrais () VALUES ()";
     try {
         $sth = $this->executer($sql);
         $return = SELF::$connexion->lastInsertId();

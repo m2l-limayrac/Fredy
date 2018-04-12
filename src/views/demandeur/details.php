@@ -69,7 +69,7 @@ echo "</pre>";*/
 					</a>
 				</td>
 				<td>
-					<a class="mdl-list__item-secondary-action show-modal" target="_blank" href="<?php echo BASEURL.'/demandeur/ndf_pdf/'.$demandeur->get_Id_demandeur().'/'.$note->get_Id_NoteDeFrais();?>">
+					<a class="mdl-list__item-secondary-action show-modal" target="_blank" href="<?php echo BASEURL.'/Demandeur/ndf_pdf/'.$demandeur->get_Id_demandeur().'/'.$note->get_Id_NoteDeFrais();?>">
 						<div id="tt<?php echo $i ?>" class="icon material-icons">picture_as_pdf</div>
 						<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Generer votre PDF</div>
 				    </a>							
@@ -141,7 +141,7 @@ echo "</pre>";*/
 									<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Supprimmer</div>
 								</a>
 							
-								<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/modif/'.$ligne->get_Id_ligne();?>">
+								<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/Demandeur/modif/'.$ligne->get_Id_ligne();?>">
 									<div id="tt<?php echo $i ?>" class="icon material-icons" style="margin-left: 40%;">edit</div>
 									<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">
 										Modifier
@@ -155,13 +155,13 @@ echo "</pre>";*/
 			</tbody>
 		</table>
 		<?php if(!$note->get_boolIsValidate()) { ?>
-			<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/add/'.$note->get_Id_NoteDeFrais(); ?>">
+			<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/Demandeur/add/'.$note->get_Id_NoteDeFrais(); ?>">
 				<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ajouter">
 					<i class="material-icons">add</i>
 				</button>
 				<div class="mdl-tooltip mdl-tooltip--large" for="tt<?php echo $i; $i++; ?>">Ajouter une ligne de frais</div>
 			</a>
-			<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/demandeur/validate/'.$note->get_Id_NoteDeFrais(); ?>">
+			<a class="mdl-list__item-secondary-action" href="<?php echo BASEURL.'/Demandeur/validate/'.$note->get_Id_NoteDeFrais(); ?>">
 				<button id="tt<?php echo $i ?>" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ajouter">
 					<i class="material-icons">check_circle</i>
 				</button>
@@ -201,7 +201,7 @@ echo "</pre>";*/
 		function confirme($id_ligne){
 			var test = confirm("Etes vous sur de vouloir supprimmer la ligne de frais N° : "+$id_ligne+" ?");
 			if(test == true){
-				window.location.replace('<?php echo BASEURL ?>/demandeur/drop_line/'+$id_ligne);
+				window.location.replace('<?php echo BASEURL ?>/Demandeur/drop_line/'+$id_ligne);
 			}
 		}
 	</script>

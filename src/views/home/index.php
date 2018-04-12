@@ -24,10 +24,10 @@
 	    <p>Bienvenue sur le Fredi ! cliquer pour vous connecter</p>
 	  </div>
 	  <div class="mdl-card__actions mdl-card--border"> 
-	    <a href="<?php echo BASEURL ?>/demandeur/login" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+	    <a href="<?php echo BASEURL ?>/Demandeur/login" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
 	      Se connecter
 	    </a>
-	    <a href="<?php echo BASEURL ?>/demandeur/register" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+	    <a href="<?php echo BASEURL ?>/Demandeur/register" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
 	      S'inscrire
 	    </a>
 	  </div>

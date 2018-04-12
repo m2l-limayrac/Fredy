@@ -89,7 +89,7 @@ abstract class Controller {
     if ($path != null) {
       $url = BASEURL . '/' . $path;
     } else {
-      $url = BASEURL . '/home/index';
+      $url = BASEURL . '/Home/index';
     }
     header('Location: ' . $url);
     exit; // Obligatoire sinon PHP continue à s'exécuter avant de réaliser la redirection

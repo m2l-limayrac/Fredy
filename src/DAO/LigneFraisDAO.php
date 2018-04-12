@@ -118,7 +118,7 @@ class LigneFraisDAO extends DAO {
   function update(LigneFrais $ligneFrais){
     //GLOBAL $con;
     
-    $sql = "UPDATE ligneFrais SET id_Ligne = :id_Ligne, Date = :Date, Km = :Km, CoutPeage = :CoutPeage, CoutRepas = :CoutRepas, CoutHebergement = :CoutHebergement, Trajet = :Trajet, Id_Motif = :Id_Motif WHERE id_Ligne = :id_Ligne";
+    $sql = "UPDATE lignefrais SET id_Ligne = :id_Ligne, Date = :Date, Km = :Km, CoutPeage = :CoutPeage, CoutRepas = :CoutRepas, CoutHebergement = :CoutHebergement, Trajet = :Trajet, Id_Motif = :Id_Motif WHERE id_Ligne = :id_Ligne";
       try {
           $params = array(':id_Ligne' => $ligneFrais->get_id_Ligne(), 
                               ':Date' => $ligneFrais->get_Date(),
@@ -138,7 +138,7 @@ class LigneFraisDAO extends DAO {
   function delete (LigneFrais $ligneFrais){
     //GLOBAL $con;
     
-    $sql = "DELETE FROM ligneFrais WHERE id_Ligne = :id_Ligne";
+    $sql = "DELETE FROM lignefrais WHERE id_Ligne = :id_Ligne";
       try {
         $params = array(':id_Ligne' => $ligneFrais->get_id_Ligne());
         $sth = $this->executer($sql, $params);

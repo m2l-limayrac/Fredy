@@ -150,6 +150,6 @@ function send(){
 }
 
 function avort(){
-	window.location.replace('/Fredy/web/demandeur/details');
+	window.location.replace('<?php echo BASEURL ?>/Demandeur/details');
 }
 </script>

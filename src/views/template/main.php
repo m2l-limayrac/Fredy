@@ -29,9 +29,9 @@
 -->
 <html lang="fr">
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/Fredy/web/js/jquery-ui/jquery-ui.min.css">
-    <script type="text/javascript" src="/Fredy/web/js/jquery-ui/jquery-ui.min.js"></script>
+    <script src="<?php echo MYINCLUDE ?>/jquery.min1.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo BASEURL ?>/js/jquery-ui/jquery-ui.min.css">
+    <script type="text/javascript" src="<?php echo BASEURL ?>/js/jquery-ui/jquery-ui.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -61,11 +61,11 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=fr">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-indigo.min.css" /> 
+    <link rel="stylesheet" href="<?php echo MYINCLUDE ?>/css2.css">
+    <link rel="stylesheet" href="<?php echo MYINCLUDE ?>/css3.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo MYINCLUDE ?>/icon4.css">
+    <link rel="stylesheet" href="<?php echo MYINCLUDE ?>/material.indigo-pink.min5.css">
+     <link rel="stylesheet" href="<?php echo MYINCLUDE ?>/material.blue-indigo.min6.css" /> 
     <link rel="stylesheet" href="<?php echo CSS ?>/styles.css">
     <style>
     #view-source {
@@ -93,8 +93,8 @@
             <div class="mdl-layout-spacer"></div>
             
             <?php if(isset($_GET['url'])){ ?>
-              <?php if($_GET['url'] == "demandeur/details"){ ?>
-              <a class="" href="<?php echo BASEURL.'/demandeur/addNDF' ?>">
+              <?php if($_GET['url'] == "Demandeur/details"){ ?>
+              <a class="" href="<?php echo BASEURL.'/Demandeur/addNDF' ?>">
                 <button id="newNDF" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored ">
 
                   <i class="material-icons">add</i>
@@ -125,8 +125,8 @@
               <span class="visuallyhidden">Accounts</span>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"> parametre du compte</a></li>
-              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>">Déconnexion</a></li>
+              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"> parametre du compte</a></li>
+              <li class="mdl-menu__item"><a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/logout' ?>">Déconnexion</a></li>
             </ul> -->
             <?php }else{ ?>
             <span>Non connecté</span>
@@ -138,19 +138,19 @@
 
           <?php if(isset($demandeur)){ ?>
           
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/details' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">details</i>Detail des notes de frais</a>
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/addNDF' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i>Ajouter une note de frais</a>
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre du compte</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/details' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">details</i>Detail des notes de frais</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/addNDF' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i>Ajouter une note de frais</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/settings/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre du compte</a>
             <?php if($demandeur->get_isRepresentant()){ ?>
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/settingsAdherents/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre des Adherents</a>
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/adherent/ajout/'?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Ajouter un Adherent mineur </a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/settingsAdherents/'.$demandeur->get_Id_Demandeur() ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Parametre des Adherents</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Adherent/ajout/'?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>Ajouter un Adherent mineur </a>
            <?php } ?>
 
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/logout' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">eject</i>Déconnexion</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/logout' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">eject</i>Déconnexion</a>
         
           <?php }else{ ?>
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/login' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>Se connecter</a>
-            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/demandeur/register' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>S'inscrire</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/login' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person</i>Se connecter</a>
+            <a class="mdl-navigation__link" href="<?php echo BASEURL.'/Demandeur/register' ?>"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">person_add</i>S'inscrire</a>
           
             <?php } ?>
 
@@ -214,9 +214,8 @@
           </g>
         </defs>
       </svg>
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="<?php echo MYINCLUDE ?>/material.min7.js"></script>
   </body>
 </html>
 
 <!-- ligne a supprimmer lors de la mise en production -->
-<script>document.write('<script src="http://' + (location.host || '127.0.0.1').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

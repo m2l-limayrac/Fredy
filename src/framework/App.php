@@ -30,13 +30,13 @@ class App {
       $url[0] = SELF::DEFAULT_CONTROLLER_NAME;
     }
     $this->controller_name = $url[0] . "Controller";
-    
-    if (!file_exists(SRC . DS . 'controllers/' . $this->controller_name . '.php')) {
+
+    if (!file_exists(SRC . DS . 'Controllers/' . $this->controller_name . '.php')) {
       throw new Exception("Erreur, le contrôleur " . $this->controller_name . " n'existe pas");
     }
-
+	
     // Instancie le contrôleur
-    require_once SRC . DS . 'controllers/' . $this->controller_name . '.php';
+    require_once SRC . DS . 'Controllers/' . $this->controller_name . '.php';
     $this->controller = new $this->controller_name;
 
     // Détermine la méthode
@@ -48,7 +48,6 @@ class App {
     if (!method_exists($this->controller, $this->action_name)) {
       throw new Exception("Erreur, la méthode " . $this->action_name . " n'existe pas");
     }
-
     // Collecte dans la request tout ce qui est passé en GET et POST + nom du contrôleur + nom de l'action
     $this->request = new Request();
     $this->request->set_params(array_merge($_GET, $_POST));
@@ -63,9 +62,9 @@ class App {
     $this->controller->set_controller_name($this->controller_name);
     $this->controller->set_action_name($this->action_name);
     $this->controller->set_request($this->request);
-
     // Appelle la méthode du contrôleur
     // Test
+
     call_user_func_array(array($this->controller, $this->action_name), $this->params);
   }
 

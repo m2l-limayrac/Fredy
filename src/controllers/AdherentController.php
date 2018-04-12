@@ -21,19 +21,19 @@ class AdherentController extends Controller {
   public function index() {
     // Vérifie si l'utilisateur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('adherent/login');
+      $this->redirect('Adherent/login');
     }
     // Lecture de tous les utilisateurs
     $adherentDAO = new AdherentDAO();
     $adherents = $adherentDAO->findAll();
     // Appele la vue 
-    $this->show_view('adherent/index', array('adherents' => $adherents));
+    $this->show_view('Adherent/index', array('adherents' => $adherents));
   }
 
   public function settings($id_adherent) {
     // Vérifie si l'utilisateur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     $adherentDAO = new AdherentDAO();
     $adherent = $adherentDAO->find($id_adherent);
@@ -64,15 +64,15 @@ class AdherentController extends Controller {
 
       $demandeur->set_Adherent($adherent);
       Auth::memoriser($demandeur);
-      $this->redirect('demandeur/details');
+      $this->redirect('Demandeur/details');
 
     }else{
     // Lecture de tous les utilisateurs
       // Appele la vue 
-      $this->show_view('adherent/settings', array(
+      $this->show_view('Adherent/settings', array(
         'adherent' => $adherent,
         'Clubs' => $Clubs,
-        'action' => 'adherent/settings/'.$id_adherent
+        'action' => 'Adherent/settings/'.$id_adherent
       ));
     }
   }
@@ -80,7 +80,7 @@ class AdherentController extends Controller {
   public function delete($id_adherent) {
     // Vérifie si l'demandeur est connecté
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
 
     $adherentDAO = new AdherentDAO();
@@ -92,14 +92,14 @@ class AdherentController extends Controller {
     $demandeurDAO = new DemandeurDAO();
     $demandeur = $demandeurDAO->find($oldDemandeur->get_Id_Demandeur());
     Auth::memoriser($demandeur);
-    $this->redirect('demandeur/details');
+    $this->redirect('Demandeur/details');
   }
 
 
   public function ajout() {
     // Formulaire saisi ?
     if (!Auth::est_authentifie()) {
-      $this->redirect('demandeur/login');
+      $this->redirect('Demandeur/login');
     }
     $demandeur = serialize($_SESSION['demandeur']);
     $demandeur = unserialize($demandeur);
@@ -134,18 +134,18 @@ class AdherentController extends Controller {
         array_push($demandeur->get_Representant()->get_les_adherents(), $adherent);
 
         if($this->request->get('otherInsert')){
-          $this->redirect('adherent/ajout');
+          $this->redirect('Adherent/ajout');
         }else{
           Auth::memoriser($demandeur);
-          $this->redirect('demandeur/details');
+          $this->redirect('Demandeur/details');
         }
 
     } else {
       // Le formulaire n'a pas été soumis
-      $this->show_view('adherent/ajout', array(
+      $this->show_view('Adherent/ajout', array(
         '$demandeur' => $demandeur,
         'Clubs' => $Clubs,
-        'action' => 'adherent/ajout'
+        'action' => 'Adherent/ajout'
     ));
     }
   }
@@ -172,9 +172,9 @@ class AdherentController extends Controller {
       $adherent = new Adherent();
     }
     // Appele la vue 
-    $this->show_view('adherent/login', array(
+    $this->show_view('Adherent/login', array(
         'adherent' => $adherent,
-        'action' => 'adherent/login'
+        'action' => 'Adherent/login'
     ));
   }
 

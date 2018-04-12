@@ -20,10 +20,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `fredi_plot3AlexsiLapeze`
+-- Base de données :  `fredi_plot3AlexisLapeze`
 --
-CREATE DATABASE IF NOT EXISTS `fredi_plot3AlexsiLapeze` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `fredi_plot3AlexsiLapeze`;
+CREATE DATABASE IF NOT EXISTS `fredi_plot3AlexisLapeze` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `fredi_plot3AlexisLapeze`;
 
 DELIMITER $$
 --
@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `avancer` (
   `Id_NoteDeFrais` int(11) NOT NULL,
   PRIMARY KEY (`Id_Demandeur`,`id_Ligne`,`Id_NoteDeFrais`),
   KEY `FK_Avancer_idLigne` (`id_Ligne`),
+  KEY `FK_Avancer_idDemandeur` (`Id_Demandeur`),
   KEY `FK_Avancer_Id_NoteDeFrais` (`Id_NoteDeFrais`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -182,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `motif` (
 --
 
 CREATE TABLE IF NOT EXISTS `notedefrais` (
-  `Id_NoteDeFrais` int(11) NOT NULL,
+  `Id_NoteDeFrais` int(11) NOT NULL AUTO_INCREMENT,
   `isValidate` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id_NoteDeFrais`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

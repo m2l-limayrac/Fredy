@@ -18,7 +18,7 @@ $i=1;
   <br>
   <div class="mdl-textfield mdl-js-textfield">
     <input class="mdl-textfield__input" type="password" id="sample<?php echo $i; ?>" value="">
-    <label class="mdl-textfield__label" for="pass2">MotDePasse</label>
+    <label class="mdl-textfield__label" for="sample<?php echo $i; $i++; ?>">MotDePasse</label>
   </div>
   <p id="diff" style="display: none; color: #ff0000">Les mots de passe sont diferents</p>
   <!-- Icon button -->
@@ -99,7 +99,7 @@ $i=1;
   </div>
   <br>
   <div class="mdl-textfield mdl-js-textfield mdl-textfield">
-    <input type="text" class="mdl-textfield__input" name="Club" id="sample<?php echo $i; ?>" value="<?php echo $demandeur->get_Adherent()->get_Club()->get_Nom(); ?>" readonly >
+    <input type="text" class="mdl-textfield__input" name="Club" id="sample<?php echo $i; ?>" value="<?php echo $demandeur->get_Club()->get_Nom(); ?>" readonly >
     <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect" for="sample<?php echo $i; ?>">
       <?php foreach ($Clubs as $club) { ?>
       <li class="mdl-menu__item" onclick="onSelect('<?php echo $club->get_Nom() ?>', '<?php echo 'sample'.$i; ?>')"><?php echo $club->get_Nom() ?></li>

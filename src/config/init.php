@@ -21,7 +21,7 @@ define('BASEURL', dirname($_SERVER['SCRIPT_NAME']));
 define('CSS', BASEURL . '/css');
 define('JS', BASEURL . '/js');
 define('IMG', BASEURL . '/img');
-
+define('MYINCLUDE', BASEURL . '/myInclude');
 // Paramètres de l'application
 define('APPLINAME', 'FREDI');
 
