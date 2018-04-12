@@ -12,7 +12,7 @@ require_once SRC . DS . 'models' . DS . 'Demandeur.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
 require_once SRC . DS . 'models' . DS . 'Ligue.php';
 require_once SRC . DS . 'models' . DS . 'Adherent.php';
-require_once SRC . DS . 'models' . DS . 'LigneFrais.php';
+require_once SRC . DS . 'models' . DS . 'Lignefrais.php';
 require_once SRC . DS . 'models' . DS . 'Representant.php';
 require_once SRC . DS . 'models' . DS . 'MyFPDF.php';
 require_once SRC . DS . 'DAO' . DS . 'AdherentDAO.php';
