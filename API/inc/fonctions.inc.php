@@ -11,10 +11,7 @@
  * @param array $clubs
  * @return string
  */
-function build_json($lesLignes,$token,$clubs) {
-  // Horodatage du JSON
-  $now = new DateTime("now", new DateTimeZone('Europe/Paris'));
-  $date = $now->format('Y-m-d H:i:s');
+function build_json($lesLignes,$token) {
     
   $tableau = array(
     "lesLignes" => $lesLignes,

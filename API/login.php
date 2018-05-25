@@ -3,7 +3,7 @@
 // top14server - Serveur web service RESTful
 //
 // Authentifie un client Android et renvoie une réponse JSON
-// Exemple : http://192.168.26.1/Fredy/API/login.php?user=jef&password=jefjef
+// Exemple : http://192.168.150.56/AlexisLapeze/Fredy/API/login.php?user=simon.berbier@gmail.com&password=1234
 include "./inc/ini.inc.php";
 //require_once "../src/config/init.php";
 
@@ -69,6 +69,6 @@ if (isset($user) && isset($password)) {
 }
 
 // Construit le format JSON
-$json = build_json($lesLignes, $token, NULL);
+$json = build_json($lesLignes, $token);
 // Envoie la réponse 
 send_json($json);

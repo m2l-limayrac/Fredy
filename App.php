@@ -32,7 +32,7 @@ class App {
     $this->controller_name = $url[0] . "Controller";
 
     if (!file_exists(SRC . DS . 'Controllers/' . $this->controller_name . '.php')) {
-      throw new Exception("Erreur, le contrôleur " . SRC . DS . 'Controllers/' . $this->controller_name . '.php      ' . $this->controller_name . " n'existe pas");
+      throw new Exception("Erreur, le contrôleur " . $this->controller_name . " n'existe pas");
     }
 
     // Instancie le contrôleur
@@ -78,10 +78,10 @@ class App {
     if (isset($_GET['url'])) {
       $tableau = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
     }
-   /* echo $_GET['url'];
+    echo $_GET['url'];
     echo "<pre>";
     print_r($tableau);
-    echo "</pre>";*/
+    echo "</pre>";
     return $tableau;
   }
 
